@@ -41,15 +41,15 @@ func _on_area_entered(area):
 		return
 
 	var child = area.get_child(0)
-	if child is Territory:
+	if child.get("TypeName") == "Territory":
 
-		if child.territory_owner != player_num:
+		if child.TerritoryOwner != player_num:
 			placeable = false
 			return
 
 		if is_resource_building:
 			# we just entered a resource territory
-			if child.type == Enums.territory_types.resource:
+			if child.Type == Enums.territory_types.resource:
 				# and we're not touching a building
 				if not in_non_territory_area:
 					placeable = true
@@ -58,7 +58,7 @@ func _on_area_entered(area):
 				placeable = false
 		elif is_defense_building:
 			# we just entered a normal territory
-			if child.type == Enums.territory_types.normal:
+			if child.Type == Enums.territory_types.normal:
 				# and we're not touching a building
 				if not in_non_territory_area:
 					placeable = true
@@ -82,19 +82,19 @@ func _on_area_exited(area):
 	# so we check for that
 	var child_node = area.get_child(0)
 	# if we just exited a territory
-	if child_node is Territory:
+	if child_node.get("TypeName") == "Territory":
 
-		if child_node.territory_owner != player_num:
+		if child_node.TerritoryOwner != player_num:
 			placeable = false
 			return
 
 		if is_resource_building:
 			# only go ahead if we just exited a resource territory
-			if child_node.type == Enums.territory_types.resource:
+			if child_node.Type == Enums.territory_types.resource:
 				validate_new_territory(area)
 		elif is_defense_building:
 			# only go ahead if we just exited a normal territory
-			if child_node.type == Enums.territory_types.normal:
+			if child_node.Type == Enums.territory_types.normal:
 				validate_new_territory(area)
 	# if we just exited an area and it wasn't a territory
 	else:
@@ -117,22 +117,22 @@ func validate_new_territory(area):
 		if child is ShieldArea:
 			# ignore the shield area
 			continue
-		if child is Territory:
+		if child.get("TypeName") == "Territory":
 
-			if child.territory_owner != player_num:
+			if child.TerritoryOwner != player_num:
 				placeable = false
 				return
 
 			if is_resource_building:
 				# if we're in another resource territory, we're good
-				if child.type == Enums.territory_types.resource:
+				if child.Type == Enums.territory_types.resource:
 					placeable = true
 				# we r in a non-resource territory
 				else:
 					placeable = false
 			elif is_defense_building:
 				# if we're in another normal territory, we're good
-				if child.type == Enums.territory_types.normal:
+				if child.Type == Enums.territory_types.normal:
 					placeable = true
 				# we r in a non-normal territory
 				else:

@@ -39,11 +39,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/GameObjects/DefenseBuildings/ShieldArea.gd"
 }, {
-"base": "CollisionPolygon2D",
-"class": "Territory",
-"language": "GDScript",
-"path": "res://src/Primitives/Territory.gd"
-}, {
 "base": "Area2D",
 "class": "TerritoryArea",
 "language": "GDScript",
@@ -56,14 +51,13 @@ _global_script_class_icons={
 "PlayerData": "",
 "PlayerMessage": "",
 "ShieldArea": "",
-"Territory": "",
 "TerritoryArea": ""
 }
 
 [application]
 
 config/name="Asteroid Apocalypse"
-run/main_scene="res://src/Main.tscn"
+run/main_scene="res://src/Scratch/Tester.tscn"
 config/icon="res://icon.png"
 
 [autoload]

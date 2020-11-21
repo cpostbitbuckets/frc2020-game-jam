@@ -87,12 +87,12 @@ func _on_day_passed(day):
 
 			var all_territories = get_parent().get_parent().get_parent().get_territories()
 			for t in all_territories:
-				if t.territory_owner == id and t.type == Enums.territory_types.normal:
+				if t.TerritoryOwner == id and t.Type == Enums.territory_types.normal:
 					owned_tiles.append(t)
 
 			randomize()
 			var random_territory = owned_tiles[randi() % owned_tiles.size()]
-			var laser_position = random_territory.center_global
+			var laser_position = random_territory.Center
 
 			randomize()
 			var add_position = randi() % 2 == 0

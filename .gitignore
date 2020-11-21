@@ -12,3 +12,5 @@ data_*/
 
 # mac
 .DS_Store
+
+mono_crash*

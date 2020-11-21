@@ -34,7 +34,6 @@ rect_min_size = Vector2( 1920, 1080 )
 visible = false
 
 [node name="QuitPopup" type="ConfirmationDialog" parent="CanvasLayer"]
-visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

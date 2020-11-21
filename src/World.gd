@@ -88,15 +88,16 @@ func _on_end_game_lose():
 func make_territories_list():
 	var territories = $Map.get_territories()
 	for t in territories:
-		if t.territory_owner > 0 && t.territory_owner <= num_of_territories.size():
-			num_of_territories[t.territory_owner-1] += 1
+		if t.TerritoryOwner > 0 && t.TerritoryOwner <= num_of_territories.size():
+			num_of_territories[t.TerritoryOwner-1] += 1
 
-func _on_territory_destroyed(t: Territory):
-	if t.territory_owner > 0 and t.territory_owner <= num_of_territories.size() and t.territory_owner <= num_of_destroyed.size():
-		num_of_destroyed[t.territory_owner - 1] += 1
+func _on_territory_destroyed(t):
+	if t.get("TypeName") == "Territory":
+		if t.TerritoryOwner > 0 and t.TerritoryOwner <= num_of_territories.size() and t.TerritoryOwner <= num_of_destroyed.size():
+			num_of_destroyed[t.TerritoryOwner - 1] += 1
 
-		if num_of_destroyed[t.territory_owner - 1] == num_of_territories[t.territory_owner - 1]:
-			lose_game()
+			if num_of_destroyed[t.TerritoryOwner - 1] == num_of_territories[t.TerritoryOwner - 1]:
+				lose_game()
 
 
 func _add_players_to_world():

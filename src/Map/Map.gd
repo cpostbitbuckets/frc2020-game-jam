@@ -17,8 +17,8 @@ func _ready() -> void:
 	if own_all:
 		var territories = get_territories()
 		for territory in territories:
-			if territory is Territory:
-				territory.set_territory_owner(1)
+			if territory.get("TypeName") == "Territory":
+				territory.set_TerritoryOwner(1)
 
 	# init our building manager. On the client and server these should be the same
 	var buildings = get_buildings()
@@ -76,7 +76,7 @@ func get_territories(root: Node = self) -> Array:
 	# recursively loop through all nodes in the tree and find all the Territories
 	var territories = []
 	for node in root.get_children():
-		if node is Territory:
+		if node.get("TypeName") == "Territory":
 			territories.append(node)
 		if node.get_child_count() > 0:
 			var child_territories = get_territories(node)
@@ -129,8 +129,8 @@ func _on_impact_registered(target, area):
 
 			if node.get_child_count() > 0:
 				var child = node.get_child(0)
-				if child is Territory and child.type != Enums.territory_types.destroyed:
-					child.set_type(Enums.territory_types.destroyed)
+				if child.get("TypeName") == "Territory" and child.Type != Enums.territory_types.destroyed:
+					child.Type = Enums.territory_types.destroyed
 					Signals.emit_signal("territory_destroyed", child)
 	area.queue_free()
 

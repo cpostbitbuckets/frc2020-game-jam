@@ -63,7 +63,7 @@ func _on_Timer_timeout():
 		asteroid.id = num_asteroids
 		num_asteroids += 1
 
-		asteroid.global_position = territories[i].center_global
+		asteroid.global_position = territories[i].Center
 		active_asteroids += 1
 		add_child(asteroid)
 		# after this asteroid is setup, send it to the clients
@@ -118,8 +118,8 @@ func final_wave():
 	active_asteroids += 1
 	num_asteroids += 1
 	for territory in territories:
-		if PlayersManager.get_player(territory.territory_owner).ai_controlled == false:
-			boss.global_position = territory.center_global
+		if PlayersManager.get_player(territory.TerritoryOwner).ai_controlled == false:
+			boss.global_position = territory.Center
 			break
 	add_child(boss)
 	# after this asteroid is setup, send it to the clients
