@@ -6,6 +6,8 @@ export var player_num := 1
 
 export var active = false
 
+var external_class_name = "GameBuilding"
+
 # flag set on ready by the building themselves
 # see DefenseBuilding.gd and ResourceBuilding.gd
 # used to determine whether we go in resource tile or normal tile

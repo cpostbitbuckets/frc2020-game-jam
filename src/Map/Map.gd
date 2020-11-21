@@ -119,10 +119,10 @@ func impact_deferred(area: Area2D) -> void:
 func _on_impact_registered(target, area):
 	var areas = area.get_overlapping_areas()
 	for node in areas:
-		if node is TerritoryArea:
+		if node.get("TypeName") == "TerritoryArea":
 
 			# delete buildings on now-destroyed territories
-			for b in node.get_buildings():
+			for b in node.GetBuildings():
 				if b != null:
 					b.queue_free()
 			$AsteroidTerritoryStrike.play()

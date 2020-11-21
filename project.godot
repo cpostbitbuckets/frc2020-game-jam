@@ -38,11 +38,6 @@ _global_script_classes=[ {
 "class": "ShieldArea",
 "language": "GDScript",
 "path": "res://src/GameObjects/DefenseBuildings/ShieldArea.gd"
-}, {
-"base": "Area2D",
-"class": "TerritoryArea",
-"language": "GDScript",
-"path": "res://src/Primitives/TerritoryArea.gd"
 } ]
 _global_script_class_icons={
 "FallingAsteroid": "",
@@ -50,8 +45,7 @@ _global_script_class_icons={
 "Player": "",
 "PlayerData": "",
 "PlayerMessage": "",
-"ShieldArea": "",
-"TerritoryArea": ""
+"ShieldArea": ""
 }
 
 [application]
