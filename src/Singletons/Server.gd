@@ -130,8 +130,12 @@ func _on_loser():
 
 
 func _on_player_joined(id: int) -> void:
+	var player
 	# add this new player to the server's PlayersManager
-	var player = PlayersManager.add_player(id)
+	if PlayersManager.players_by_network_id.has(id):
+		player = PlayersManager.get_network_player(id)
+	else:
+		player = PlayersManager.add_player(id)
 
 	RPC.send_message("%s(%s) has joined the game." % [player.name, player.num])
 
