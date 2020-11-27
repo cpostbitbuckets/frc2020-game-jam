@@ -44,5 +44,20 @@ public class Resources
             }
             return 0;
         }
+        set
+        {
+            switch (i)
+            {
+                case ResourceType.Raw:
+                    Raw = value;
+                    break;
+                case ResourceType.Power:
+                    Power = value;
+                    break;
+                case ResourceType.Science:
+                    Science = value;
+                    break;
+            }
+        }
     }
 }
