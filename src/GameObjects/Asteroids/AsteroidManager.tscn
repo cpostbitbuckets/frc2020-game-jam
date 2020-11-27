@@ -1,14 +1,10 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://src/GameObjects/Asteroids/AsteroidManager.gd" type="Script" id=1]
+[ext_resource path="res://src/GameObjects/Asteroids/AsteroidManager.cs" type="Script" id=1]
 
 [node name="AsteroidManager" type="Node2D"]
 script = ExtResource( 1 )
-waves = 15
-asteroid_strength_multiplier = 3
-base_wave_time = 30
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 30.0
 one_shot = true
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

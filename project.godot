@@ -14,11 +14,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/GameObjects/Asteroids/FallingAsteroid.gd"
 }, {
-"base": "Area2D",
-"class": "GameBuilding",
-"language": "GDScript",
-"path": "res://src/GameObjects/GameBuilding.gd"
-}, {
 "base": "Node2D",
 "class": "Player",
 "language": "GDScript",
@@ -33,40 +28,33 @@ _global_script_classes=[ {
 "class": "PlayerMessage",
 "language": "GDScript",
 "path": "res://src/Network/PlayerMessage.gd"
-}, {
-"base": "Area2D",
-"class": "ShieldArea",
-"language": "GDScript",
-"path": "res://src/GameObjects/DefenseBuildings/ShieldArea.gd"
 } ]
 _global_script_class_icons={
 "FallingAsteroid": "",
-"GameBuilding": "",
 "Player": "",
 "PlayerData": "",
-"PlayerMessage": "",
-"ShieldArea": ""
+"PlayerMessage": ""
 }
 
 [application]
 
 config/name="Asteroid Apocalypse"
-run/main_scene="res://src/Scratch/Tester.tscn"
+run/main_scene="res://src/Scratch/Hoster.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
 Enums="*res://src/Singletons/Enums.gd"
-Signals="*res://src/Singletons/Signals.gd"
 Constants="*res://src/Singletons/Constants.gd"
 Settings="*res://src/Singletons/Settings.gd"
 Network="*res://src/Network/Network.tscn"
-RPC="*res://src/Network/RPC.gd"
-PlayersManager="*res://src/Singletons/PlayersManager.gd"
 Server="*res://src/Singletons/Server.tscn"
 Utils="*res://src/Singletons/Utils.gd"
 MusicManager="*res://src/Singletons/MusicManager.tscn"
 BuildingsManager="*res://src/Singletons/BuildingsManager.gd"
+Signals="*res://src/Singletons/Signals.cs"
+PlayersManager="*res://src/Singletons/PlayersManager.cs"
+Rpc="*res://src/Singletons/RPC.cs"
 
 [display]
 

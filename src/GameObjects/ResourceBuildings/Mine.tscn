@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://assets/icons/Mine.png" type="Texture" id=1]
-[ext_resource path="res://src/GameObjects/ResourceBuildings/ResourceBuilding.gd" type="Script" id=2]
+[ext_resource path="res://src/GameObjects/ResourceBuildings/ResourceBuilding.cs" type="Script" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 11.8673
@@ -10,8 +10,7 @@ radius = 11.8673
 collision_layer = 4
 collision_mask = 6
 script = ExtResource( 2 )
-resource_type = 0
-resource_amt = 1
+Type = 0
 
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 0.3, 0.3 )

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://src/GameObjects/ResourceBuildings/ResourceBuilding.gd" type="Script" id=1]
+[ext_resource path="res://src/GameObjects/ResourceBuildings/ResourceBuilding.cs" type="Script" id=1]
 [ext_resource path="res://assets/icons/Power Plant.png" type="Texture" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
@@ -10,8 +10,8 @@ radius = 18.1122
 collision_layer = 4
 collision_mask = 2147483654
 script = ExtResource( 1 )
-resource_type = 1
-resource_amt = 1
+Type = 1
+ResourceType = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -1.89921, 3.66134 )

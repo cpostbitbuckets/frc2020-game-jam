@@ -2,8 +2,8 @@
 
 [ext_resource path="res://assets/icons/Asteroids/AsteroidMedium.png" type="Texture" id=1]
 [ext_resource path="res://assets/icons/Asteroids/Asteroid Marker.png" type="Texture" id=2]
-[ext_resource path="res://src/GameObjects/Asteroids/Asteroid.gd" type="Script" id=3]
-[ext_resource path="res://src/GameObjects/Asteroids/FallingAsteroid.gd" type="Script" id=4]
+[ext_resource path="res://src/GameObjects/Asteroids/Asteroid.cs" type="Script" id=3]
+[ext_resource path="res://src/GameObjects/Asteroids/FallingAsteroid.cs" type="Script" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -26,12 +26,12 @@ tracks/0/keys = {
 [sub_resource type="CircleShape2D" id=3]
 
 [node name="FallingAsteroidMedium" type="Node2D"]
-script = ExtResource( 3 )
-base_speed = 150
-explosion_radius = 128
-base_distance = 1500
-max_health = 200
-size = 1
+script = ExtResource( 4 )
+BaseSpeed = 150
+ExplosionRadius = 128
+BaseDistance = 1500
+MaxHealth = 200
+Size = 1
 
 [node name="ImpactPoint" type="Area2D" parent="."]
 collision_mask = 2147483658
@@ -45,7 +45,7 @@ offset = Vector2( -1, -5 )
 shape = SubResource( 1 )
 
 [node name="Asteroid" type="Area2D" parent="."]
-script = ExtResource( 4 )
+script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="Asteroid"]
 scale = Vector2( 0.35, 0.35 )
@@ -58,4 +58,3 @@ anims/Spin = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Asteroid"]
 shape = SubResource( 3 )
-[connection signal="area_entered" from="ImpactPoint" to="." method="_on_ImpactPoint_area_entered"]

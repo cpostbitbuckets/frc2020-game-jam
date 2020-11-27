@@ -6,12 +6,12 @@ public class TerritoryArea : Area2D
 {
     public string TypeName { get => nameof(TerritoryArea); }
 
-    List<Node2D> buildingsInArea = new List<Node2D>();
-
     public Territory Territory { get => GetChild<Territory>(0); }
 
     public List<Node2D> GetBuildings()
     {
+        List<Node2D> buildingsInArea = new List<Node2D>();
+
         if (Territory.Type == TerritoryType.Destroyed)
         {
             return new List<Node2D>();

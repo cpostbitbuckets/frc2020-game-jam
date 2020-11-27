@@ -115,7 +115,7 @@ margin_right = 400.0
 margin_bottom = 296.0
 text = "Settings"
 
-[node name="Exit" type="Button" parent="VBoxContainer/CenterContainer/Panel/HBoxContainer/MenuButtons"]
+[node name="ExitButton" type="Button" parent="VBoxContainer/CenterContainer/Panel/HBoxContainer/MenuButtons"]
 margin_top = 300.0
 margin_right = 400.0
 margin_bottom = 328.0
@@ -283,7 +283,7 @@ text = "Cancel"
 [connection signal="toggled" from="VBoxContainer/CenterContainer/Panel/HBoxContainer/MenuButtons/HBoxContainer/EasyModeCheckButton" to="." method="_on_EasyModeCheckButton_toggled"]
 [connection signal="pressed" from="VBoxContainer/CenterContainer/Panel/HBoxContainer/MenuButtons/JoinGameButton" to="." method="_on_JoinGameButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/CenterContainer/Panel/HBoxContainer/MenuButtons/SettingsButton" to="." method="_on_SettingsButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/CenterContainer/Panel/HBoxContainer/MenuButtons/Exit" to="." method="_on_Exit_pressed"]
+[connection signal="pressed" from="VBoxContainer/CenterContainer/Panel/HBoxContainer/MenuButtons/ExitButton" to="." method="_on_Exit_pressed"]
 [connection signal="popup_hide" from="JoinWindow" to="." method="_on_JoinWindow_popup_hide"]
 [connection signal="pressed" from="JoinWindow/VBoxContainer/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_JoinButton_pressed"]
 [connection signal="pressed" from="JoinWindow/VBoxContainer/MarginContainer/VBoxContainer/CancelButton" to="." method="_on_CancelButton_pressed"]

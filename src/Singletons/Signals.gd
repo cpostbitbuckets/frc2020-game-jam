@@ -1,11 +1,11 @@
 extends Node
 
-func _ready() -> void:
-	var username := ""
-	if OS.has_environment("USER"):
-		username = OS.get_environment("USER")
-	if not username.begins_with('craig'):
-		OS.window_maximized = true
+# func _ready() -> void:
+# 	var username := ""
+# 	if OS.has_environment("USER"):
+# 		username = OS.get_environment("USER")
+# 	if not username.begins_with('craig'):
+# 		OS.window_maximized = true
 
 signal game_building_selected(scene_path, building)
 signal game_building_cancelled
