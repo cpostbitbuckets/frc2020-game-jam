@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class AsteroidManager : Node2D
 {
@@ -29,7 +30,7 @@ public class AsteroidManager : Node2D
     private int activeAsteroids = 0;
     private int numAsteroids = 0;
     private Random rng = new Random();
-    public Territory[] Territories { get; set; } = Array.Empty<Territory>();
+    public List<Territory> Territories { get; set; } = new List<Territory>();
 
     Timer timer;
     PackedScene asteroidSmall;

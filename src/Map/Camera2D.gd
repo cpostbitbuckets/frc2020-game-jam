@@ -8,7 +8,7 @@ export var zoom_constant = Vector2(0.05, 0.05)
 export var scroll_constant = 1.5
 
 func _ready() -> void:
-	Signals.connect("asteroid_impact", self, "shake_camera")
+	Signals.connect("AsteroidImpact", self, "shake_camera")
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("zoom_in"):

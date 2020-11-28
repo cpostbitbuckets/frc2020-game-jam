@@ -4,7 +4,7 @@
 [ext_resource path="res://src/GameObjects/ResourceBuildings/ScienceLab.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/GameObjects/ResourceBuildings/PowerPlant.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/GameObjects/ResourceBuildings/Mine.tscn" type="PackedScene" id=4]
-[ext_resource path="res://src/Map/Map.gd" type="Script" id=5]
+[ext_resource path="res://src/Map/Map.cs" type="Script" id=5]
 [ext_resource path="res://src/Map/Camera2D.gd" type="Script" id=6]
 [ext_resource path="res://assets/sound/MuyBienClick.ogg" type="AudioStream" id=7]
 [ext_resource path="res://src/AI/AIBuildTile.tscn" type="PackedScene" id=8]
@@ -549,75 +549,75 @@ TerritoryOwner = 5
 
 [node name="Player1Mine" parent="." instance=ExtResource( 4 )]
 position = Vector2( 188.09, 171.12 )
-active = true
+Active = true
 
 [node name="Player1ScienceLab" parent="." instance=ExtResource( 2 )]
 position = Vector2( 184, 144 )
-active = true
+Active = true
 
 [node name="Player1PowerPlant" parent="." instance=ExtResource( 3 )]
 position = Vector2( 224, 168 )
-active = true
+Active = true
 
 [node name="Player2Mine" parent="." instance=ExtResource( 4 )]
 position = Vector2( 860.785, 284.5 )
-player_num = 2
-active = true
+PlayerNum = 2
+Active = true
 
 [node name="Player2ScienceLab2" parent="." instance=ExtResource( 2 )]
 position = Vector2( 824, 272 )
-player_num = 2
-active = true
+PlayerNum = 2
+Active = true
 
 [node name="Player2PowerPlant2" parent="." instance=ExtResource( 3 )]
 position = Vector2( 896, 296 )
-player_num = 2
-active = true
+PlayerNum = 2
+Active = true
 
 [node name="Player3Mine" parent="." instance=ExtResource( 4 )]
 position = Vector2( 323.101, 788.024 )
-player_num = 3
-active = true
+PlayerNum = 3
+Active = true
 
 [node name="Player3ScienceLab3" parent="." instance=ExtResource( 2 )]
 position = Vector2( 320, 728 )
-player_num = 3
-active = true
+PlayerNum = 3
+Active = true
 
 [node name="Player3PowerPlant3" parent="." instance=ExtResource( 3 )]
 position = Vector2( 352, 760 )
-player_num = 3
-active = true
+PlayerNum = 3
+Active = true
 
 [node name="Player4Mine" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1262.27, 623.88 )
-player_num = 4
-active = true
+PlayerNum = 4
+Active = true
 
 [node name="Player4ScienceLab4" parent="." instance=ExtResource( 2 )]
 position = Vector2( 1200, 616 )
-player_num = 4
-active = true
+PlayerNum = 4
+Active = true
 
 [node name="Player4PowerPlant4" parent="." instance=ExtResource( 3 )]
 position = Vector2( 1208, 656 )
-player_num = 4
-active = true
+PlayerNum = 4
+Active = true
 
 [node name="Player5Mine" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1619.82, 125.499 )
-player_num = 5
-active = true
+PlayerNum = 5
+Active = true
 
 [node name="Player5ScienceLab5" parent="." instance=ExtResource( 2 )]
 position = Vector2( 1616, 96 )
-player_num = 5
-active = true
+PlayerNum = 5
+Active = true
 
 [node name="Player5PowerPlant5" parent="." instance=ExtResource( 3 )]
 position = Vector2( 1584, 128 )
-player_num = 5
-active = true
+PlayerNum = 5
+Active = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 574.524, 267.103 )
@@ -638,245 +638,245 @@ script = ExtResource( 6 )
 
 [node name="AIBuildTile" parent="BuildTiles/Blue" instance=ExtResource( 8 )]
 position = Vector2( 1249.46, 373.035 )
-id = 2
-building_to_build = 0
+PlayerNum = 2
+BuildingToBuild = 0
 
 [node name="AIBuildTile2" parent="BuildTiles/Blue" instance=ExtResource( 8 )]
 position = Vector2( 1209.94, 349.121 )
-id = 2
-build_order = 2
-building_to_build = 1
+PlayerNum = 2
+BuildOrder = 2
+BuildingToBuild = 1
 
 [node name="AIBuildTile3" parent="BuildTiles/Blue" instance=ExtResource( 8 )]
 position = Vector2( 1166.72, 379.427 )
-id = 2
-build_order = 3
+PlayerNum = 2
+BuildOrder = 3
 
 [node name="AIBuildTile4" parent="BuildTiles/Blue" instance=ExtResource( 8 )]
 position = Vector2( 1172.07, 337.243 )
-id = 2
-build_order = 4
-building_to_build = 2
+PlayerNum = 2
+BuildOrder = 4
+BuildingToBuild = 2
 
 [node name="AIBuildTile5" parent="BuildTiles/Blue" instance=ExtResource( 8 )]
 position = Vector2( 1097.72, 426.04 )
-id = 2
-build_order = 5
-building_to_build = 5
+PlayerNum = 2
+BuildOrder = 5
+BuildingToBuild = 5
 
 [node name="AIBuildTile6" parent="BuildTiles/Blue" instance=ExtResource( 8 )]
 position = Vector2( 941.894, 264.223 )
-id = 2
-build_order = 6
+PlayerNum = 2
+BuildOrder = 6
 
 [node name="AIBuildTile7" parent="BuildTiles/Blue" instance=ExtResource( 8 )]
 position = Vector2( 1133.95, 438.442 )
-id = 2
-build_order = 7
-building_to_build = 5
+PlayerNum = 2
+BuildOrder = 7
+BuildingToBuild = 5
 
 [node name="AIBuildTile8" parent="BuildTiles/Blue" instance=ExtResource( 8 )]
 position = Vector2( 984.28, 285.207 )
-id = 2
-build_order = 8
-building_to_build = 5
+PlayerNum = 2
+BuildOrder = 8
+BuildingToBuild = 5
 
 [node name="AIBuildTile9" parent="BuildTiles/Blue" instance=ExtResource( 8 )]
 position = Vector2( 1198.99, 452.696 )
-id = 2
-build_order = 9
+PlayerNum = 2
+BuildOrder = 9
 
 [node name="AIBuildTile10" parent="BuildTiles/Blue" instance=ExtResource( 8 )]
 position = Vector2( 894.582, 393.833 )
-id = 2
-build_order = 10
-building_to_build = 5
+PlayerNum = 2
+BuildOrder = 10
+BuildingToBuild = 5
 
 [node name="AIPlayer" parent="BuildTiles/Blue" instance=ExtResource( 9 )]
-id = 2
+PlayerNum = 2
 
 [node name="Green" type="Node2D" parent="BuildTiles"]
 
 [node name="AIBuildTile" parent="BuildTiles/Green" instance=ExtResource( 8 )]
 position = Vector2( 555.708, 829.826 )
-id = 3
-building_to_build = 0
+PlayerNum = 3
+BuildingToBuild = 0
 
 [node name="AIBuildTile2" parent="BuildTiles/Green" instance=ExtResource( 8 )]
 position = Vector2( 523.767, 855.723 )
-id = 3
-build_order = 2
-building_to_build = 1
+PlayerNum = 3
+BuildOrder = 2
+BuildingToBuild = 1
 
 [node name="AIBuildTile3" parent="BuildTiles/Green" instance=ExtResource( 8 )]
 position = Vector2( 391.362, 677.918 )
-id = 3
-build_order = 3
+PlayerNum = 3
+BuildOrder = 3
 
 [node name="AIBuildTile4" parent="BuildTiles/Green" instance=ExtResource( 8 )]
 position = Vector2( 283.729, 741.574 )
-id = 3
-build_order = 4
-building_to_build = 2
+PlayerNum = 3
+BuildOrder = 4
+BuildingToBuild = 2
 
 [node name="AIBuildTile5" parent="BuildTiles/Green" instance=ExtResource( 8 )]
 position = Vector2( 528.088, 989.724 )
-id = 3
-build_order = 5
-building_to_build = 5
+PlayerNum = 3
+BuildOrder = 5
+BuildingToBuild = 5
 
 [node name="AIBuildTile6" parent="BuildTiles/Green" instance=ExtResource( 8 )]
 position = Vector2( 410.318, 1011.04 )
-id = 3
-build_order = 6
+PlayerNum = 3
+BuildOrder = 6
 
 [node name="AIBuildTile7" parent="BuildTiles/Green" instance=ExtResource( 8 )]
 position = Vector2( 509.617, 702.446 )
-id = 3
-build_order = 7
-building_to_build = 5
+PlayerNum = 3
+BuildOrder = 7
+BuildingToBuild = 5
 
 [node name="AIBuildTile8" parent="BuildTiles/Green" instance=ExtResource( 8 )]
 position = Vector2( 495.516, 790.62 )
-id = 3
-build_order = 8
-building_to_build = 5
+PlayerNum = 3
+BuildOrder = 8
+BuildingToBuild = 5
 
 [node name="AIBuildTile9" parent="BuildTiles/Green" instance=ExtResource( 8 )]
 position = Vector2( 339.19, 843.945 )
-id = 3
-build_order = 9
+PlayerNum = 3
+BuildOrder = 9
 
 [node name="AIBuildTile10" parent="BuildTiles/Green" instance=ExtResource( 8 )]
 position = Vector2( 492.63, 905.192 )
-id = 3
-build_order = 10
-building_to_build = 5
+PlayerNum = 3
+BuildOrder = 10
+BuildingToBuild = 5
 
 [node name="AIPlayer" parent="BuildTiles/Green" instance=ExtResource( 9 )]
-id = 3
+PlayerNum = 3
 
 [node name="Purple" type="Node2D" parent="BuildTiles"]
 
 [node name="AIBuildTile" parent="BuildTiles/Purple" instance=ExtResource( 8 )]
 position = Vector2( 1295.12, 740.677 )
-id = 4
-building_to_build = 0
+PlayerNum = 4
+BuildingToBuild = 0
 
 [node name="AIBuildTile2" parent="BuildTiles/Purple" instance=ExtResource( 8 )]
 position = Vector2( 1316.37, 690.16 )
-id = 4
-build_order = 2
-building_to_build = 1
+PlayerNum = 4
+BuildOrder = 2
+BuildingToBuild = 1
 
 [node name="AIBuildTile3" parent="BuildTiles/Purple" instance=ExtResource( 8 )]
 position = Vector2( 1251.58, 707.908 )
-id = 4
-build_order = 3
+PlayerNum = 4
+BuildOrder = 3
 
 [node name="AIBuildTile4" parent="BuildTiles/Purple" instance=ExtResource( 8 )]
 position = Vector2( 1160.99, 610.472 )
-id = 4
-build_order = 4
-building_to_build = 2
+PlayerNum = 4
+BuildOrder = 4
+BuildingToBuild = 2
 
 [node name="AIBuildTile5" parent="BuildTiles/Purple" instance=ExtResource( 8 )]
 position = Vector2( 1369.12, 662.821 )
-id = 4
-build_order = 5
-building_to_build = 5
+PlayerNum = 4
+BuildOrder = 5
+BuildingToBuild = 5
 
 [node name="AIBuildTile6" parent="BuildTiles/Purple" instance=ExtResource( 8 )]
 position = Vector2( 1287.13, 873.362 )
-id = 4
-build_order = 6
+PlayerNum = 4
+BuildOrder = 6
 
 [node name="AIBuildTile7" parent="BuildTiles/Purple" instance=ExtResource( 8 )]
 position = Vector2( 1381.02, 600.76 )
-id = 4
-build_order = 7
-building_to_build = 5
+PlayerNum = 4
+BuildOrder = 7
+BuildingToBuild = 5
 
 [node name="AIBuildTile8" parent="BuildTiles/Purple" instance=ExtResource( 8 )]
 position = Vector2( 1403.51, 558.859 )
-id = 4
-build_order = 8
-building_to_build = 5
+PlayerNum = 4
+BuildOrder = 8
+BuildingToBuild = 5
 
 [node name="AIBuildTile9" parent="BuildTiles/Purple" instance=ExtResource( 8 )]
 position = Vector2( 1363.06, 539.164 )
-id = 4
-build_order = 9
+PlayerNum = 4
+BuildOrder = 9
 
 [node name="AIBuildTile10" parent="BuildTiles/Purple" instance=ExtResource( 8 )]
 position = Vector2( 1327.6, 505.167 )
-id = 4
-build_order = 10
-building_to_build = 5
+PlayerNum = 4
+BuildOrder = 10
+BuildingToBuild = 5
 
 [node name="AIPlayer" parent="BuildTiles/Purple" instance=ExtResource( 9 )]
-id = 4
+PlayerNum = 4
 
 [node name="Orange" type="Node2D" parent="BuildTiles"]
 
 [node name="AIBuildTile" parent="BuildTiles/Orange" instance=ExtResource( 8 )]
 position = Vector2( 1375.8, 283 )
-id = 5
-building_to_build = 0
+PlayerNum = 5
+BuildingToBuild = 0
 
 [node name="AIBuildTile2" parent="BuildTiles/Orange" instance=ExtResource( 8 )]
 position = Vector2( 1409.14, 263.011 )
-id = 5
-build_order = 2
-building_to_build = 1
+PlayerNum = 5
+BuildOrder = 2
+BuildingToBuild = 1
 
 [node name="AIBuildTile3" parent="BuildTiles/Orange" instance=ExtResource( 8 )]
 position = Vector2( 1516.58, 247.908 )
-id = 5
-build_order = 3
+PlayerNum = 5
+BuildOrder = 3
 
 [node name="AIBuildTile4" parent="BuildTiles/Orange" instance=ExtResource( 8 )]
 position = Vector2( 1444.99, 240.472 )
-id = 5
-build_order = 4
-building_to_build = 2
+PlayerNum = 5
+BuildOrder = 4
+BuildingToBuild = 2
 
 [node name="AIBuildTile5" parent="BuildTiles/Orange" instance=ExtResource( 8 )]
 position = Vector2( 1600.23, 203.713 )
-id = 5
-build_order = 5
-building_to_build = 5
+PlayerNum = 5
+BuildOrder = 5
+BuildingToBuild = 5
 
 [node name="AIBuildTile6" parent="BuildTiles/Orange" instance=ExtResource( 8 )]
 position = Vector2( 1690.5, 441.927 )
-id = 5
-build_order = 6
+PlayerNum = 5
+BuildOrder = 6
 
 [node name="AIBuildTile7" parent="BuildTiles/Orange" instance=ExtResource( 8 )]
 position = Vector2( 1634.02, 243.76 )
-id = 5
-build_order = 7
-building_to_build = 5
+PlayerNum = 5
+BuildOrder = 7
+BuildingToBuild = 5
 
 [node name="AIBuildTile8" parent="BuildTiles/Orange" instance=ExtResource( 8 )]
 position = Vector2( 1662.51, 285.859 )
-id = 5
-build_order = 8
-building_to_build = 5
+PlayerNum = 5
+BuildOrder = 8
+BuildingToBuild = 5
 
 [node name="AIBuildTile9" parent="BuildTiles/Orange" instance=ExtResource( 8 )]
 position = Vector2( 1469.06, 387.164 )
-id = 5
-build_order = 9
+PlayerNum = 5
+BuildOrder = 9
 
 [node name="AIBuildTile10" parent="BuildTiles/Orange" instance=ExtResource( 8 )]
 position = Vector2( 1705.6, 339.167 )
-id = 5
-build_order = 10
-building_to_build = 5
+PlayerNum = 5
+BuildOrder = 10
+BuildingToBuild = 5
 
 [node name="AIPlayer" parent="BuildTiles/Orange" instance=ExtResource( 9 )]
-id = 5
+PlayerNum = 5
 
 [node name="Click" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )

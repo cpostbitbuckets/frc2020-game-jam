@@ -8,4 +8,5 @@ public enum GameBuildingType
     Missile,
     Laser,
     Shield
+
 }

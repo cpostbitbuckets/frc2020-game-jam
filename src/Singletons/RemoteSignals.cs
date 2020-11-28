@@ -24,6 +24,9 @@ public class RemoteSignals
     public delegate void AsteroidDestroyed(int asteroidId, Vector2 position, int size);
     public static event AsteroidDestroyed AsteroidDestroyedEvent;
 
+    public delegate void GameBuildingPlaced(string buildingId, int playerNum, GameBuildingType type, Vector2 position);
+    public static event GameBuildingPlaced GameBuildingPlacedEvent;
+
     #region Event Publishers
 
     /// <summary>
@@ -50,9 +53,14 @@ public class RemoteSignals
         AsteroidDestroyedEvent?.Invoke(asteroidId, position, size);
     }
 
-    internal static void PublishAsteroidSpawnEvent(Vector2 globalPosition, int asteroidStrength, FallingAsteroid asteroid)
+    public static void PublishAsteroidSpawnEvent(Vector2 globalPosition, int asteroidStrength, FallingAsteroid asteroid)
     {
         AsteroidSpawnEvent?.Invoke(globalPosition, asteroidStrength, asteroid);
+    }
+
+    public static void PublishGameBuildingPlacedEvent(string buildingId, int playerNum, GameBuildingType type, Vector2 position)
+    {
+        GameBuildingPlacedEvent?.Invoke(buildingId, playerNum, type, position);
     }
 
     #endregion

@@ -37,6 +37,12 @@ public class Signals : Node
     public delegate void GameBuildingPlaced(string buildingId, int playerNum, GameBuildingType type, Vector2 position);
     public static event GameBuildingPlaced GameBuildingPlacedEvent;
 
+    public delegate void GameBuildingSelected(GameBuildingType type);
+    public static event GameBuildingSelected GameBuildingSelectedEvent;
+
+    public delegate void GameBuildingCancelled();
+    public static event GameBuildingCancelled GameBuildingCancelledEvent;
+
     #endregion
 
 
@@ -48,6 +54,7 @@ public class Signals : Node
     public delegate void AsteroidWaveStarted(int wave, int waves);
     public static event AsteroidWaveStarted AsteroidWaveStartedEvent;
 
+    [Signal]
     public delegate void AsteroidImpact(int asteroidId, Vector2 impactPoint, int explosionRadius);
     public static event AsteroidImpact AsteroidImpactEvent;
 
@@ -171,6 +178,7 @@ public class Signals : Node
     public static void PublishAsteroidImpactEvent(int id, Vector2 impactPoint, int explosionRadius)
     {
         AsteroidImpactEvent?.Invoke(id, impactPoint, explosionRadius);
+        Instance.EmitSignal("AsteroidImpact", id, impactPoint, explosionRadius);
     }
 
     public static void PublishDwarfPlanetDestroyedEvent()

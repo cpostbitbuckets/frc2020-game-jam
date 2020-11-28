@@ -69,7 +69,6 @@ public class PlayerData : Resource
         else
         {
             Score += Constants.ScoreGranted[type];
-
         }
         Score += Constants.ScoreGranted[type];
         Signals.PublishPlayerScoreChangedEvent(this);

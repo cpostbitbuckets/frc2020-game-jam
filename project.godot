@@ -9,30 +9,12 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Area2D",
-"class": "FallingAsteroid",
-"language": "GDScript",
-"path": "res://src/GameObjects/Asteroids/FallingAsteroid.gd"
-}, {
-"base": "Node2D",
-"class": "Player",
-"language": "GDScript",
-"path": "res://src/GameObjects/Player.gd"
-}, {
-"base": "Reference",
-"class": "PlayerData",
-"language": "GDScript",
-"path": "res://src/GameObjects/PlayerData.gd"
-}, {
 "base": "Reference",
 "class": "PlayerMessage",
 "language": "GDScript",
 "path": "res://src/Network/PlayerMessage.gd"
 } ]
 _global_script_class_icons={
-"FallingAsteroid": "",
-"Player": "",
-"PlayerData": "",
 "PlayerMessage": ""
 }
 
@@ -51,9 +33,9 @@ Network="*res://src/Network/Network.tscn"
 Server="*res://src/Singletons/Server.tscn"
 Utils="*res://src/Singletons/Utils.gd"
 MusicManager="*res://src/Singletons/MusicManager.tscn"
-BuildingsManager="*res://src/Singletons/BuildingsManager.gd"
 Signals="*res://src/Singletons/Signals.cs"
 PlayersManager="*res://src/Singletons/PlayersManager.cs"
+BuildingsManager="*res://src/Singletons/BuildingsManager.cs"
 Rpc="*res://src/Singletons/RPC.cs"
 
 [display]
