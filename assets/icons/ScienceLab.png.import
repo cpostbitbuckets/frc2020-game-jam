@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Power Plant.png-5fd296e8c0b042aecbe5ba166554ca6f.stex"
+path="res://.import/ScienceLab.png-5c87b93a84523eec590b97412510b274.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/Power Plant.png"
-dest_files=[ "res://.import/Power Plant.png-5fd296e8c0b042aecbe5ba166554ca6f.stex" ]
+source_file="res://assets/icons/ScienceLab.png"
+dest_files=[ "res://.import/ScienceLab.png-5c87b93a84523eec590b97412510b274.stex" ]
 
 [params]
 

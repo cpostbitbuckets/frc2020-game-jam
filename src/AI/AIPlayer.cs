@@ -48,8 +48,6 @@ public class AIPlayer : Node2D
     /// <returns></returns>
     PlayerData Player { get => PlayersManager.Instance.GetPlayer(PlayerNum); }
 
-    PackedScene buildTileScene;
-
     public override void _Ready()
     {
         Signals.DayPassedEvent += OnDayPassed;

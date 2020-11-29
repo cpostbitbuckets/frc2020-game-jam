@@ -57,7 +57,7 @@ func _on_JoinButton_pressed():
 	joining = true
 	Network.join_game(host, port)
 
-func _on_player_data_updated(player: PlayerData):
+func _on_player_data_updated(player):
 	# after we join a server, the server sends us the players list
 	# check this player for our network id
 	if joining && get_tree().has_network_peer() and player.network_id == get_tree().get_network_unique_id():

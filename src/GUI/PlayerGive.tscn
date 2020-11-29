@@ -6,7 +6,7 @@
 [ext_resource path="res://assets/TechTreeFont.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://assets/icons/PlusButton.png" type="Texture" id=5]
 [ext_resource path="res://assets/icons/PlusButtonPressed.png" type="Texture" id=6]
-[ext_resource path="res://src/GUI/PlayerGive.gd" type="Script" id=7]
+[ext_resource path="res://src/GUI/PlayerGive.cs" type="Script" id=7]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 4 )
@@ -24,6 +24,7 @@ script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+PlayerName = "Bit Buckets"
 
 [node name="PlayerName" type="Label" parent="."]
 margin_left = 111.0
@@ -116,6 +117,3 @@ margin_right = 45.0
 margin_bottom = 26.0
 custom_fonts/font = SubResource( 2 )
 text = "0"
-[connection signal="pressed" from="Resources/Raw/GiveRawButton" to="." method="_on_GiveRawButton_pressed"]
-[connection signal="pressed" from="Resources/Power/GivePowerButton" to="." method="_on_GivePowerButton_pressed"]
-[connection signal="pressed" from="Resources/Science/GiveScienceButton" to="." method="_on_GiveScienceButton_pressed"]

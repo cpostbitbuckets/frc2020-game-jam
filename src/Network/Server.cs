@@ -7,6 +7,23 @@ using System;
 public class Server : Node
 {
 
+    /// <summary>
+    /// Server is a singleton
+    /// </summary>
+    private static Server instance;
+    public static Server Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+
+    Server()
+    {
+        instance = this;
+    }
+
     public override void _Ready()
     {
 
@@ -49,5 +66,19 @@ public class Server : Node
         }
         GetTree().NetworkPeer = peer;
         GD.Print("Hosting new game");
+    }
+
+    /// <summary>
+    /// Close the connection to all clients
+    /// </summary>
+    public void CloseConnection()
+    {
+        var peer = GetTree().NetworkPeer as NetworkedMultiplayerENet;
+        if (peer != null && peer.GetConnectionStatus() == NetworkedMultiplayerPeer.ConnectionStatus.Connected)
+        {
+            GD.Print("Closing connection");
+            peer.CloseConnection();
+        }
+        GetTree().NetworkPeer = null;
     }
 }

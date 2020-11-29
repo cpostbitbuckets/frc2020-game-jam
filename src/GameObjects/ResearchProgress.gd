@@ -11,7 +11,7 @@ func _ready():
 	set_size(Vector2(1000, 30))
 	set_value(0)
 
-func update_step(p: PlayerData):
+func update_step(p):
 	var progress = p.tech_research_progress
 	var cost = Constants.tech_costs[p.selected_tech.substr(0, p.selected_tech.length() - 1)][p.selected_tech]
 	set_value(float(progress) / float(cost))

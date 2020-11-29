@@ -50,8 +50,16 @@ public abstract class GameBuilding : Area2D
     {
         if (NewlySpawned)
         {
-            var shape = collisionShape.Shape as CircleShape2D;
-            DrawArc(collisionShape.Position, shape.Radius, Mathf.Deg2Rad(0), Mathf.Deg2Rad(359), 100, Colors.LightBlue);
+            var radius = 0f;
+            if (collisionShape.Shape is CircleShape2D circleShape)
+            {
+                radius = circleShape.Radius;
+            }
+            else if (collisionShape.Shape is CapsuleShape2D capsuleShape)
+            {
+                radius = capsuleShape.Radius;
+            }
+            DrawArc(collisionShape.Position, radius, Mathf.Deg2Rad(0), Mathf.Deg2Rad(359), 100, Colors.LightBlue);
         }
     }
 
@@ -79,7 +87,7 @@ public abstract class GameBuilding : Area2D
         {
             var territoryArea = area as TerritoryArea;
 
-            if (area != null)
+            if (territoryArea != null)
             {
                 // we are overlapping a territory, see if we can place it
                 // note, if we are overlapping both a normal and resource territory, we will be

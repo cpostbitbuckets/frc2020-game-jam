@@ -6,4 +6,5 @@
 script = ExtResource( 1 )
 
 [node name="DaysTimer" type="Timer" parent="."]
+
 [connection signal="timeout" from="DaysTimer" to="." method="_on_DaysTimer_timeout"]

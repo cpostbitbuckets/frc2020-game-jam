@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Asteroid Apocalypse"
-run/main_scene="res://src/Scratch/Hoster.tscn"
+run/main_scene="res://src/World.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -29,14 +29,14 @@ config/icon="res://icon.png"
 Enums="*res://src/Singletons/Enums.gd"
 Constants="*res://src/Singletons/Constants.gd"
 Settings="*res://src/Singletons/Settings.gd"
-Network="*res://src/Network/Network.tscn"
-Server="*res://src/Singletons/Server.tscn"
 Utils="*res://src/Singletons/Utils.gd"
 MusicManager="*res://src/Singletons/MusicManager.tscn"
 Signals="*res://src/Singletons/Signals.cs"
 PlayersManager="*res://src/Singletons/PlayersManager.cs"
 BuildingsManager="*res://src/Singletons/BuildingsManager.cs"
 Rpc="*res://src/Singletons/RPC.cs"
+Client="*res://src/Network/Client.tscn"
+Server="*res://src/Network/Server.tscn"
 
 [display]
 

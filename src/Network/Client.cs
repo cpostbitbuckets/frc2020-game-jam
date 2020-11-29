@@ -6,6 +6,23 @@ using System;
 /// </summary>
 public class Client : Node
 {
+    /// <summary>
+    /// Client is a singleton
+    /// </summary>
+    private static Client instance;
+    public static Client Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+
+    Client()
+    {
+        instance = this;
+    }
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {

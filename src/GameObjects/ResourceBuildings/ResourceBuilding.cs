@@ -30,6 +30,7 @@ public class ResourceBuilding : GameBuilding
 
     public override void _Ready()
     {
+        base._Ready();
         Signals.DayPassedEvent += OnDayPassed;
     }
 

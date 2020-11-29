@@ -23,14 +23,14 @@ func _ready() -> void:
 	# update score gui node
 	Signals.connect("player_score_changed", self, "update_player_score_label")
 
-	var player = PlayersManager.whoami()
-	$TopMenu/Left/HBoxContainer/Score.label = "%s Score" % player.name
-	$TopMenu/Left/HBoxContainer/Score.modulate = player.color
+	var player = PlayersManager.Me
+	$TopMenu/Left/HBoxContainer/Score.label = "%s Score" % player.Name
+	$TopMenu/Left/HBoxContainer/Score.modulate = player.Color
 
 	var other_player_num := 1
-	for i in range(PlayersManager.players.size()):
+	for i in range(PlayersManager.Players.size()):
 		var players := PlayersManager.players as Array
-		var other_player := PlayersManager.players[i] as PlayerData
+		var other_player = PlayersManager.Players[i]
 		if player.num != other_player.num:
 			var node_path := "BottomMenu/Right/VBoxContainer/OtherPlayerStats/VBoxContainer/PlayerGive%s" % (other_player_num)
 			var give_node = get_node(node_path)

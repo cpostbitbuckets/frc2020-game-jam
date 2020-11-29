@@ -38,7 +38,7 @@ func _on_ChatMessage_text_entered(new_text):
 	chat_message.text = ""
 
 
-func _on_player_data_updated(player: PlayerData):	
+func _on_player_data_updated(player):	
 	_check_start_game_button()
 
 

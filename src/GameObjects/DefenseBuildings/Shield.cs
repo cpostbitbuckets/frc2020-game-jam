@@ -36,6 +36,8 @@ public class Shield : DefenseBuilding
 
     public override void _Ready()
     {
+        base._Ready();
+
         Health = MaxHealth;
 
         Signals.DayPassedEvent += OnDayPassed;

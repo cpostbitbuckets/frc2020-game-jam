@@ -37,6 +37,7 @@ public class Laser : DefenseBuilding
 
     public override void _Ready()
     {
+        base._Ready();
         // TODO: Add easy mode
 
         Signals.DayPassedEvent += OnDayPassed;

@@ -27,7 +27,15 @@ public class PlayersManager : Node
         {
             if (me == null)
             {
-                me = Players.Find(p => p.NetworkId == GetTree().GetNetworkUniqueId());
+                if (GetTree().HasNetworkPeer())
+                {
+                    me = Players.Find(p => p.NetworkId == GetTree().GetNetworkUniqueId());
+                }
+                else
+                {
+                    // no network, we are player one
+                    me = Players[0];
+                }
             }
             return me;
         }

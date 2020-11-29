@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public class DefenseBuilding : GameBuilding
+public abstract class DefenseBuilding : GameBuilding
 {
     protected override HashSet<GameBuildingType> AllowedTypes
     {

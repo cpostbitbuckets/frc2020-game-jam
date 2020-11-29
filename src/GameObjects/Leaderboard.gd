@@ -8,7 +8,7 @@ func _ready():
 	font.set_font_data(load("res://assets/TechTreeFont.ttf"))
 	font.set_size(28)
 
-	var colors = [PlayersManager.get_player(1).color, PlayersManager.get_player(2).color, PlayersManager.get_player(3).color, PlayersManager.get_player(4).color, PlayersManager.get_player(5).color]
+	var colors = [PlayersManager.GetPlayer(1).Color, PlayersManager.GetPlayer(2).Color, PlayersManager.GetPlayer(3).Color, PlayersManager.GetPlayer(4).Color, PlayersManager.GetPlayer(5).Color]
 
 	for i in range (1, 6):
 		get_node(node_path(i) + "/Name").add_font_override("font", font)
@@ -32,7 +32,7 @@ func on_show():
 	pass
 
 func update_player_data(num: int):
-	var p = PlayersManager.get_player(num)
+	var p = PlayersManager.GetPlayer(num)
 
 	var stat = [p.name, p.score, p.resources[Enums.resource_types.raw], p.resources[Enums.resource_types.power], p.resources[Enums.resource_types.science], p.color]
 	players[num - 1] = stat

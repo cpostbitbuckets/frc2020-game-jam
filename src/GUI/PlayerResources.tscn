@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/icons/Power.png" type="Texture" id=2]
 [ext_resource path="res://assets/TechTreeFont.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://assets/icons/Science.png" type="Texture" id=4]
-[ext_resource path="res://src/GUI/PlayerResources.gd" type="Script" id=5]
+[ext_resource path="res://src/GUI/PlayerResources.cs" type="Script" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 24
@@ -29,12 +29,12 @@ margin_bottom = 30.0
 custom_fonts/font = SubResource( 1 )
 text = "My Resources"
 
-[node name="RawResourcesContainer" type="HBoxContainer" parent="."]
+[node name="RawContainer" type="HBoxContainer" parent="."]
 margin_top = 34.0
 margin_right = 296.0
 margin_bottom = 130.0
 
-[node name="TextureRect" type="TextureRect" parent="RawResourcesContainer"]
+[node name="TextureRect" type="TextureRect" parent="RawContainer"]
 margin_right = 96.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 96, 96 )
@@ -46,13 +46,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="RawResourcesContainer"]
+[node name="Label" type="Label" parent="RawContainer"]
 margin_left = 100.0
 margin_top = 33.0
-margin_right = 296.0
+margin_right = 295.0
 margin_bottom = 63.0
 custom_fonts/font = SubResource( 2 )
-text = "%s Raw Resources"
+text = "{0} Raw Resources"
 
 [node name="PowerContainer" type="HBoxContainer" parent="."]
 margin_top = 134.0
@@ -74,10 +74,10 @@ __meta__ = {
 [node name="Label" type="Label" parent="PowerContainer"]
 margin_left = 100.0
 margin_top = 33.0
-margin_right = 262.0
+margin_right = 261.0
 margin_bottom = 63.0
 custom_fonts/font = SubResource( 2 )
-text = "%s Power Cells"
+text = "{0} Power Cells"
 
 [node name="ScienceContainer" type="HBoxContainer" parent="."]
 margin_top = 234.0
@@ -99,7 +99,7 @@ __meta__ = {
 [node name="Label" type="Label" parent="ScienceContainer"]
 margin_left = 100.0
 margin_top = 33.0
-margin_right = 290.0
+margin_right = 289.0
 margin_bottom = 63.0
 custom_fonts/font = SubResource( 2 )
-text = "%s Science Points"
+text = "{0} Science Points"

@@ -1,14 +1,14 @@
 [gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://src/GUI/GameBuildingButton.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/icons/Lab.png" type="Texture" id=2]
+[ext_resource path="res://assets/icons/ScienceLab.png" type="Texture" id=2]
 [ext_resource path="res://assets/icons/Laser.png" type="Texture" id=3]
 [ext_resource path="res://assets/icons/Shield.png" type="Texture" id=4]
 [ext_resource path="res://assets/icons/Radar.png" type="Texture" id=5]
 [ext_resource path="res://assets/icons/Missile.png" type="Texture" id=6]
 [ext_resource path="res://src/GUI/CircleLabel.tscn" type="PackedScene" id=7]
-[ext_resource path="res://src/GUI/GUI.gd" type="Script" id=8]
-[ext_resource path="res://assets/icons/Power Plant.png" type="Texture" id=9]
+[ext_resource path="res://src/GUI/GUI.cs" type="Script" id=8]
+[ext_resource path="res://assets/icons/PowerPlant.png" type="Texture" id=9]
 [ext_resource path="res://src/GUI/fonts/Font30.tres" type="DynamicFont" id=10]
 [ext_resource path="res://src/GUI/PlayerResources.tscn" type="PackedScene" id=11]
 [ext_resource path="res://src/GUI/PlayerGive.tscn" type="PackedScene" id=12]
@@ -50,9 +50,7 @@ mouse_filter = 2
 [node name="Score" parent="TopMenu/Left/HBoxContainer" instance=ExtResource( 7 )]
 mouse_filter = 2
 alignment = 0
-label = "Score"
-value = "0"
-color = Color( 1, 1, 1, 1 )
+Label = "Score"
 
 [node name="Center" type="MarginContainer" parent="TopMenu"]
 margin_left = 204.0
@@ -97,9 +95,6 @@ margin_left = 126.0
 margin_right = 190.0
 mouse_filter = 2
 alignment = 0
-label = "Day"
-value = "0"
-color = Color( 1, 1, 1, 1 )
 
 [node name="BottomMenu" type="HBoxContainer" parent="."]
 anchor_top = 1.0
@@ -144,21 +139,21 @@ expand = true
 
 [node name="Center" type="MarginContainer" parent="BottomMenu"]
 margin_left = 104.0
-margin_right = 1610.0
+margin_right = 1611.0
 margin_bottom = 762.0
 mouse_filter = 2
 size_flags_horizontal = 3
 custom_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="BottomMenu/Center"]
-margin_right = 1506.0
+margin_right = 1507.0
 margin_bottom = 742.0
 mouse_filter = 2
 alignment = 2
 
 [node name="BuildingButtons" type="HBoxContainer" parent="BottomMenu/Center/VBoxContainer"]
 margin_top = 614.0
-margin_right = 1506.0
+margin_right = 1507.0
 margin_bottom = 742.0
 alignment = 1
 __meta__ = {
@@ -170,7 +165,6 @@ margin_left = 425.0
 margin_right = 553.0
 margin_bottom = 128.0
 mouse_filter = 1
-building = 0
 
 [node name="GameBuildingButton2" parent="BottomMenu/Center/VBoxContainer/BuildingButtons" instance=ExtResource( 1 )]
 margin_left = 557.0
@@ -178,7 +172,7 @@ margin_right = 685.0
 margin_bottom = 128.0
 mouse_filter = 1
 texture_normal = ExtResource( 9 )
-building = 1
+Type = 1
 
 [node name="GameBuildingButton3" parent="BottomMenu/Center/VBoxContainer/BuildingButtons" instance=ExtResource( 1 )]
 margin_left = 689.0
@@ -186,7 +180,7 @@ margin_right = 817.0
 margin_bottom = 128.0
 mouse_filter = 1
 texture_normal = ExtResource( 2 )
-building = 2
+Type = 2
 
 [node name="GameBuildingButton4" parent="BottomMenu/Center/VBoxContainer/BuildingButtons" instance=ExtResource( 1 )]
 visible = false
@@ -194,7 +188,7 @@ margin_right = 1712.0
 margin_bottom = 128.0
 mouse_filter = 1
 texture_normal = ExtResource( 5 )
-building = 3
+Type = 3
 
 [node name="GameBuildingButton5" parent="BottomMenu/Center/VBoxContainer/BuildingButtons" instance=ExtResource( 1 )]
 visible = false
@@ -203,7 +197,7 @@ margin_right = 888.0
 margin_bottom = 128.0
 mouse_filter = 1
 texture_normal = ExtResource( 6 )
-building = 4
+Type = 4
 
 [node name="GameBuildingButton6" parent="BottomMenu/Center/VBoxContainer/BuildingButtons" instance=ExtResource( 1 )]
 margin_left = 821.0
@@ -211,7 +205,7 @@ margin_right = 949.0
 margin_bottom = 128.0
 mouse_filter = 1
 texture_normal = ExtResource( 3 )
-building = 5
+Type = 5
 
 [node name="GameBuildingButton7" parent="BottomMenu/Center/VBoxContainer/BuildingButtons" instance=ExtResource( 1 )]
 margin_left = 953.0
@@ -219,70 +213,62 @@ margin_right = 1081.0
 margin_bottom = 128.0
 mouse_filter = 1
 texture_normal = ExtResource( 4 )
-building = 6
+Type = 6
 
 [node name="Right" type="MarginContainer" parent="BottomMenu"]
-margin_left = 1614.0
+margin_left = 1615.0
 margin_right = 1920.0
 margin_bottom = 762.0
 rect_min_size = Vector2( 100, 0 )
 mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="BottomMenu/Right"]
-margin_right = 306.0
+margin_right = 305.0
 margin_bottom = 762.0
 mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="BottomMenu/Right/VBoxContainer"]
-margin_right = 306.0
+margin_right = 305.0
 margin_bottom = 330.0
 custom_constants/margin_right = 10
 
 [node name="PlayerResources" parent="BottomMenu/Right/VBoxContainer/MarginContainer" instance=ExtResource( 11 )]
+margin_right = 295.0
 
 [node name="OtherPlayerStats" type="MarginContainer" parent="BottomMenu/Right/VBoxContainer"]
 margin_top = 334.0
-margin_right = 306.0
+margin_right = 305.0
 margin_bottom = 762.0
 mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="BottomMenu/Right/VBoxContainer/OtherPlayerStats"]
-margin_right = 306.0
+margin_right = 305.0
 margin_bottom = 428.0
 mouse_filter = 2
 
 [node name="PlayerGive1" parent="BottomMenu/Right/VBoxContainer/OtherPlayerStats/VBoxContainer" instance=ExtResource( 12 )]
-margin_right = 306.0
+margin_right = 305.0
 
 [node name="PlayerGive2" parent="BottomMenu/Right/VBoxContainer/OtherPlayerStats/VBoxContainer" instance=ExtResource( 12 )]
 modulate = Color( 0.262745, 0.643137, 0.243137, 1 )
 margin_top = 108.0
-margin_right = 306.0
+margin_right = 305.0
 margin_bottom = 212.0
-player_num = 3
-player_name = "The Buhlian Operators"
+PlayerNum = 3
+PlayerName = "Alumiboti"
 
 [node name="PlayerGive3" parent="BottomMenu/Right/VBoxContainer/OtherPlayerStats/VBoxContainer" instance=ExtResource( 12 )]
 modulate = Color( 0.552941, 0.160784, 0.796078, 1 )
 margin_top = 216.0
-margin_right = 306.0
+margin_right = 305.0
 margin_bottom = 320.0
-player_num = 4
-player_name = "Javawockies"
+PlayerNum = 4
+PlayerName = "Murphy's Outlaws"
 
 [node name="PlayerGive4" parent="BottomMenu/Right/VBoxContainer/OtherPlayerStats/VBoxContainer" instance=ExtResource( 12 )]
 modulate = Color( 0.721569, 0.52549, 0.156863, 1 )
 margin_top = 324.0
-margin_right = 306.0
+margin_right = 305.0
 margin_bottom = 428.0
-player_num = 5
-player_name = "Alumiboti"
-[connection signal="pressed" from="BottomMenu/Left/VBoxContainer/LeaderBoardButton" to="." method="_on_LeaderBoardButton_pressed"]
-[connection signal="pressed" from="BottomMenu/Left/VBoxContainer/TechTreeButton" to="." method="_on_TechTreeButton_pressed"]
-[connection signal="selected" from="BottomMenu/Center/VBoxContainer/BuildingButtons/GameBuildingButton" to="." method="_on_GameBuildingButton_selected"]
-[connection signal="selected" from="BottomMenu/Center/VBoxContainer/BuildingButtons/GameBuildingButton2" to="." method="_on_GameBuildingButton_selected"]
-[connection signal="selected" from="BottomMenu/Center/VBoxContainer/BuildingButtons/GameBuildingButton3" to="." method="_on_GameBuildingButton_selected"]
-[connection signal="selected" from="BottomMenu/Center/VBoxContainer/BuildingButtons/GameBuildingButton4" to="." method="_on_GameBuildingButton_selected"]
-[connection signal="selected" from="BottomMenu/Center/VBoxContainer/BuildingButtons/GameBuildingButton5" to="." method="_on_GameBuildingButton_selected"]
-[connection signal="selected" from="BottomMenu/Center/VBoxContainer/BuildingButtons/GameBuildingButton6" to="." method="_on_GameBuildingButton_selected"]
-[connection signal="selected" from="BottomMenu/Center/VBoxContainer/BuildingButtons/GameBuildingButton7" to="." method="_on_GameBuildingButton_selected"]
+PlayerNum = 5
+PlayerName = "Javawockies"

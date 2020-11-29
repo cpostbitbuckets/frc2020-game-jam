@@ -39,6 +39,19 @@ public static class Utils
         return type == GameBuildingType.Mine || type == GameBuildingType.PowerPlant || type == GameBuildingType.ScienceLab;
     }
 
+    public static String GetName(this GameBuildingType type)
+    {
+        switch (type)
+        {
+            case GameBuildingType.PowerPlant:
+                return "Power Plant";
+            case GameBuildingType.ScienceLab:
+                return "Science Lab";
+            default:
+                return type.ToString();
+        }
+    }
+
     /// <summary>
     /// Return the path to a GameBuilding scene based on its type
     /// </summary>
@@ -69,3 +82,4 @@ public static class Utils
         return nodes;
     }
 }
+

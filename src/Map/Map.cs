@@ -26,6 +26,11 @@ public class Map : Node2D
 
         // load in all territories
         Territories = this.GetAllNodesOfType<Territory>();
+
+        // Tell all the AI Players on this map about the territories
+        // so they can use it to make choices
+        var aiPlayers = this.GetAllNodesOfType<AIPlayer>();
+        aiPlayers.ForEach(p => p.Territories = Territories);
     }
 
     public override void _Process(float delta)
@@ -73,6 +78,9 @@ public class Map : Node2D
 
     private void OnGameBuildingSelected(GameBuildingType type)
     {
+        // hide the mouse because the building becomes our mouse
+        Input.SetMouseMode(Input.MouseMode.Hidden);
+
         var scene = ResourceLoader.Load<PackedScene>(type.GetScenePath());
         instancedScene = (GameBuilding)scene.Instance();
         instancedScene.NewlySpawned = true;

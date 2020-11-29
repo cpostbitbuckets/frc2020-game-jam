@@ -92,6 +92,14 @@ public class Signals : Node
 
     #endregion
 
+    #region Game Events
+
+    public static event Action GameLostEvent;
+    public static event Action GameWonEvent;
+    public static event Action GameGrandWonEvent;
+
+    #endregion
+
 
     // The GDScript signals object
     public static Node Instance { get; private set; }
@@ -139,6 +147,15 @@ public class Signals : Node
         GameBuildingPlacedEvent?.Invoke(buildingId, playerNum, type, position);
     }
 
+    public static void PublishGameBuildingSelectedEvent(GameBuildingType type)
+    {
+        GameBuildingSelectedEvent?.Invoke(type);
+    }
+
+    public static void PublishGameBuildingCancelledEvent()
+    {
+        GameBuildingCancelledEvent?.Invoke();
+    }
 
     public static void PublishDayPassedEvent(int day)
     {
@@ -209,6 +226,21 @@ public class Signals : Node
     public static void PublishTerritoryDestroyedEvent(Territory territory)
     {
         TerritoryDestroyedEvent?.Invoke(territory);
+    }
+
+    public static void PublishGameLostEvent()
+    {
+        GameLostEvent?.Invoke();
+    }
+
+    public static void PublishGameWonEvent()
+    {
+        GameWonEvent?.Invoke();
+    }
+
+    public static void PublishGameGrandWonEvent()
+    {
+        GameGrandWonEvent?.Invoke();
     }
 
     #endregion

@@ -31,7 +31,7 @@ func set_tech_names():
 	get_node("TechTree/Row 6/TextureScience3/Science3/LabelScience3").text = "Supreme\nLabs"
 
 func set_tech_node_colors():
-	var player = PlayersManager.whoami()
+	var player = PlayersManager.Me
 
 	update_node_texture(player, "TechTree/Row 2/TextureMine2", "mine2", true)
 	update_node_texture(player, "TechTree/Row 1/TextureMine3", "mine3", false)
@@ -53,7 +53,7 @@ func set_tech_node_colors():
 
 	set_missile_disabled()
 
-func update_node_texture(p: PlayerData, node: String, tech_name: String, tier: bool):
+func update_node_texture(p, node: String, tech_name: String, tier: bool):
 	get_node(node).set_texture(texture_researching if p.selected_tech == tech_name else ((texture_tier2 if tier else texture_tier3) if p.selected_tech == "" && (is_tech_valid(tech_name) || has_tech(tech_name, p)) else texture_disabled))
 
 func set_missile_disabled():
@@ -61,15 +61,15 @@ func set_missile_disabled():
 	$"TechTree/Row 2/TextureMissile2".set_texture(texture_disabled)
 	$"TechTree/Row 1/TextureMissile3".set_texture(texture_disabled)
 
-func has_tech(tech_name: String, p: PlayerData):
+func has_tech(tech_name: String, p):
 	return Utils.has_tech(tech_name, p)
 
 func is_tech_being_researched(tech):
-	return PlayersManager.whoami().selected_tech == tech
+	return PlayersManager.Me.selected_tech == tech
 
 #Returns the total tech cost of the currently researched tech
 func get_cost_research() -> int:
-	var p = PlayersManager.whoami()
+	var p = PlayersManager.Me
 	if(p.selected_tech == ""):
 		return 0
 	else:
@@ -82,7 +82,7 @@ func _on_Tech_pressed(tech_name):
 	#	Is tech already unlocked
 	#	Is tech the next tier (can't directly research Tier 3)
 #	print(tech_name)
-	var can_research = Utils.can_research(tech_name, PlayersManager.whoami())
+	var can_research = Utils.can_research(tech_name, PlayersManager.Me)
 	if(can_research):
 		if($ResearchPopup.visible):
 			$ResearchPopup.hide()
@@ -90,19 +90,19 @@ func _on_Tech_pressed(tech_name):
 		$ResearchPopup.popup_centered()
 
 func on_research_tech(tech: String):
-	Utils.research_tech(tech, PlayersManager.whoami())
+	Utils.research_tech(tech, PlayersManager.Me)
 
 	$ResearchPopup.hide()
 	set_tech_node_colors()
 
 func is_player_researching():
-	return Utils.is_player_researching(PlayersManager.whoami())
+	return Utils.is_player_researching(PlayersManager.Me)
 
 func is_tech_valid(tech):
-	return Utils.is_tech_valid(tech, PlayersManager.whoami())
+	return Utils.is_tech_valid(tech, PlayersManager.Me)
 
 
 func _on_show():
 	if(self.visible):
 		set_tech_node_colors()
-		#$TechTree/ProgressBar/ResearchProgress.update_step(PlayersManager.whoami())
+		#$TechTree/ProgressBar/ResearchProgress.update_step(PlayersManager.Me)

@@ -20,7 +20,7 @@ func set_player_num(value):
 	_update_name()
 
 func _update_name():
-	if not Engine.editor_hint and PlayersManager.whoami().num == player_num:
+	if not Engine.editor_hint and PlayersManager.Me.Num == player_num:
 		it_me = true
 
 	$Name.modulate = PlayerColors.colors[player_num]
@@ -38,7 +38,7 @@ func set_ready(value: bool):
 	$HBoxContainer/ReadyCheck.visible = ready
 	$HBoxContainer/NotReady.visible = not $HBoxContainer/ReadyCheck.visible
 
-func _on_player_data_updated(player: PlayerData):
+func _on_player_data_updated(player):
 	if player.num == player_num:
 		_update_name()
 		set_ready(player.ready)

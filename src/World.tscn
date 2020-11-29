@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://src/World.gd" type="Script" id=1]
+[ext_resource path="res://src/World.cs" type="Script" id=1]
 [ext_resource path="res://src/Map/Map.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/GameObjects/TechTree.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/GUI/GUI.tscn" type="PackedScene" id=4]
@@ -64,7 +64,6 @@ one_shot = true
 
 [node name="ServerDisconnectPopup" parent="." instance=ExtResource( 6 )]
 visible = false
-[connection signal="leader_board_button_pressed" from="CanvasLayer/GUI" to="." method="_on_GUI_leader_board_button_pressed"]
-[connection signal="tech_tree_button_pressed" from="CanvasLayer/GUI" to="." method="_on_GUI_tech_tree_button_pressed"]
+
 [connection signal="visibility_changed" from="CanvasLayer/TechTree" to="CanvasLayer/TechTree" method="_on_show"]
 [connection signal="confirmed" from="CanvasLayer/QuitPopup" to="." method="_on_QuitPopup_confirmed"]
