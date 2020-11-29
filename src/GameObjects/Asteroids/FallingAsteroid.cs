@@ -175,6 +175,7 @@ public class FallingAsteroid : Node2D
         }
         if (!Destroyed)
         {
+            Destroyed = true;
             Signals.PublishAsteroidImpactEvent(Id, impactPoint.GlobalPosition, ExplosionRadius);
             RemoteSignals.PublishAsteroidImpactEvent(Id, impactPoint.GlobalPosition, ExplosionRadius);
             QueueFree();

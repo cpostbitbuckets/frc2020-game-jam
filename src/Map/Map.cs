@@ -154,31 +154,31 @@ public class Map : Node2D
                     {
                         building.QueueFree();
                     }
+                }
+                // play some dramatic sounds so the user knows we were struck
+                asteroidTerritoryStrike.Play();
 
-                    // play some dramatic sounds so the user knows we were struck
-                    asteroidTerritoryStrike.Play();
-
-                    // All of our TerritoryAreas should have a Territory as a child that we
-                    // can mark as destroyed. Territories are weird because they are a CollisionPolygon2D in the 
-                    // editor for easy drawing, but at runtime they are reorganized like this:
-                    // - TerritoryArea
-                    //   - Territory
-                    //     - Polygon2D
-                    //     - Center
-                    //     - Smoke
-                    if (territoryArea.GetChildCount() > 0)
+                // All of our TerritoryAreas should have a Territory as a child that we
+                // can mark as destroyed. Territories are weird because they are a CollisionPolygon2D in the 
+                // editor for easy drawing, but at runtime they are reorganized like this:
+                // - TerritoryArea
+                //   - Territory
+                //     - Polygon2D
+                //     - Center
+                //     - Smoke
+                if (territoryArea.GetChildCount() > 0)
+                {
+                    // mark this as destroyed so the smoke effect will be visible
+                    // but don't publish this Destroyed event unless it's the first time
+                    // the territory becomes destroyed
+                    var child = territoryArea.GetChild(0);
+                    if (child is Territory territory && territory.Type != TerritoryType.Destroyed)
                     {
-                        // mark this as destroyed so the smoke effect will be visible
-                        // but don't publish this Destroyed event unless it's the first time
-                        // the territory becomes destroyed
-                        var child = territoryArea.GetChild(0);
-                        if (child is Territory territory && territory.Type != TerritoryType.Destroyed)
-                        {
-                            territory.Type = TerritoryType.Destroyed;
-                            Signals.PublishTerritoryDestroyedEvent(territory);
-                        }
+                        territory.Type = TerritoryType.Destroyed;
+                        Signals.PublishTerritoryDestroyedEvent(territory);
                     }
                 }
+
             }
         }
 

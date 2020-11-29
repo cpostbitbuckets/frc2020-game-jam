@@ -87,7 +87,8 @@ public class AIPlayer : Node2D
                     var ownedTerritories = Territories.FindAll(t => t.TerritoryOwner == PlayerNum && t.Type != TerritoryType.Destroyed);
 
                     GD.Randomize();
-                    var randomTerritory = ownedTerritories[(int)GD.Randi() % ownedTerritories.Count];
+                    int randomTerritoryIndex = (int)Math.Abs(GD.Randi() % ownedTerritories.Count);
+                    var randomTerritory = ownedTerritories[randomTerritoryIndex];
                     var position = randomTerritory.Center;
 
                     bool addPosition = GD.Randi() % 2 == 0;

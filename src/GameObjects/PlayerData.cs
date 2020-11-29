@@ -68,7 +68,10 @@ public class PlayerData : Resource
         }
         else
         {
-            Score += Constants.ScoreGranted[type];
+            if (Constants.ScoreGranted.TryGetValue(type, out var score))
+            {
+                Score += score;
+            }
         }
         Signals.PublishPlayerScoreChangedEvent(this);
     }

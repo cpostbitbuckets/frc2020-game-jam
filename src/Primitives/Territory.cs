@@ -112,6 +112,7 @@ public class Territory : CollisionPolygon2D
             center.Position = CalculateCenter();
             Center = center.GlobalPosition;
             smoke.GlobalPosition = Center;
+            GetNode<Sprite>("Sprite").GlobalPosition = Center;
         }
     }
 
@@ -176,11 +177,13 @@ public class Territory : CollisionPolygon2D
     private void OnArea2DMouseEntered()
     {
         polygon2D.Color = highlightColor;
+        // GetNode<Sprite>("Sprite").Show();
     }
 
     private void OnArea2DMouseExited()
     {
         polygon2D.Color = GetPolygonColor();
+        // GetNode<Sprite>("Sprite").Hide();
     }
 
     #endregion

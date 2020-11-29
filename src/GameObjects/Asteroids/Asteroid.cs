@@ -4,7 +4,20 @@ using System;
 public class Asteroid : Area2D
 {
     public int? Id { get => parent?.Id; }
-    public bool? Destroyed { get => parent?.Destroyed; }
+    public bool Destroyed
+    {
+        get
+        {
+            if (parent == null)
+            {
+                return false;
+            }
+            else
+            {
+                return parent.Destroyed;
+            }
+        }
+    }
 
     FallingAsteroid parent;
 

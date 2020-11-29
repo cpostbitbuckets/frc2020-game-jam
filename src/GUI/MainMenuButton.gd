@@ -2,9 +2,10 @@ extends Button
 
 func _ready():
 	# close our connection, we're done
-	Network.close_connection()
+	# Network.close_connection()
+	pass
 
 
 func _on_Button_pressed() -> void:
-	PlayersManager.reset_values()
+	# PlayersManager.reset_values()
 	get_tree().change_scene("res://src/Main.tscn")

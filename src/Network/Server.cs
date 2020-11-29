@@ -106,6 +106,11 @@ public class Server : Node
 
     public void PostBeginGame()
     {
+        // for single player games, we control player 1
+        if (this.IsSinglePlayer())
+        {
+            PlayersManager.Instance.Players[0].AIControlled = false;
+        }
         if (this.IsServerOrSinglePlayer())
         {
             Started = true;

@@ -22,7 +22,7 @@ public class World : Node2D
 	{
 		// load in some nodes
 		asteroidManager = GetNode<AsteroidManager>("AsteroidManager");
-		endGameDelayTimer = GetNode<Timer>("Timer");
+		endGameDelayTimer = GetNode<Timer>("EndGameDelayTimer");
 		canvasLayer = GetNode<CanvasLayer>("CanvasLayer");
 		map = GetNode<Map>("Map");
 		gui = canvasLayer.GetNode<GUI>("GUI");

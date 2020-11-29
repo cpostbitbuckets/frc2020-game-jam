@@ -176,7 +176,7 @@ public class PlayersManager : Node
         if (existingPlayer != null)
         {
             existingPlayer.From(player);
-            GD.Print($"{player} updated in player registry");
+            // GD.Print($"{player} updated in player registry");
         }
     }
 

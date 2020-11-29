@@ -8,20 +8,20 @@ public class TerritoryArea : Area2D
 
     public Territory Territory { get => GetChild<Territory>(0); }
 
-    public List<Node2D> GetBuildings()
+    public List<GameBuilding> GetBuildings()
     {
-        List<Node2D> buildingsInArea = new List<Node2D>();
+        List<GameBuilding> buildingsInArea = new List<GameBuilding>();
 
         if (Territory.Type == TerritoryType.Destroyed)
         {
-            return new List<Node2D>();
+            return new List<GameBuilding>();
         }
 
         foreach (Area2D area in GetOverlappingAreas())
         {
-            if (area.Get("external_class_name") as string == "GameBuilding")
+            if (area is GameBuilding building)
             {
-                buildingsInArea.Add(area);
+                buildingsInArea.Add(building);
             }
         }
         return buildingsInArea;

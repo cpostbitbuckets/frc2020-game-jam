@@ -19,6 +19,7 @@ public class Shield : DefenseBuilding
             {
                 // set the shield to mostly transparent
                 shieldArea.Sprite.Modulate = new Color(1, 1, 1, .25f);
+                shieldArea.Active = value;
             }
         }
     }
@@ -58,6 +59,10 @@ public class Shield : DefenseBuilding
 
         // setup based on our current tech level
         TechCheck();
+
+        // we don't have a "ShieldArea" variable until we are ready, but we aren't ready until after
+        // active is set
+        Active = active;
     }
 
     #region Event Handlers

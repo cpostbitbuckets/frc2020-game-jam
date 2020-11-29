@@ -95,17 +95,19 @@ public class AsteroidManager : Node2D
         for (var i = 0; i < asteroidCount; i++)
         {
             int asteroidStrength = (int)GD.RandRange(0, wave * AsteroidStrengthMultiplier);
-            var asteroid = GetAsteroidInstance(asteroidStrength);
+            FallingAsteroid fallingAsteroid = GetAsteroidInstance(asteroidStrength);
 
             // give each new asteroid an incrementing id
             // so we can uniquely identify them
-            asteroid.Id = numAsteroids++;
+            fallingAsteroid.Id = numAsteroids++;
 
-            asteroid.GlobalPosition = Territories[i].Center;
+            // The FallingAsteroid has two parts, an impact point and an asteroid (that is falling)
+            // The GlobalPosition is the impact point, the falling asteroid falls towards it
+            fallingAsteroid.GlobalPosition = Territories[i].Center;
             activeAsteroids++;
-            AddChild(asteroid);
+            AddChild(fallingAsteroid);
             // after this asteroid is setup, send it to the clients
-            CallDeferred(nameof(SendAsteroid), asteroid.GlobalPosition, asteroidStrength, asteroid);
+            CallDeferred(nameof(SendAsteroid), fallingAsteroid.GlobalPosition, asteroidStrength, fallingAsteroid);
 
         }
 
@@ -139,18 +141,17 @@ public class AsteroidManager : Node2D
     private void FinalWave()
     {
         FallingAsteroid boss = (FallingAsteroid)dwarfPlanet.Instance();
-        boss.Id = numAsteroids;
+        boss.Id = numAsteroids++;
         activeAsteroids++;
-        numAsteroids++;
         foreach (var territory in Territories)
         {
             if (!PlayersManager.Instance.GetPlayer(territory.TerritoryOwner).AIControlled)
             {
                 boss.GlobalPosition = territory.Center;
+                AddChild(boss);
+                CallDeferred(nameof(SendAsteroid), boss.GlobalPosition, 40000, boss);
                 break;
             }
-            AddChild(boss);
-            CallDeferred(nameof(SendAsteroid), boss.GlobalPosition, 40000, boss);
         }
     }
 
@@ -200,6 +201,6 @@ public class AsteroidManager : Node2D
 
     private void OnDwarfPlanetDestroyed()
     {
-        throw new NotImplementedException();
+        Signals.PublishFinalWaveCompleteEvent();
     }
 }

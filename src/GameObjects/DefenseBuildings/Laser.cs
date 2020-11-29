@@ -42,6 +42,7 @@ public class Laser : DefenseBuilding
 
         Signals.DayPassedEvent += OnDayPassed;
         Signals.AsteroidDestroyedEvent += OnAsteroidDestroyed;
+        Signals.AsteroidImpactEvent += OnAsteroidImpact;
 
         // get some nodes we interact with
         timer = GetNode<Timer>("Timer");
@@ -63,15 +64,18 @@ public class Laser : DefenseBuilding
 
         // setup based on our current tech level
         TechCheck();
+
+        Active = active;
     }
+
 
     public override void _Process(float delta)
     {
         base._Process(delta);
-        if (target != null)
+        if (target != null && !target.Destroyed)
         {
             // adjust our beam to target the moved object
-            beam.Points[1] = target.GlobalPosition - beam.GlobalPosition;
+            beam.SetPointPosition(1, target.GlobalPosition - beam.GlobalPosition);
             if (!audioStreamPlayer.Playing)
             {
                 audioStreamPlayer.Play(.5f);
@@ -79,7 +83,10 @@ public class Laser : DefenseBuilding
         }
         else
         {
-            beam.Points[1] = beam.Points[0];
+            if (beam.Points[1] != beam.Points[0])
+            {
+                beam.SetPointPosition(1, beam.Points[0]);
+            }
             audioStreamPlayer.Stop();
         }
     }
@@ -97,9 +104,25 @@ public class Laser : DefenseBuilding
         {
             var buildingOwner = PlayersManager.Instance.GetPlayer(PlayerNum);
             buildingOwner.AddScore(ScoreType.AsteroidDestroyed);
+            target = null;
         }
-        if (target == null || (target.Destroyed is bool destroyed && destroyed))
+        if (target == null || target.Destroyed)
         {
+            ReevaluateTargeting();
+        }
+    }
+
+    /// <summary>
+    /// On asteroid impact, remove our target if we are targetting this
+    /// </summary>
+    /// <param name="asteroidId"></param>
+    /// <param name="impactPoint"></param>
+    /// <param name="explosionRadius"></param>
+    void OnAsteroidImpact(int asteroidId, Vector2 impactPoint, int explosionRadius)
+    {
+        if (target != null && target.Id == asteroidId)
+        {
+            target = null;
             ReevaluateTargeting();
         }
     }
@@ -144,6 +167,13 @@ public class Laser : DefenseBuilding
         }
     }
 
+    protected override void OnFreed()
+    {
+        base.OnFreed();
+        target = null;
+        timer.Stop();
+    }
+
     #endregion
 
     /// <summary>
@@ -179,7 +209,8 @@ public class Laser : DefenseBuilding
             Asteroid newTarget = null;
             foreach (var area in areas)
             {
-                if (area is Asteroid asteroid)
+                // find any asteroids that aren't destroyed
+                if (area is Asteroid asteroid && !asteroid.Destroyed)
                 {
                     newTarget = asteroid;
                     break;
@@ -188,6 +219,10 @@ public class Laser : DefenseBuilding
 
             // update our target to the new found target, or null if we found no target
             target = newTarget;
+        }
+        else
+        {
+            target = null;
         }
     }
 

@@ -9,7 +9,7 @@ public abstract class GameBuilding : Area2D
     /// </summary>
     /// <value></value>
     [Export(PropertyHint.Range, "1,5")]
-    public int PlayerNum { get; set; }
+    public int PlayerNum { get; set; } = 1;
 
     [Export]
     public virtual Boolean Active { get; set; }
@@ -41,6 +41,7 @@ public abstract class GameBuilding : Area2D
     public override void _Ready()
     {
         collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
+        Connect("tree_exited", this, nameof(OnFreed));
     }
 
     /// <summary>
@@ -109,6 +110,14 @@ public abstract class GameBuilding : Area2D
         }
 
         Placeable = placeable;
+    }
+
+    /// <summary>
+    /// We have been freed, disable this node
+    /// </summary>
+    protected virtual void OnFreed()
+    {
+        Active = false;
     }
 
 }
