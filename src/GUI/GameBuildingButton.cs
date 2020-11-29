@@ -5,7 +5,7 @@ using System;
 public class GameBuildingButton : TextureButton
 {
     [Export]
-    GameBuildingType Type
+    public GameBuildingType Type
     {
         get => type;
         set
@@ -18,13 +18,15 @@ public class GameBuildingButton : TextureButton
     }
     GameBuildingType type = GameBuildingType.Mine;
 
-    new public delegate void Pressed(GameBuildingButton button);
-    public event Pressed PressedEvent;
+    public event Action<GameBuildingButton> PressedEvent;
 
     public override void _Ready()
     {
-        Connect("pressed", this, nameof(OnPressed));
-        Signals.PlayerUpdatedEvent += OnPlayerUpdated;
+        if (!Engine.EditorHint)
+        {
+            Connect("pressed", this, nameof(OnPressed));
+            Signals.PlayerUpdatedEvent += OnPlayerUpdated;
+        }
     }
 
     private void OnPlayerUpdated(PlayerData player)
