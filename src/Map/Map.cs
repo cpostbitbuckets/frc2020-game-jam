@@ -136,25 +136,12 @@ public class Map : Node2D
         // go through each overlapping area for the explosion
         foreach (Node node in explosionArea.GetOverlappingAreas())
         {
-            if (node is Territory)
-            {
-                Territory territory = node as Territory;
-                if (territory.Type == TerritoryType.Destroyed)
-                {
-
-                }
-            }
             // if we are overlapping a territoryArea, destroy all its buildings
             if (node is TerritoryArea territoryArea)
             {
-                foreach (var building in territoryArea.GetBuildings())
-                {
-                    // bye bye, poor building
-                    if (building != null)
-                    {
-                        building.QueueFree();
-                    }
-                }
+                // bye bye poor buildings
+                territoryArea.GetBuildings().ForEach(b => b.QueueFree());
+
                 // play some dramatic sounds so the user knows we were struck
                 asteroidTerritoryStrike.Play();
 
@@ -171,14 +158,12 @@ public class Map : Node2D
                     // mark this as destroyed so the smoke effect will be visible
                     // but don't publish this Destroyed event unless it's the first time
                     // the territory becomes destroyed
-                    var child = territoryArea.GetChild(0);
-                    if (child is Territory territory && territory.Type != TerritoryType.Destroyed)
+                    if (territoryArea.GetChild(0) is Territory territory && territory.Type != TerritoryType.Destroyed)
                     {
                         territory.Type = TerritoryType.Destroyed;
                         Signals.PublishTerritoryDestroyedEvent(territory);
                     }
                 }
-
             }
         }
 

@@ -133,6 +133,7 @@ public class Laser : DefenseBuilding
         {
             target.Damage(Damage);
         }
+        timer.Start(Cooldown);
     }
 
     private void OnLaserAreaEntered(Area2D area)
