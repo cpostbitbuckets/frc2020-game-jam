@@ -64,6 +64,3 @@ one_shot = true
 
 [node name="ServerDisconnectPopup" parent="." instance=ExtResource( 6 )]
 visible = false
-
-[connection signal="visibility_changed" from="CanvasLayer/TechTree" to="CanvasLayer/TechTree" method="_on_show"]
-[connection signal="confirmed" from="CanvasLayer/QuitPopup" to="." method="_on_QuitPopup_confirmed"]
