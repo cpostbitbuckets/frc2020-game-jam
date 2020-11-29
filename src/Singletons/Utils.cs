@@ -65,7 +65,6 @@ public static class Utils
 
     public static List<T> GetAllNodesOfType<T>(this Node node) where T : Node
     {
-        // we start with 3 buildings per player
         List<T> nodes = new List<T>();
         foreach (Node child in node.GetChildren())
         {

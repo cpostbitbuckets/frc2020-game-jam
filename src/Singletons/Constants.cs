@@ -10,8 +10,8 @@ public class Constants
 
     public static Resources StartingResources { get; } = new Resources
     {
-        Raw = 50,
-        Power = 50,
+        Raw = 500,
+        Power = 500,
         Science = 0
     };
 

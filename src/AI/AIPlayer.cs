@@ -53,6 +53,11 @@ public class AIPlayer : Node2D
         Signals.DayPassedEvent += OnDayPassed;
     }
 
+    public override void _ExitTree()
+    {
+        Signals.DayPassedEvent -= OnDayPassed;
+    }
+
     private void OnDayPassed(int day)
     {
         // if this player is AIControlled and we are single player or the server

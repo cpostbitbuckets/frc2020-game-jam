@@ -129,7 +129,7 @@ public class Laser : DefenseBuilding
 
     private void OnTimerTimeout()
     {
-        if (target != null)
+        if (target != null && !target.Destroyed)
         {
             target.Damage(Damage);
         }
@@ -138,7 +138,7 @@ public class Laser : DefenseBuilding
 
     private void OnLaserAreaEntered(Area2D area)
     {
-        if (target == null)
+        if (target == null || target.Destroyed)
         {
             ReevaluateTargeting();
         }

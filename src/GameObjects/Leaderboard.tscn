@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/TechTreeFont.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://src/GameObjects/Leaderboard.gd" type="Script" id=2]
+[ext_resource path="res://src/GameObjects/Leaderboard.cs" type="Script" id=2]
 [ext_resource path="res://assets/icons/LeaderboardStat.png" type="Texture" id=3]
 [ext_resource path="res://assets/icons/LeaderboardBack.png" type="Texture" id=4]
 
@@ -52,9 +52,9 @@ __meta__ = {
 
 [node name="Name" type="Label" parent="Background/Leaderboard/Player1/Stats"]
 margin_left = 160.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 360.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -66,9 +66,9 @@ __meta__ = {
 
 [node name="Score" type="Label" parent="Background/Leaderboard/Player1/Stats"]
 margin_left = 510.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 710.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -80,9 +80,9 @@ __meta__ = {
 
 [node name="Raw" type="Label" parent="Background/Leaderboard/Player1/Stats"]
 margin_left = 860.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 1060.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -94,9 +94,9 @@ __meta__ = {
 
 [node name="Science" type="Label" parent="Background/Leaderboard/Player1/Stats"]
 margin_left = 1210.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 1410.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -108,9 +108,9 @@ __meta__ = {
 
 [node name="Power" type="Label" parent="Background/Leaderboard/Player1/Stats"]
 margin_left = 1560.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 1760.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -139,9 +139,9 @@ __meta__ = {
 
 [node name="Name" type="Label" parent="Background/Leaderboard/Player2/Stats"]
 margin_left = 160.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 360.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -153,9 +153,9 @@ __meta__ = {
 
 [node name="Score" type="Label" parent="Background/Leaderboard/Player2/Stats"]
 margin_left = 510.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 710.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -167,9 +167,9 @@ __meta__ = {
 
 [node name="Raw" type="Label" parent="Background/Leaderboard/Player2/Stats"]
 margin_left = 860.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 1060.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -181,9 +181,9 @@ __meta__ = {
 
 [node name="Science" type="Label" parent="Background/Leaderboard/Player2/Stats"]
 margin_left = 1210.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 1410.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -195,9 +195,9 @@ __meta__ = {
 
 [node name="Power" type="Label" parent="Background/Leaderboard/Player2/Stats"]
 margin_left = 1560.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 1760.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -226,9 +226,9 @@ __meta__ = {
 
 [node name="Name" type="Label" parent="Background/Leaderboard/Player3/Stats"]
 margin_left = 160.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 360.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -240,9 +240,9 @@ __meta__ = {
 
 [node name="Score" type="Label" parent="Background/Leaderboard/Player3/Stats"]
 margin_left = 510.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 710.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -254,9 +254,9 @@ __meta__ = {
 
 [node name="Raw" type="Label" parent="Background/Leaderboard/Player3/Stats"]
 margin_left = 860.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 1060.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -268,9 +268,9 @@ __meta__ = {
 
 [node name="Science" type="Label" parent="Background/Leaderboard/Player3/Stats"]
 margin_left = 1210.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 1410.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -282,9 +282,9 @@ __meta__ = {
 
 [node name="Power" type="Label" parent="Background/Leaderboard/Player3/Stats"]
 margin_left = 1560.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 1760.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -316,9 +316,9 @@ __meta__ = {
 
 [node name="Name" type="Label" parent="Background/Leaderboard/Player4/Stats"]
 margin_left = 160.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 360.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -330,9 +330,9 @@ __meta__ = {
 
 [node name="Score" type="Label" parent="Background/Leaderboard/Player4/Stats"]
 margin_left = 510.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 710.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -344,9 +344,9 @@ __meta__ = {
 
 [node name="Raw" type="Label" parent="Background/Leaderboard/Player4/Stats"]
 margin_left = 860.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 1060.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -358,9 +358,9 @@ __meta__ = {
 
 [node name="Science" type="Label" parent="Background/Leaderboard/Player4/Stats"]
 margin_left = 1210.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 1410.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -372,9 +372,9 @@ __meta__ = {
 
 [node name="Power" type="Label" parent="Background/Leaderboard/Player4/Stats"]
 margin_left = 1560.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 1760.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -403,9 +403,9 @@ __meta__ = {
 
 [node name="Name" type="Label" parent="Background/Leaderboard/Player5/Stats"]
 margin_left = 160.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 360.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -417,9 +417,9 @@ __meta__ = {
 
 [node name="Score" type="Label" parent="Background/Leaderboard/Player5/Stats"]
 margin_left = 510.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 710.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -431,9 +431,9 @@ __meta__ = {
 
 [node name="Raw" type="Label" parent="Background/Leaderboard/Player5/Stats"]
 margin_left = 860.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 1060.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -445,9 +445,9 @@ __meta__ = {
 
 [node name="Science" type="Label" parent="Background/Leaderboard/Player5/Stats"]
 margin_left = 1210.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 1410.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -459,9 +459,9 @@ __meta__ = {
 
 [node name="Power" type="Label" parent="Background/Leaderboard/Player5/Stats"]
 margin_left = 1560.0
-margin_top = 24.0
+margin_top = 25.0
 margin_right = 1760.0
-margin_bottom = 124.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 200, 100 )
 custom_fonts/font = SubResource( 1 )
 text = "Player 1:"
@@ -470,4 +470,3 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="visibility_changed" from="." to="." method="on_show"]
