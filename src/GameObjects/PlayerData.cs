@@ -70,7 +70,6 @@ public class PlayerData : Resource
         {
             Score += Constants.ScoreGranted[type];
         }
-        Score += Constants.ScoreGranted[type];
         Signals.PublishPlayerScoreChangedEvent(this);
     }
 
@@ -120,14 +119,14 @@ public class PlayerData : Resource
         var buildingCost = Constants.BuildingCosts[type];
 
         // if we can't afford building type one, return false
-        if (buildingCost.Cost < Resources[buildingCost.Type1])
+        if (Resources[buildingCost.Type1] < buildingCost.Cost)
         {
             return false;
         }
 
         // if we have a type2, check if we have enough resources
         if (buildingCost.Type2 != ResourceType.EXCEPTIION &&
-        buildingCost.Cost < Resources[buildingCost.Type2])
+        Resources[buildingCost.Type2] < buildingCost.Cost)
         {
             return false;
         }

@@ -53,7 +53,7 @@ public class AsteroidManager : Node2D
         Signals.AsteroidIncomingEvent += OnAsteroidIncoming;
         Signals.DwarfPlanetDestroyedEvent += OnDwarfPlanetDestroyed;
 
-        if (!GetTree().HasNetworkPeer() || GetTree().IsNetworkServer())
+        if (this.IsServerOrSinglePlayer())
         {
             timer.Connect("timeout", this, nameof(OnTimerTimeout));
             timer.Start(InitialWaveTime);
@@ -172,10 +172,10 @@ public class AsteroidManager : Node2D
 
     private void OnAsteroidIncoming(Vector2 position, int strength, Asteroid asteroid)
     {
-        if (GetTree().HasNetworkPeer() && !GetTree().IsNetworkServer())
+        // only clients care about this method
+        // they spawn identical asteroids on their side
+        if (this.IsClient())
         {
-            // only clients care about this method
-            // they spawn identical asteroids on their side
             FallingAsteroid asteroidInstance;
             if (strength == 40000)
             {

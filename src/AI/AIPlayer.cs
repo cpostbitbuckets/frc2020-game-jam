@@ -56,7 +56,7 @@ public class AIPlayer : Node2D
     private void OnDayPassed(int day)
     {
         // if this player is AIControlled and we are single player or the server
-        if (Player.AIControlled && (!GetTree().HasNetworkPeer() || GetTree().IsNetworkServer()))
+        if (Player.AIControlled && this.IsServerOrSinglePlayer())
         {
             // queue up research
             ResearchNext();

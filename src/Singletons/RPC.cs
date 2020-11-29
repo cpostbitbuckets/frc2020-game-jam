@@ -6,21 +6,19 @@ using System.Linq;
 public class RPC : Node
 {
 
-    public Boolean IsServer { get => GetTree().IsNetworkServer(); }
-
-    private String LogPrefix { get => IsServer ? "Server:" : "Client:"; }
+    private String LogPrefix { get => this.IsServer() ? "Server:" : "Client:"; }
 
     public override void _Ready()
     {
         // when a player is updated, notify other players
         Signals.PlayerJoinedEvent += OnPlayerJoined;
         RemoteSignals.PlayerUpdatedEvent += SendPlayerUpdated;
-        
+
     }
 
     private void OnPlayerJoined(int networkId)
     {
-        if (IsServer)
+        if (this.IsServer())
         {
             // tell the new player about our players
             SendPlayers(PlayersManager.Instance.Players, networkId);
@@ -55,7 +53,7 @@ public class RPC : Node
     public void SendPlayers(List<PlayerData> players, int networkId = 0)
     {
         // servers listen for signals and notify clients
-        if (IsServer)
+        if (this.IsServer())
         {
             var playersArray = new Godot.Collections.Array(players.Select(p => p.ToArray()));
             if (networkId == 0)

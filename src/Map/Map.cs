@@ -60,7 +60,7 @@ public class Map : Node2D
     public override void _Input(InputEvent @event)
     {
         base._Input(@event);
-        if (@event.IsActionPressed("left_click") && instancedScene != null)
+        if (@event.IsActionPressed("left_click") && instancedScene != null && instancedScene.Placeable)
         {
             click.Play(.2f);
             var position = GetLocalMousePosition();

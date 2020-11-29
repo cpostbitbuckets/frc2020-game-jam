@@ -40,6 +40,12 @@ public class World : Node2D
 
 		// setup our list of territories per owner
 		map.Territories.ForEach(t => numTerritoriesPerPlayer[t.TerritoryOwner - 1]++);
+		asteroidManager.Territories = map.Territories;
+
+		AddPlayersToWorld();
+
+		// after the world is setup, tell the server to start the timer and begin the game
+		Server.Instance.PostBeginGame();
 	}
 
 	public override void _Input(InputEvent @event)

@@ -7,6 +7,11 @@ using System;
 public class Server : Node
 {
 
+    public bool Started { get; private set; } = false;
+    public int Day { get; private set; } = 1;
+
+    private Timer dayTimer;
+
     /// <summary>
     /// Server is a singleton
     /// </summary>
@@ -26,15 +31,20 @@ public class Server : Node
 
     public override void _Ready()
     {
-
+        dayTimer = GetNode<Timer>("DayTimer");
         // signals for when a player connects to us
         GetTree().Connect("network_peer_connected", this, nameof(OnPlayerConnected));
         GetTree().Connect("network_peer_disconnected", this, nameof(OnPlayerDisconnected));
+
+        dayTimer.WaitTime = Constants.SecondsPerDay;
+        dayTimer.Connect("timeout", this, nameof(OnDayTimerTimeout));
     }
+
+    # region Player Join/Leave Events
 
     private void OnPlayerConnected(int id)
     {
-        if (GetTree().IsNetworkServer())
+        if (this.IsServer())
         {
             // if we are the server, we know a new player has connected
             GD.Print($"Server: Player {id} connected to server.");
@@ -44,13 +54,17 @@ public class Server : Node
 
     private void OnPlayerDisconnected(int id)
     {
-        if (GetTree().IsNetworkServer())
+        if (this.IsServer())
         {
             // if we are the server, we know a new player has connected
             GD.Print($"Server: Player {id} disconnected from server.");
             Signals.PublishPlayerLeftEvent(id);
         }
     }
+
+    #endregion
+
+    #region Game State Changes
 
     /// <summary>
     /// Host a new game, starting a server
@@ -81,4 +95,33 @@ public class Server : Node
         }
         GetTree().NetworkPeer = null;
     }
+
+    public void BeginGame()
+    {
+        if (this.IsServer())
+        {
+            // Send some post start game stuff
+        }
+    }
+
+    public void PostBeginGame()
+    {
+        if (this.IsServerOrSinglePlayer())
+        {
+            Started = true;
+            dayTimer.Start();
+        }
+    }
+
+    #endregion
+
+    #region Game Events
+
+    void OnDayTimerTimeout()
+    {
+        Day++;
+        Signals.PublishDayPassedEvent(Day);
+    }
+
+    #endregion
 }

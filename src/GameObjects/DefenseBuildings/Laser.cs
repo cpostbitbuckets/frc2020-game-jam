@@ -179,9 +179,9 @@ public class Laser : DefenseBuilding
             Asteroid newTarget = null;
             foreach (var area in areas)
             {
-                if (area is Asteroid)
+                if (area is Asteroid asteroid)
                 {
-                    newTarget = area as Asteroid;
+                    newTarget = asteroid;
                     break;
                 }
             }

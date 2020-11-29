@@ -67,7 +67,7 @@ public class FallingAsteroid : Node2D
 
         SetupInitialState();
 
-        if (GetTree().HasNetworkPeer() && !GetTree().IsNetworkServer())
+        if (this.IsClient())
         {
             // if we aren't the server, we have to listen to position updates and impact
             // events from the server
@@ -86,7 +86,7 @@ public class FallingAsteroid : Node2D
 
         // only the server updates asteroids
         // then it sends the new position to each client
-        if (GetTree().HasNetworkPeer() && GetTree().IsNetworkServer())
+        if (this.IsServerOrSinglePlayer())
         {
             // only send asteroid position updates once every couple seconds
             deltaSendNetworkUpdate += delta;
@@ -130,7 +130,7 @@ public class FallingAsteroid : Node2D
     private void OnImpactPointAreaEntered(Area2D area)
     {
         // only detect collisions if we are the server (or single player)
-        if (!GetTree().HasNetworkPeer() || GetTree().IsNetworkServer())
+        if (this.IsServerOrSinglePlayer())
         {
             if (area == asteroid)
             {

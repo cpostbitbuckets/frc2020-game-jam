@@ -11,7 +11,6 @@ public class Asteroid : Area2D
     public override void _Ready()
     {
         parent = GetParent<FallingAsteroid>();
-
     }
 
     public void Damage(int damage)

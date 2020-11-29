@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://src/Main.gd" type="Script" id=1]
+[ext_resource path="res://src/Main.cs" type="Script" id=1]
 [ext_resource path="res://src/GUI/Theme.tres" type="Theme" id=2]
 [ext_resource path="res://assets/TechTreeFont.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://src/GUI/NumLineEdit.tscn" type="PackedScene" id=4]
@@ -278,15 +278,11 @@ margin_right = 460.0
 margin_bottom = 61.0
 disabled = true
 text = "Cancel"
+
 [connection signal="pressed" from="VBoxContainer/CenterContainer/Panel/HBoxContainer/MenuButtons/HBoxContainer/VBoxContainer/NewGameButton" to="." method="_on_NewGameButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/CenterContainer/Panel/HBoxContainer/MenuButtons/HBoxContainer/VBoxContainer/HostGameButton" to="." method="_on_HostGameButton_pressed"]
 [connection signal="toggled" from="VBoxContainer/CenterContainer/Panel/HBoxContainer/MenuButtons/HBoxContainer/EasyModeCheckButton" to="." method="_on_EasyModeCheckButton_toggled"]
-[connection signal="pressed" from="VBoxContainer/CenterContainer/Panel/HBoxContainer/MenuButtons/JoinGameButton" to="." method="_on_JoinGameButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/CenterContainer/Panel/HBoxContainer/MenuButtons/SettingsButton" to="." method="_on_SettingsButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/CenterContainer/Panel/HBoxContainer/MenuButtons/ExitButton" to="." method="_on_Exit_pressed"]
-[connection signal="popup_hide" from="JoinWindow" to="." method="_on_JoinWindow_popup_hide"]
 [connection signal="pressed" from="JoinWindow/VBoxContainer/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_JoinButton_pressed"]
 [connection signal="pressed" from="JoinWindow/VBoxContainer/MarginContainer/VBoxContainer/CancelButton" to="." method="_on_CancelButton_pressed"]
-[connection signal="popup_hide" from="HostWindow" to="." method="_on_JoinWindow_popup_hide"]
 [connection signal="pressed" from="HostWindow/VBoxContainer/MarginContainer/VBoxContainer/HostButton" to="." method="_on_HostButton_pressed"]
 [connection signal="pressed" from="HostWindow/VBoxContainer/MarginContainer/VBoxContainer/CancelButton" to="." method="_on_CancelHostButton_pressed"]

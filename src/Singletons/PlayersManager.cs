@@ -96,6 +96,11 @@ public class PlayersManager : Node
                 Color = Constants.PlayerColors[num],
                 AIControlled = true,
                 Ready = true,
+                Resources = {
+                    Raw = Constants.StartingResources.Raw,
+                    Power = Constants.StartingResources.Power,
+                    Science = Constants.StartingResources.Science,
+                }
             });
 
             Signals.PublishPlayerUpdatedEvent(Players[i]);
