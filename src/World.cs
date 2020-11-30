@@ -57,7 +57,7 @@ public class World : Node2D
 			leaderBoard.Visible = false;
 			// toggle the TechTree
 			techTree.Visible = !techTree.Visible;
-			map.Visible = asteroidManager.Visible = !techTree.Visible;
+			gui.Visible = map.Visible = asteroidManager.Visible = !techTree.Visible;
 		}
 		else if (@event.IsActionPressed("ui_leaderboard"))
 		{
@@ -65,7 +65,7 @@ public class World : Node2D
 			techTree.Visible = false;
 			// toggle the LeaderBoard
 			leaderBoard.Visible = !leaderBoard.Visible;
-			map.Visible = asteroidManager.Visible = !leaderBoard.Visible;
+			gui.Visible = map.Visible = asteroidManager.Visible = !leaderBoard.Visible;
 		}
 		else if (@event.IsActionPressed("escape"))
 		{

@@ -76,6 +76,14 @@ public class PlayerData : Resource
         Signals.PublishPlayerScoreChangedEvent(this);
     }
 
+    public void StartResearch(ResearchType type)
+    {
+        // start a new tech research and apply any existing science we have saved up
+        TechBeingResearched = type;
+        TechResearchProgress = Resources.Science;
+        Resources.Science = 0;
+    }
+
     /// <summary>
     /// Check if we are done researching our selected tech
     /// </summary>
@@ -84,7 +92,7 @@ public class PlayerData : Resource
         if (TechBeingResearched != ResearchType.None)
         {
             int currentLevel = TechLevel[TechBeingResearched];
-            int cost = Constants.ResearchCosts[TechBeingResearched][currentLevel];
+            int cost = Constants.ResearchCosts[TechBeingResearched][currentLevel - 1];
 
             if (cost <= TechResearchProgress)
             {
@@ -97,6 +105,10 @@ public class PlayerData : Resource
                 TechBeingResearched = ResearchType.None;
                 TechResearchProgress = 0;
             }
+        }
+        else
+        {
+            TechResearchProgress = 0;
         }
     }
 
@@ -136,6 +148,28 @@ public class PlayerData : Resource
 
         // we have enough of both types, return true because we can afford it
         return true;
+    }
+
+    /// <summary>
+    /// We have this tech if our tech level is greater than the level asked for
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="level"></param>
+    /// <returns></returns>
+    public bool HasTech(ResearchType type, int level)
+    {
+        return TechLevel[type] >= level;
+    }
+
+    /// <summary>
+    /// We can research the next level of any tech
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="level"></param>
+    /// <returns></returns>
+    public bool CanResearch(ResearchType type, int level)
+    {
+        return TechLevel[type] == level - 1;
     }
 
     /// <summary>

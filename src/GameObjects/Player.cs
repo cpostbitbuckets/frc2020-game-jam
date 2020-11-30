@@ -26,7 +26,16 @@ public class Player : Node2D
                     Data.Resources.Power += amount * Data.TechLevel[ResearchType.Power];
                     break;
                 case ResourceType.Science:
-                    Data.Resources.Science += amount * Data.TechLevel[ResearchType.Science];
+                    var science = amount * Data.TechLevel[ResearchType.Science];
+                    if (Data.TechBeingResearched != ResearchType.None)
+                    {
+                        Data.TechResearchProgress += science;
+                    }
+                    else
+                    {
+                        Data.Resources.Science += amount * Data.TechLevel[ResearchType.Science];
+                    }
+                    Data.CheckResearchComplete();
                     break;
             }
 

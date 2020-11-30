@@ -154,9 +154,9 @@ public class AIPlayer : Node2D
             {
                 // if the Player's research level for this tech is less than the target in our list
                 // research it
-                if (Player.TechLevel[researchItem.Key] < researchItem.Value)
+                if (Player.CanResearch(researchItem.Key, researchItem.Value))
                 {
-                    Player.TechBeingResearched = researchItem.Key;
+                    Player.StartResearch(researchItem.Key);
                 }
             }
         }
