@@ -69,10 +69,10 @@ public class Server : Node
     /// <summary>
     /// Host a new game, starting a server
     /// </summary>
-    public void HostGame()
+    public void HostGame(int port = 3000)
     {
         var peer = new NetworkedMultiplayerENet();
-        var error = peer.CreateServer(3000, 5);
+        var error = peer.CreateServer(port, Constants.NumPlayers);
         if (error != Error.Ok)
         {
             GD.PrintErr($"Failed to create network server: Error: {error.ToString()}");
