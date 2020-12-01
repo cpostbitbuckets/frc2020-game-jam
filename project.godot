@@ -35,8 +35,8 @@ Signals="*res://src/Singletons/Signals.cs"
 PlayersManager="*res://src/Singletons/PlayersManager.cs"
 BuildingsManager="*res://src/Singletons/BuildingsManager.cs"
 Rpc="*res://src/Singletons/RPC.cs"
-Client="*res://src/Network/Client.tscn"
 Server="*res://src/Network/Server.tscn"
+Client="*res://src/Network/Client.cs"
 
 [display]
 

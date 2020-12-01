@@ -28,7 +28,6 @@ public class Leaderboard : Control
 
     public override void _ExitTree()
     {
-        base._ExitTree();
         Signals.PlayerUpdatedEvent -= OnPlayerUpdated;
     }
 
@@ -38,7 +37,7 @@ public class Leaderboard : Control
         var sortedPlayers = new List<PlayerData>(PlayersManager.Instance.Players);
         sortedPlayers.Sort((p1, p2) => p2.Score.CompareTo(p1.Score));
 
-        for (var i = 1; i < 6; i++)
+        for (var i = 1; i <= sortedPlayers.Count; i++)
         {
             var player = sortedPlayers[i - 1];
             var nodePath = GetNodePath(i);

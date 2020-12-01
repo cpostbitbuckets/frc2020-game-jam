@@ -1,6 +1,6 @@
 using Godot;
-
 using System;
+using System.Collections.Generic;
 
 /// <summary>
 /// The Signals csharp class services as a way to bridge csharp and gdscript until 
@@ -8,6 +8,22 @@ using System;
 /// </summary>
 public class Signals : Node
 {
+    public delegate void DayPassed(int day);
+    public static event DayPassed DayPassedEvent;
+
+    #region Network Events
+
+    public static event Action ServerDisconnectedEvent;
+
+    public delegate void PreStartGame(List<PlayerData> players);
+    public static event PreStartGame PreStartGameEvent;
+
+    public static event Action PostStartGameEvent;
+
+    #endregion
+
+    #region Player Connection Events
+
     public delegate void PlayerUpdated(PlayerData player);
     public static event PlayerUpdated PlayerUpdatedEvent;
 
@@ -16,6 +32,15 @@ public class Signals : Node
 
     public delegate void PlayerLeft(int networkId);
     public static event PlayerLeft PlayerLeftEvent;
+
+    public delegate void PlayerReadyToStart(int networkId, bool ready);
+    public static event PlayerReadyToStart PlayerReadyToStartEvent;
+
+    public static event Action<PlayerMessage> PlayerMessageEvent;
+
+    #endregion 
+
+    #region Player Update Events
 
     public delegate void PlayerScoreChanged(PlayerData player);
     public static event PlayerScoreChanged PlayerScoreChangedEvent;
@@ -29,8 +54,7 @@ public class Signals : Node
     public delegate void PlayerResourcesGiven(int sourcePlayerNum, int destPlayerNum, ResourceType type, int amount);
     public static event PlayerResourcesGiven PlayerResourcesGivenEvent;
 
-    public delegate void DayPassed(int day);
-    public static event DayPassed DayPassedEvent;
+    #endregion
 
     #region GameBuildings
 
@@ -64,7 +88,7 @@ public class Signals : Node
     public delegate void DwarfPlanetDestroyed();
     public static event DwarfPlanetDestroyed DwarfPlanetDestroyedEvent;
 
-    public delegate void AsteroidIncoming(Vector2 position, int strength, Asteroid asteroid);
+    public delegate void AsteroidIncoming(Vector2 position, int strength, FallingAsteroid asteroid);
     public static event AsteroidIncoming AsteroidIncomingEvent;
 
     public delegate void AsteroidPositionUpdated(int asteroidId, Vector2 position);
@@ -111,9 +135,28 @@ public class Signals : Node
 
     #region Event Publishers
 
-    public static void PublishPlayerUpdatedEvent(PlayerData player)
+    public static void PublishPreStartGameEvent(List<PlayerData> players)
+    {
+        PreStartGameEvent?.Invoke(players);
+    }
+
+    public static void PublishPostStartGameEvent()
+    {
+        PostStartGameEvent?.Invoke();
+    }
+
+    /// <summary>
+    /// Publish a player updated event for any listeners
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="notifyPeers">True if we should notify peers of this player data</param>
+    public static void PublishPlayerUpdatedEvent(PlayerData player, bool notifyPeers = false)
     {
         PlayerUpdatedEvent?.Invoke(player);
+        if (notifyPeers)
+        {
+            RPC.Instance.SendPlayerUpdated(player);
+        }
     }
 
     public static void PublishPlayerJoinedEvent(int networkId)
@@ -121,10 +164,19 @@ public class Signals : Node
         PlayerJoinedEvent?.Invoke(networkId);
     }
 
-
     public static void PublishPlayerLeftEvent(int networkId)
     {
         PlayerLeftEvent?.Invoke(networkId);
+    }
+
+    public static void PublishPlayerReadyToStart(int networkId, bool ready)
+    {
+        PlayerReadyToStartEvent?.Invoke(networkId, ready);
+    }
+
+    public static void PublishPlayerMessageEvent(PlayerMessage message)
+    {
+        PlayerMessageEvent?.Invoke(message);
     }
 
     public static void PublishPlayerScoreChangedEvent(PlayerData player)
@@ -203,7 +255,7 @@ public class Signals : Node
         DwarfPlanetDestroyedEvent?.Invoke();
     }
 
-    public static void PublishAsteroidIncomingEvent(Vector2 position, int strength, Asteroid asteroid)
+    public static void PublishAsteroidIncomingEvent(Vector2 position, int strength, FallingAsteroid asteroid)
     {
         AsteroidIncomingEvent?.Invoke(position, strength, asteroid);
     }
@@ -241,6 +293,11 @@ public class Signals : Node
     public static void PublishGameGrandWonEvent()
     {
         GameGrandWonEvent?.Invoke();
+    }
+
+    public static void PublishServerDisconnectedEvent()
+    {
+        ServerDisconnectedEvent?.Invoke();
     }
 
     #endregion

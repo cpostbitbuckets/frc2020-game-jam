@@ -32,6 +32,11 @@ public class MusicManager : Node
         }
     }
 
+    public override void _ExitTree()
+    {
+        GameSettings.Instance.SettingsChangedEvent -= OnSettingsChanged;
+    }
+
     void OnSettingsChanged()
     {
         gameMusic.Playing = GameSettings.Instance.PlayMusic;

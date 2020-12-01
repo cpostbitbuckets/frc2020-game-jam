@@ -278,11 +278,3 @@ margin_right = 460.0
 margin_bottom = 61.0
 disabled = true
 text = "Cancel"
-
-[connection signal="pressed" from="VBoxContainer/CenterContainer/Panel/HBoxContainer/MenuButtons/HBoxContainer/VBoxContainer/NewGameButton" to="." method="_on_NewGameButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/CenterContainer/Panel/HBoxContainer/MenuButtons/HBoxContainer/VBoxContainer/HostGameButton" to="." method="_on_HostGameButton_pressed"]
-[connection signal="toggled" from="VBoxContainer/CenterContainer/Panel/HBoxContainer/MenuButtons/HBoxContainer/EasyModeCheckButton" to="." method="_on_EasyModeCheckButton_toggled"]
-[connection signal="pressed" from="JoinWindow/VBoxContainer/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_JoinButton_pressed"]
-[connection signal="pressed" from="JoinWindow/VBoxContainer/MarginContainer/VBoxContainer/CancelButton" to="." method="_on_CancelButton_pressed"]
-[connection signal="pressed" from="HostWindow/VBoxContainer/MarginContainer/VBoxContainer/HostButton" to="." method="_on_HostButton_pressed"]
-[connection signal="pressed" from="HostWindow/VBoxContainer/MarginContainer/VBoxContainer/CancelButton" to="." method="_on_CancelHostButton_pressed"]

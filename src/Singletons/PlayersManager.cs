@@ -67,12 +67,19 @@ public class PlayersManager : Node
         Signals.PlayerUpdatedEvent += OnPlayerUpdated;
     }
 
+    public override void _ExitTree()
+    {
+        Signals.PlayerJoinedEvent -= OnPlayerJoined;
+        Signals.PlayerLeftEvent -= OnPlayerLeft;
+        Signals.PlayerUpdatedEvent -= OnPlayerUpdated;
+    }
 
     public void Reset()
     {
         Players.Clear();
         PlayersByNetworkId.Clear();
         Messages.Clear();
+        SetupPlayers();
     }
 
     /// <summary>
@@ -107,13 +114,6 @@ public class PlayersManager : Node
         }
     }
 
-    public PlayerData UpsertPlayer(PlayerData player)
-    {
-        var existingPlayer = Players[player.Num - 1];
-        // existingPlayer.FromArray(player);
-        return null;
-    }
-
     #region Event Listeners
 
     /// <summary>
@@ -129,6 +129,7 @@ public class PlayersManager : Node
         {
             // claim this player for the network user
             emptyPlayer.AIControlled = false;
+            emptyPlayer.Ready = false;
             emptyPlayer.NetworkId = networkId;
 
             GD.Print($"{emptyPlayer} joined and is added to the player registry");
@@ -147,6 +148,11 @@ public class PlayersManager : Node
             return Players[playerNum - 1];
         }
         return null;
+    }
+
+    public PlayerData GetNetworkPlayer(int networkId)
+    {
+        return Players.Find(p => p.NetworkId == networkId);
     }
 
     /// <summary>
@@ -172,11 +178,11 @@ public class PlayersManager : Node
 
     private void OnPlayerUpdated(PlayerData player)
     {
-        var existingPlayer = Players[player.Num - 1];
+        var existingPlayer = GetPlayer(player.Num);
         if (existingPlayer != null)
         {
             existingPlayer.From(player);
-            // GD.Print($"{player} updated in player registry");
+            GD.Print($"{player} updated in player registry");
         }
     }
 

@@ -79,6 +79,19 @@ public class FallingAsteroid : Node2D
         impactPoint.Connect("area_entered", this, nameof(OnImpactPointAreaEntered));
     }
 
+    public override void _ExitTree()
+    {
+        if (this.IsClient())
+        {
+            // if we aren't the server, we have to listen to position updates and impact
+            // events from the server
+            Signals.AsteroidPositionUpdatedEvent -= OnAsteroidPositionUpdated;
+            Signals.AsteroidImpactEvent -= OnAsteroidImpact;
+            Signals.AsteroidDestroyedEvent -= OnAsteroidDestroyed;
+        }
+
+    }
+
     public override void _PhysicsProcess(float delta)
     {
         base._PhysicsProcess(delta);

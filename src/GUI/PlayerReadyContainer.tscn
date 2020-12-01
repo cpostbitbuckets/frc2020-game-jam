@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://src/GUI/PlayerReadyContainer.gd" type="Script" id=1]
+[ext_resource path="res://src/GUI/PlayerReadyContainer.cs" type="Script" id=1]
 [ext_resource path="res://assets/icons/Checkmark.png" type="Texture" id=2]
 [ext_resource path="res://assets/icons/AI.png" type="Texture" id=3]
 [ext_resource path="res://assets/icons/Player.png" type="Texture" id=4]
@@ -19,13 +19,13 @@ __meta__ = {
 [node name="Name" type="Label" parent="."]
 modulate = Color( 0.764706, 0.196078, 0.196078, 1 )
 margin_top = 9.0
-margin_right = 339.0
+margin_right = 366.0
 margin_bottom = 23.0
 size_flags_horizontal = 3
 text = "Bit Buckets"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_left = 343.0
+margin_left = 370.0
 margin_right = 480.0
 margin_bottom = 32.0
 alignment = 2
@@ -44,23 +44,24 @@ hint_tooltip = "Player Controlled"
 texture = ExtResource( 4 )
 
 [node name="Ready" type="Label" parent="HBoxContainer"]
+modulate = Color( 0.764706, 0.196078, 0.196078, 1 )
 margin_left = 36.0
 margin_top = 9.0
-margin_right = 101.0
+margin_right = 74.0
 margin_bottom = 23.0
 size_flags_horizontal = 3
-text = "Not Ready"
+text = "Ready"
 align = 2
 
 [node name="ReadyCheck" type="TextureRect" parent="HBoxContainer"]
-visible = false
 modulate = Color( 0.764706, 0.196078, 0.196078, 1 )
-margin_left = 371.0
-margin_right = 403.0
+margin_left = 78.0
+margin_right = 110.0
 margin_bottom = 32.0
 texture = ExtResource( 2 )
 
-[node name="NotReady" type="TextureRect" parent="HBoxContainer"]
+[node name="NotReadyCheck" type="TextureRect" parent="HBoxContainer"]
+visible = false
 modulate = Color( 0.764706, 0.196078, 0.196078, 1 )
 margin_left = 105.0
 margin_right = 137.0

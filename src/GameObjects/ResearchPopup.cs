@@ -16,7 +16,7 @@ public class ResearchPopup : AcceptDialog
         GetOk().Text = "Research!";
 
         Connect("confirmed", this, nameof(OnConfirmed));
-        Connect("set_popup_properties", this, nameof(OnSetPopupProperties));
+        Connect("about_to_show", this, nameof(OnAboutToShow));
     }
 
     public void SetInfo(ResearchType type, int level)
@@ -33,7 +33,7 @@ public class ResearchPopup : AcceptDialog
         ConfirmedEvent?.Invoke(Type, Level);
     }
 
-    void OnSetPopupProperties()
+    void OnAboutToShow()
     {
         WindowTitle = $"{Type} {Level}";
     }

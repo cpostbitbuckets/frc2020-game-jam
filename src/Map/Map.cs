@@ -33,6 +33,14 @@ public class Map : Node2D
         aiPlayers.ForEach(p => p.Territories = Territories);
     }
 
+    public override void _ExitTree()
+    {
+        Signals.GameBuildingSelectedEvent -= OnGameBuildingSelected;
+        Signals.GameBuildingCancelledEvent -= OnGameBuildingCancelled;
+        Signals.GameBuildingPlacedEvent -= OnGameBuildingPlaced;
+        Signals.AsteroidImpactEvent -= OnAsteroidImpact;
+    }
+
     public override void _Process(float delta)
     {
         base._Process(delta);

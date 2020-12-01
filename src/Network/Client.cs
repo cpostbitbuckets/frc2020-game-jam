@@ -37,7 +37,7 @@ public class Client : Node
     /// </summary>
     public void OnServerDisconnected()
     {
-        GD.Print("Client: server disconnected");
+        Signals.PublishServerDisconnectedEvent();
     }
 
     /// <summary>

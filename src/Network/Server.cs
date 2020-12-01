@@ -10,6 +10,13 @@ public class Server : Node
     public bool Started { get; private set; } = false;
     public int Day { get; private set; } = 1;
 
+    /// <summary>
+    /// If any player isn't ready to start, the server isn't ready
+    /// </summary>
+    /// <returns></returns>
+    public bool ReadyToStart { get => PlayersManager.Instance.Players.Find(p => !p.Ready) == null; }
+
+
     private Timer dayTimer;
 
     /// <summary>
@@ -38,26 +45,48 @@ public class Server : Node
 
         dayTimer.WaitTime = Constants.SecondsPerDay;
         dayTimer.Connect("timeout", this, nameof(OnDayTimerTimeout));
+
+        // listen for events to notify clients
+        Signals.AsteroidIncomingEvent += OnAsteroidIncoming;
+        Signals.AsteroidWaveTimerUpdatedEvent += OnAsteroidWaveTimerUpdated;
+        Signals.AsteroidWaveStartedEvent += OnAsteroidWaveStarted;
+        Signals.AsteroidTimeEstimateEvent += OnAsteroidTimeEstimate;
+    }
+
+    public override void _ExitTree()
+    {
+        dayTimer.Stop();
+    }
+
+    public void Reset()
+    {
+        dayTimer.Stop();
+        Day = 0;
+        Started = false;
     }
 
     # region Player Join/Leave Events
 
-    private void OnPlayerConnected(int id)
+    void OnPlayerConnected(int id)
     {
         if (this.IsServer())
         {
             // if we are the server, we know a new player has connected
             GD.Print($"Server: Player {id} connected to server.");
             Signals.PublishPlayerJoinedEvent(id);
+            var player = PlayersManager.Instance.GetNetworkPlayer(id);
+            RPC.Instance.SendMessage($"{player} has joined the game");
         }
     }
 
-    private void OnPlayerDisconnected(int id)
+    void OnPlayerDisconnected(int id)
     {
         if (this.IsServer())
         {
             // if we are the server, we know a new player has connected
             GD.Print($"Server: Player {id} disconnected from server.");
+            var player = PlayersManager.Instance.GetNetworkPlayer(id);
+            RPC.Instance.SendMessage($"{player} has left the game");
             Signals.PublishPlayerLeftEvent(id);
         }
     }
@@ -96,11 +125,16 @@ public class Server : Node
         GetTree().NetworkPeer = null;
     }
 
+    #endregion
+
+    #region Game State Changes
+
     public void BeginGame()
     {
         if (this.IsServer())
         {
-            // Send some post start game stuff
+            // join our own game
+            Signals.PublishPlayerJoinedEvent(GetTree().GetNetworkUniqueId());
         }
     }
 
@@ -126,7 +160,44 @@ public class Server : Node
     {
         Day++;
         Signals.PublishDayPassedEvent(Day);
+
+        if (this.IsServer())
+        {
+            RPC.Instance.SendDayPassed(Day);
+            RPC.Instance.SendPlayersUpdated(PlayersManager.Instance.Players);
+        }
     }
 
+    void OnAsteroidTimeEstimate(int asteroidId, int size, float timeToImpact)
+    {
+        if (this.IsServer())
+        {
+            RPC.Instance.SendAsteroidTimeEstimate(asteroidId, size, timeToImpact);
+        }
+    }
+
+    void OnAsteroidWaveStarted(int wave, int waves)
+    {
+        if (this.IsServer())
+        {
+            RPC.Instance.SendAsteroidWaveStarted(wave, waves);
+        }
+    }
+
+    void OnAsteroidWaveTimerUpdated(float timeLeft)
+    {
+        if (this.IsServer())
+        {
+            RPC.Instance.SendAsteroidWaveTimerUpdated(timeLeft);
+        }
+    }
+
+    void OnAsteroidIncoming(Vector2 globalPosition, int asteroidStrength, FallingAsteroid asteroid)
+    {
+        if (this.IsServer())
+        {
+            RPC.Instance.SendAsteroidIncomingEvent(globalPosition, asteroidStrength, asteroid);
+        }
+    }
     #endregion
 }

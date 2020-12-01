@@ -9,12 +9,6 @@ using System;
 public class RemoteSignals
 {
 
-    public delegate void PlayerUpdated(PlayerData player);
-    public static event PlayerUpdated PlayerUpdatedEvent;
-
-    public delegate void AsteroidSpawn(Vector2 globalPosition, int asteroidStrength, FallingAsteroid asteroid);
-    public static event AsteroidSpawn AsteroidSpawnEvent;
-
     public delegate void AsteroidPositionUpdated(int id, Vector2 position);
     public static event AsteroidPositionUpdated AsteroidPositionUpdatedEvent;
 
@@ -29,15 +23,6 @@ public class RemoteSignals
 
     #region Event Publishers
 
-    /// <summary>
-    /// Publish this event when you want a player update to be sent to peers
-    /// </summary>
-    /// <param name="player"></param>
-    public static void PublishPlayerUpdatedEvent(PlayerData player)
-    {
-        PlayerUpdatedEvent?.Invoke(player);
-    }
-
     public static void PublishAsteroidPositionUpdatedEvent(int id, Vector2 position)
     {
         AsteroidPositionUpdatedEvent?.Invoke(id, position);
@@ -51,11 +36,6 @@ public class RemoteSignals
     public static void PublishAsteroidDestroyedEvent(int asteroidId, Vector2 position, int size)
     {
         AsteroidDestroyedEvent?.Invoke(asteroidId, position, size);
-    }
-
-    public static void PublishAsteroidSpawnEvent(Vector2 globalPosition, int asteroidStrength, FallingAsteroid asteroid)
-    {
-        AsteroidSpawnEvent?.Invoke(globalPosition, asteroidStrength, asteroid);
     }
 
     public static void PublishGameBuildingPlacedEvent(string buildingId, int playerNum, GameBuildingType type, Vector2 position)

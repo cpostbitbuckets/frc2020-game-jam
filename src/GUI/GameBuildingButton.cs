@@ -29,6 +29,14 @@ public class GameBuildingButton : TextureButton
         }
     }
 
+    public override void _ExitTree()
+    {
+        if (!Engine.EditorHint)
+        {
+            Signals.PlayerUpdatedEvent -= OnPlayerUpdated;
+        }
+    }
+
     private void OnPlayerUpdated(PlayerData player)
     {
         if (player.Num == PlayersManager.Instance.Me.Num)

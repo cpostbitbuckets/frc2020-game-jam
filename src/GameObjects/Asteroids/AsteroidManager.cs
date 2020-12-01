@@ -49,10 +49,6 @@ public class AsteroidManager : Node2D
         Signals.AsteroidImpactEvent += OnAsteroidImpact;
         Signals.AsteroidDestroyedEvent += OnAsteroidDestroyed;
 
-        // clients listen for asteroid_incoming messages
-        Signals.AsteroidIncomingEvent += OnAsteroidIncoming;
-        Signals.DwarfPlanetDestroyedEvent += OnDwarfPlanetDestroyed;
-
         if (this.IsServerOrSinglePlayer())
         {
             timer.Connect("timeout", this, nameof(OnTimerTimeout));
@@ -60,6 +56,26 @@ public class AsteroidManager : Node2D
             Signals.PublishAsteroidWaveTimerUpdatedEvent(timer.TimeLeft);
             Signals.PublishAsteroidWaveStartedEvent(wave, Waves);
         }
+        else if (this.IsClient())
+        {
+            // clients listen for asteroid_incoming messages
+            Signals.AsteroidIncomingEvent += OnAsteroidIncoming;
+            Signals.DwarfPlanetDestroyedEvent += OnDwarfPlanetDestroyed;
+        }
+    }
+
+    public override void _ExitTree()
+    {
+        Signals.AsteroidImpactEvent -= OnAsteroidImpact;
+        Signals.AsteroidDestroyedEvent -= OnAsteroidDestroyed;
+
+        if (this.IsClient())
+        {
+            // clients listen for asteroid_incoming messages
+            Signals.AsteroidIncomingEvent -= OnAsteroidIncoming;
+            Signals.DwarfPlanetDestroyedEvent -= OnDwarfPlanetDestroyed;
+        }
+
     }
 
     private void OnTimerTimeout()
@@ -115,7 +131,7 @@ public class AsteroidManager : Node2D
 
     private void SendAsteroid(Vector2 globalPosition, int asteroidStrength, FallingAsteroid asteroid)
     {
-        RemoteSignals.PublishAsteroidSpawnEvent(globalPosition, asteroidStrength, asteroid);
+        Signals.PublishAsteroidIncomingEvent(globalPosition, asteroidStrength, asteroid);
     }
 
     private FallingAsteroid GetAsteroidInstance(int asteroidStrength)
@@ -171,7 +187,7 @@ public class AsteroidManager : Node2D
         RemoveActiveAsteroid();
     }
 
-    private void OnAsteroidIncoming(Vector2 position, int strength, Asteroid asteroid)
+    private void OnAsteroidIncoming(Vector2 position, int strength, FallingAsteroid asteroid)
     {
         // only clients care about this method
         // they spawn identical asteroids on their side

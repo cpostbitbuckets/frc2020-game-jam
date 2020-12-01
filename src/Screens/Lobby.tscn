@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/TechTreeFont.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://src/GUI/Theme.tres" type="Theme" id=2]
-[ext_resource path="res://src/Screens/Lobby.gd" type="Script" id=3]
+[ext_resource path="res://src/Screens/Lobby.cs" type="Script" id=3]
 [ext_resource path="res://src/GUI/PlayerReadyContainer.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/GUI/ServerDisconnectPopup.tscn" type="PackedScene" id=5]
 
@@ -116,40 +116,37 @@ __meta__ = {
 margin_right = 430.0
 margin_bottom = 32.0
 rect_rotation = 0.0
-player_num = 1
-ready = false
 
 [node name="PlayerReadyContainer2" parent="VBoxContainer/HBoxContainer/PlayerReadyContainer/Panel/MarginContainer/VBoxContainer" instance=ExtResource( 4 )]
 margin_top = 36.0
 margin_right = 430.0
 margin_bottom = 68.0
 rect_rotation = 0.0
-player_num = 2
-ready = false
+PlayerNum = 2
 
 [node name="PlayerReadyContainer3" parent="VBoxContainer/HBoxContainer/PlayerReadyContainer/Panel/MarginContainer/VBoxContainer" instance=ExtResource( 4 )]
 margin_top = 72.0
 margin_right = 430.0
 margin_bottom = 104.0
 rect_rotation = 0.0
-player_num = 3
-ready = false
+PlayerNum = 3
+Ready = false
 
 [node name="PlayerReadyContainer4" parent="VBoxContainer/HBoxContainer/PlayerReadyContainer/Panel/MarginContainer/VBoxContainer" instance=ExtResource( 4 )]
 margin_top = 108.0
 margin_right = 430.0
 margin_bottom = 140.0
 rect_rotation = 0.0
-player_num = 4
-ready = false
+PlayerNum = 4
+Ready = false
 
 [node name="PlayerReadyContainer5" parent="VBoxContainer/HBoxContainer/PlayerReadyContainer/Panel/MarginContainer/VBoxContainer" instance=ExtResource( 4 )]
 margin_top = 144.0
 margin_right = 430.0
 margin_bottom = 176.0
 rect_rotation = 0.0
-player_num = 5
-ready = false
+PlayerNum = 5
+Ready = false
 
 [node name="LobbyButtons" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/PlayerReadyContainer"]
 margin_top = 516.0
@@ -193,7 +190,3 @@ text = "Back"
 
 [node name="Popup" parent="." instance=ExtResource( 5 )]
 visible = false
-[connection signal="text_entered" from="VBoxContainer/HBoxContainer/ChatContainer/ChatMessage" to="." method="_on_ChatMessage_text_entered"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/PlayerReadyContainer/LobbyButtons/StartButtonContainer/StartGameButton" to="." method="_on_StartGameButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/PlayerReadyContainer/LobbyButtons/ReadyButtonContainer/ReadyButton" to="." method="_on_ReadyButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/PlayerReadyContainer/LobbyButtons/ReadyButtonContainer/BackButton" to="." method="_on_BackButton_pressed"]

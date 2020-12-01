@@ -68,6 +68,15 @@ public class Laser : DefenseBuilding
         Active = active;
     }
 
+    public override void _ExitTree()
+    {
+        target = null;
+        timer.Stop();
+
+        Signals.DayPassedEvent -= OnDayPassed;
+        Signals.AsteroidDestroyedEvent -= OnAsteroidDestroyed;
+        Signals.AsteroidImpactEvent -= OnAsteroidImpact;
+    }
 
     public override void _Process(float delta)
     {
@@ -166,13 +175,6 @@ public class Laser : DefenseBuilding
         {
             laserArea.Visible = false;
         }
-    }
-
-    protected override void OnFreed()
-    {
-        base.OnFreed();
-        target = null;
-        timer.Stop();
     }
 
     #endregion

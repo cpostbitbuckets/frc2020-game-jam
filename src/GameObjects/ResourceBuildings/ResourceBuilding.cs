@@ -34,6 +34,12 @@ public class ResourceBuilding : GameBuilding
         Signals.DayPassedEvent += OnDayPassed;
     }
 
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+        Signals.DayPassedEvent -= OnDayPassed;
+    }
+
     private void OnDayPassed(int day)
     {
         if (Active && IsResourceBuilding && ResourceType != ResourceType.EXCEPTIION && ResourceAmount > 0)

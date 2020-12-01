@@ -34,6 +34,11 @@ public class PlayerResources : VBoxContainer
         OnPlayerUpdated(player);
     }
 
+    public override void _ExitTree()
+    {
+        Signals.PlayerUpdatedEvent -= OnPlayerUpdated;
+    }
+
     private void OnPlayerUpdated(PlayerData player)
     {
         if (player.Num == PlayersManager.Instance.Me.Num)

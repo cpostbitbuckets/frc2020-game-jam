@@ -8,7 +8,7 @@ public class PlayerData : Resource
     public int NetworkId { get; set; }
     public int Num { get; set; }
     public string Name { get; set; }
-    public Boolean Ready { get; set; }
+    public Boolean Ready { get; set; } = false;
     public Boolean AIControlled { get; set; }
     public Color Color { get; set; } = Colors.Black;
     public int Score { get; set; }
@@ -36,7 +36,7 @@ public class PlayerData : Resource
     /// </summary>
     /// <param name="player"></param>
     /// <returns></returns>
-    public PlayerData From(PlayerData player)
+public PlayerData From(PlayerData player)
     {
         NetworkId = player.NetworkId;
         Num = player.Num;

@@ -100,7 +100,22 @@ public static class Serializers
         a.Distance = (float)data[i++];
         a.Speed = (float)data[i++];
         a.ImpactVector = (Vector2)data[i++];
-        a.SetupInitialState();
         return a;
+    }
+
+    public static Godot.Collections.Array ToArray(this PlayerMessage m)
+    {
+        return new Godot.Collections.Array {
+            m.PlayerNum,
+            m.Message
+        };
+    }
+
+    public static PlayerMessage FromArray(this PlayerMessage m, Godot.Collections.Array data)
+    {
+        int i = 0;
+        m.PlayerNum = (int)data[i++];
+        m.Message = (string)data[i++];
+        return m;
     }
 }

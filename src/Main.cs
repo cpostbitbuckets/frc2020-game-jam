@@ -39,7 +39,11 @@ public class Main : MarginContainer
         Signals.PlayerUpdatedEvent += OnPlayerUpdated;
         GetTree().Connect("server_disconnected", this, nameof(OnServerDisconnected));
         GetTree().Connect("connection_failed", this, nameof(OnConnectionFailed));
+    }
 
+    public override void _ExitTree()
+    {
+        Signals.PlayerUpdatedEvent -= OnPlayerUpdated;
     }
 
     void OnJoinWindowCancelButtonPressed()

@@ -95,6 +95,16 @@ public class GUI : Control
 
     }
 
+    public override void _ExitTree()
+    {
+        Signals.GameBuildingPlacedEvent -= OnGameBuildingPlaced;
+        Signals.DayPassedEvent -= OnDayPassed;
+        Signals.AsteroidWaveTimerUpdatedEvent -= OnAsteroidWaveTimerUpdated;
+        Signals.AsteroidWaveStartedEvent -= OnAsteroidWaveStarted;
+        Signals.AsteroidTimeEstimateEvent -= OnAsteroidTimeEstimate;
+        Signals.PlayerScoreChangedEvent -= OnPlayerScoreChanged;
+    }
+
     public override void _Input(InputEvent @event)
     {
         base._Input(@event);

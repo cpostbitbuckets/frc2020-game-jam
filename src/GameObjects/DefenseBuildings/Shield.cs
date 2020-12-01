@@ -65,6 +65,13 @@ public class Shield : DefenseBuilding
         Active = active;
     }
 
+    public override void _ExitTree()
+    {
+        Signals.DayPassedEvent -= OnDayPassed;
+        Signals.ShieldUpdatedEvent -= OnShieldUpdated;
+        Signals.ShieldDamagedEvent -= OnShieldDamaged;
+    }
+
     #region Event Handlers
     private void OnDayPassed(int day)
     {

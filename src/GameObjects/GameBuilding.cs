@@ -41,7 +41,11 @@ public abstract class GameBuilding : Area2D
     public override void _Ready()
     {
         collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
-        Connect("tree_exited", this, nameof(OnFreed));
+    }
+
+    public override void _ExitTree()
+    {
+        Active = false;
     }
 
     /// <summary>
@@ -74,8 +78,9 @@ public abstract class GameBuilding : Area2D
             return;
         }
 
+        var me = PlayersManager.Instance.Me;
         // if we can't afford it, we can't place it
-        if (!PlayersManager.Instance.Me.CanAffordBuilding(Type))
+        if (!me.CanAffordBuilding(Type))
         {
             Placeable = false;
             return;
@@ -88,7 +93,7 @@ public abstract class GameBuilding : Area2D
         {
             var territoryArea = area as TerritoryArea;
 
-            if (territoryArea != null)
+            if (territoryArea != null && territoryArea.Territory.TerritoryOwner == me.Num)
             {
                 // we are overlapping a territory, see if we can place it
                 // note, if we are overlapping both a normal and resource territory, we will be
@@ -110,14 +115,6 @@ public abstract class GameBuilding : Area2D
         }
 
         Placeable = placeable;
-    }
-
-    /// <summary>
-    /// We have been freed, disable this node
-    /// </summary>
-    protected virtual void OnFreed()
-    {
-        Active = false;
     }
 
 }

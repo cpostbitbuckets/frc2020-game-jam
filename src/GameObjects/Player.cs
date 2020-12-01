@@ -10,7 +10,13 @@ public class Player : Node2D
         Signals.ResourceGeneratedEvent += OnResourceGenerated;
         Signals.GameBuildingPlacedEvent += OnGameBuildingPlaced;
         Signals.PlayerResourcesGivenEvent += OnPlayerResourcesGiven;
+    }
 
+    public override void _ExitTree()
+    {
+        Signals.ResourceGeneratedEvent -= OnResourceGenerated;
+        Signals.GameBuildingPlacedEvent -= OnGameBuildingPlaced;
+        Signals.PlayerResourcesGivenEvent -= OnPlayerResourcesGiven;
     }
 
     private void OnResourceGenerated(int playerNum, ResourceType type, int amount)

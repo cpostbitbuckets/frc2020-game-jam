@@ -48,6 +48,12 @@ public class World : Node2D
         Server.Instance.PostBeginGame();
     }
 
+    public override void _ExitTree()
+    {
+        Signals.FinalWaveCompleteEvent -= OnFinalWaveComplete;
+        Signals.TerritoryDestroyedEvent -= OnTerritoryDestroyed;
+    }
+
     public override void _Input(InputEvent @event)
     {
         base._Input(@event);
