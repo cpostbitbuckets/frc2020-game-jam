@@ -76,6 +76,7 @@ public class TechTree : Control
     void OnResearchPopupConfirmed(ResearchType type, int level)
     {
         PlayersManager.Instance.Me.StartResearch(type);
+        Signals.PublishPlayerStartResearchEvent(PlayersManager.Instance.Me.Num, type);
         researchPopup.Hide();
     }
 

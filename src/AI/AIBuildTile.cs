@@ -35,7 +35,6 @@ public class AIBuildTile : Position2D
         {
             var buildingId = BuildingsManager.Instance.GetNextId();
             Signals.PublishGameBuildingPlacedEvent(buildingId, PlayerNum, BuildingToBuild, Position);
-            RemoteSignals.PublishGameBuildingPlacedEvent(buildingId, PlayersManager.Instance.Me.Num, BuildingToBuild, Position);
 
             // once we build, we don't want this tile around anymore
             QueueFree();

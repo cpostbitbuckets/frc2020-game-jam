@@ -102,7 +102,6 @@ public class AIPlayer : Node2D
 
                     var buildingId = BuildingsManager.Instance.GetNextId();
                     Signals.PublishGameBuildingPlacedEvent(buildingId, PlayerNum, GameBuildingType.Laser, position);
-                    RemoteSignals.PublishGameBuildingPlacedEvent(buildingId, PlayersManager.Instance.Me.Num, GameBuildingType.Laser, position);
                 }
 
             }

@@ -2,7 +2,6 @@ extends Control
 
 
 func _ready():
-	# close our connection, we're done
-	#Network.close_connection()
-	pass
+	get_tree().root.get_node("Server").call("CloseConnection")
+	get_tree().root.get_node("Client").call("CloseConnection")
 

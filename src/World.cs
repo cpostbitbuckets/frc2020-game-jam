@@ -214,6 +214,7 @@ public class World : Node2D
         Client.Instance.CloseConnection();
         Server.Instance.CloseConnection();
         PlayersManager.Instance.Reset();
+        Server.Instance.Reset();
         GetTree().ChangeScene("res://src/Main.tscn");
     }
     #endregion

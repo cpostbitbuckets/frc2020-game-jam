@@ -79,12 +79,12 @@ public class Player : Node2D
         if (sourcePlayerNum == Data.Num)
         {
             Data.Resources[type] -= amount;
-            Signals.PublishPlayerUpdatedEvent(Data);
+            Signals.PublishPlayerUpdatedEvent(Data, true);
         }
         else if (destPlayerNum == Data.Num)
         {
             Data.Resources[type] += amount;
-            Signals.PublishPlayerUpdatedEvent(Data);
+            Signals.PublishPlayerUpdatedEvent(Data, true);
         }
     }
 

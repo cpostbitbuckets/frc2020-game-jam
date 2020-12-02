@@ -36,7 +36,7 @@ public class PlayerData : Resource
     /// </summary>
     /// <param name="player"></param>
     /// <returns></returns>
-public PlayerData From(PlayerData player)
+    public PlayerData From(PlayerData player)
     {
         NetworkId = player.NetworkId;
         Num = player.Num;

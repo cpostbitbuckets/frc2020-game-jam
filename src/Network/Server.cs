@@ -39,18 +39,9 @@ public class Server : Node
     public override void _Ready()
     {
         dayTimer = GetNode<Timer>("DayTimer");
-        // signals for when a player connects to us
-        GetTree().Connect("network_peer_connected", this, nameof(OnPlayerConnected));
-        GetTree().Connect("network_peer_disconnected", this, nameof(OnPlayerDisconnected));
-
         dayTimer.WaitTime = Constants.SecondsPerDay;
         dayTimer.Connect("timeout", this, nameof(OnDayTimerTimeout));
 
-        // listen for events to notify clients
-        Signals.AsteroidIncomingEvent += OnAsteroidIncoming;
-        Signals.AsteroidWaveTimerUpdatedEvent += OnAsteroidWaveTimerUpdated;
-        Signals.AsteroidWaveStartedEvent += OnAsteroidWaveStarted;
-        Signals.AsteroidTimeEstimateEvent += OnAsteroidTimeEstimate;
     }
 
     public override void _ExitTree()
@@ -65,7 +56,50 @@ public class Server : Node
         Started = false;
     }
 
-    # region Player Join/Leave Events
+    void ConnectServerEvents()
+    {
+        // signals for when a player connects to us
+        GetTree().Connect("network_peer_connected", this, nameof(OnPlayerConnected));
+        GetTree().Connect("network_peer_disconnected", this, nameof(OnPlayerDisconnected));
+
+        // listen for events to notify clients
+        Signals.AsteroidIncomingEvent += OnAsteroidIncoming;
+        Signals.AsteroidWaveTimerUpdatedEvent += OnAsteroidWaveTimerUpdated;
+        Signals.AsteroidWaveStartedEvent += OnAsteroidWaveStarted;
+        Signals.AsteroidPositionUpdatedEvent += OnAsteroidPositionUpdated;
+        Signals.AsteroidImpactEvent += OnAsteroidImpact;
+        Signals.AsteroidDestroyedEvent += OnAsteroidDestroyed;
+        Signals.GameBuildingPlacedEvent += OnGameBuildingPlaced;
+        Signals.PlayerStartResearchEvent += OnPlayerStartResearch;
+        Signals.ShieldDamagedEvent += OnShieldDamaged;
+        Signals.ShieldUpdatedEvent += OnShieldUpdated;
+        Signals.FinalWaveCompleteEvent += OnFinalWaveComplete;
+        Signals.GameLostEvent += OnGameLost;
+    }
+
+    void DisconnectServerEvents()
+    {
+        // signals for when a player connects to us
+        GetTree().Disconnect("network_peer_connected", this, nameof(OnPlayerConnected));
+        GetTree().Disconnect("network_peer_disconnected", this, nameof(OnPlayerDisconnected));
+
+        // listen for events to notify clients
+        Signals.AsteroidIncomingEvent -= OnAsteroidIncoming;
+        Signals.AsteroidWaveTimerUpdatedEvent -= OnAsteroidWaveTimerUpdated;
+        Signals.AsteroidWaveStartedEvent -= OnAsteroidWaveStarted;
+        Signals.AsteroidPositionUpdatedEvent -= OnAsteroidPositionUpdated;
+        Signals.AsteroidImpactEvent -= OnAsteroidImpact;
+        Signals.AsteroidDestroyedEvent -= OnAsteroidDestroyed;
+        Signals.GameBuildingPlacedEvent -= OnGameBuildingPlaced;
+        Signals.PlayerStartResearchEvent -= OnPlayerStartResearch;
+        Signals.ShieldDamagedEvent -= OnShieldDamaged;
+        Signals.ShieldUpdatedEvent -= OnShieldUpdated;
+        Signals.FinalWaveCompleteEvent -= OnFinalWaveComplete;
+        Signals.GameLostEvent -= OnGameLost;
+    }
+
+
+    #region Player Join/Leave Events
 
     void OnPlayerConnected(int id)
     {
@@ -76,6 +110,7 @@ public class Server : Node
             Signals.PublishPlayerJoinedEvent(id);
             var player = PlayersManager.Instance.GetNetworkPlayer(id);
             RPC.Instance.SendMessage($"{player} has joined the game");
+            RPC.Instance.SendAllMessages(id);
         }
     }
 
@@ -93,13 +128,14 @@ public class Server : Node
 
     #endregion
 
-    #region Game State Changes
+    #region Network Host/Close 
 
     /// <summary>
     /// Host a new game, starting a server
     /// </summary>
     public void HostGame(int port = 3000)
     {
+        ConnectServerEvents();
         var peer = new NetworkedMultiplayerENet();
         var error = peer.CreateServer(port, Constants.NumPlayers);
         if (error != Error.Ok)
@@ -108,6 +144,7 @@ public class Server : Node
             return;
         }
         GetTree().NetworkPeer = peer;
+
         GD.Print("Hosting new game");
     }
 
@@ -116,6 +153,8 @@ public class Server : Node
     /// </summary>
     public void CloseConnection()
     {
+        DisconnectServerEvents();
+
         var peer = GetTree().NetworkPeer as NetworkedMultiplayerENet;
         if (peer != null && peer.GetConnectionStatus() == NetworkedMultiplayerPeer.ConnectionStatus.Connected)
         {
@@ -168,36 +207,71 @@ public class Server : Node
         }
     }
 
-    void OnAsteroidTimeEstimate(int asteroidId, int size, float timeToImpact)
+    void OnFinalWaveComplete()
     {
-        if (this.IsServer())
-        {
-            RPC.Instance.SendAsteroidTimeEstimate(asteroidId, size, timeToImpact);
-        }
+        RPC.Instance.SendFinalWaveComplete();
+    }
+
+    void OnGameLost()
+    {
+        RPC.Instance.SendGameLost();
     }
 
     void OnAsteroidWaveStarted(int wave, int waves)
     {
-        if (this.IsServer())
-        {
-            RPC.Instance.SendAsteroidWaveStarted(wave, waves);
-        }
+        RPC.Instance.SendAsteroidWaveStarted(wave, waves);
     }
 
     void OnAsteroidWaveTimerUpdated(float timeLeft)
     {
-        if (this.IsServer())
-        {
-            RPC.Instance.SendAsteroidWaveTimerUpdated(timeLeft);
-        }
+        RPC.Instance.SendAsteroidWaveTimerUpdated(timeLeft);
     }
 
     void OnAsteroidIncoming(Vector2 globalPosition, int asteroidStrength, FallingAsteroid asteroid)
     {
-        if (this.IsServer())
+        RPC.Instance.SendAsteroidIncomingEvent(globalPosition, asteroidStrength, asteroid);
+    }
+
+    void OnAsteroidPositionUpdated(int asteroidId, Vector2 position)
+    {
+        RPC.Instance.SendAsteroidPositionUpdated(asteroidId, position);
+    }
+
+    void OnAsteroidImpact(int asteroidId, Vector2 impactPoint, int explosionRadius)
+    {
+        RPC.Instance.SendAsteroidImpact(asteroidId, impactPoint, explosionRadius);
+    }
+
+    void OnAsteroidDestroyed(int asteroidId, Vector2 position, int size)
+    {
+        RPC.Instance.SendAsteroidDestroyed(asteroidId, position, size);
+    }
+
+    void OnShieldUpdated(string buildingId, bool active)
+    {
+        RPC.Instance.SendShieldUpdated(buildingId, active);
+    }
+
+    void OnShieldDamaged(string buildingId, int damage)
+    {
+        RPC.Instance.SendShieldDamaged(buildingId, damage);
+    }
+
+    void OnGameBuildingPlaced(string buildingId, int playerNum, GameBuildingType type, Vector2 position)
+    {
+        // the server only needs to notify clients about AI buildings
+        // and their own player's buildings, not other players
+        var player = PlayersManager.Instance.GetPlayer(playerNum);
+        if (player.AIControlled || player.Num == PlayersManager.Instance.Me.Num)
         {
-            RPC.Instance.SendAsteroidIncomingEvent(globalPosition, asteroidStrength, asteroid);
+            RPC.Instance.SendGameBuildingPlaced(buildingId, playerNum, type, position);
         }
     }
+
+    void OnPlayerStartResearch(int num, ResearchType type)
+    {
+        PlayersManager.Instance.GetPlayer(num).StartResearch(type);
+    }
+
     #endregion
 }

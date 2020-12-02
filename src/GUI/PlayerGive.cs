@@ -87,7 +87,6 @@ public class PlayerGive : HBoxContainer
     void OnGiveRawButtonPressed()
     {
         Signals.PublishPlayerResourcesGivenEvent(sourcePlayerNum, PlayerNum, ResourceType.Raw, resourceGiveAmount);
-        // TODO: Figure out RPC
     }
 
     void OnGivePowerButtonPressed()

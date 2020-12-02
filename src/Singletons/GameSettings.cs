@@ -55,6 +55,19 @@ public class GameSettings : Node
     }
     int serverPort = 3000;
 
+    public bool Easy
+    {
+
+        get => easy;
+        set
+        {
+            easy = value;
+            config?.SetValue("game", "easy", easy);
+            Save();
+        }
+    }
+    bool easy = false;
+
     ConfigFile config = new ConfigFile();
 
     /// <summary>
@@ -83,6 +96,7 @@ public class GameSettings : Node
             clientPort = int.Parse(config.GetValue("network", "client_port", clientPort).ToString());
             clientHost = config.GetValue("network", "client_host", clientHost).ToString();
             serverPort = int.Parse(config.GetValue("network", "server_port", serverPort).ToString());
+            easy = bool.Parse(config.GetValue("game", "easy", easy).ToString());
             Save();
         }
     }

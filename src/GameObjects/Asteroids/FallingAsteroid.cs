@@ -105,7 +105,7 @@ public class FallingAsteroid : Node2D
             deltaSendNetworkUpdate += delta;
             if (deltaSendNetworkUpdate > 2)
             {
-                RemoteSignals.PublishAsteroidPositionUpdatedEvent(Id, asteroid.Position);
+                Signals.PublishAsteroidPositionUpdatedEvent(Id, asteroid.Position);
                 deltaSendNetworkUpdate = 0;
             }
         }
@@ -127,6 +127,7 @@ public class FallingAsteroid : Node2D
         // clients get this event when the server tells them an asteroid impacts the surface
         if (Id == asteroidId)
         {
+            Destroyed = true;
             QueueFree();
         }
     }
@@ -136,6 +137,7 @@ public class FallingAsteroid : Node2D
         // clients get this event when the server tells them an asteroid is destroyed
         if (Id == asteroidId)
         {
+            Destroyed = true;
             QueueFree();
         }
     }
@@ -190,7 +192,6 @@ public class FallingAsteroid : Node2D
         {
             Destroyed = true;
             Signals.PublishAsteroidImpactEvent(Id, impactPoint.GlobalPosition, ExplosionRadius);
-            RemoteSignals.PublishAsteroidImpactEvent(Id, impactPoint.GlobalPosition, ExplosionRadius);
             QueueFree();
         }
 
@@ -214,7 +215,6 @@ public class FallingAsteroid : Node2D
             Signals.PublishDwarfPlanetDestroyedEvent();
         }
         Signals.PublishAsteroidDestroyedEvent(Id, GlobalPosition, Size);
-        RemoteSignals.PublishAsteroidDestroyedEvent(Id, GlobalPosition, Size);
         QueueFree();
     }
 }

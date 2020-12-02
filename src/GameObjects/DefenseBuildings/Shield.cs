@@ -42,8 +42,12 @@ public class Shield : DefenseBuilding
         Health = MaxHealth;
 
         Signals.DayPassedEvent += OnDayPassed;
-        Signals.ShieldUpdatedEvent += OnShieldUpdated;
-        Signals.ShieldDamagedEvent += OnShieldDamaged;
+
+        if (this.IsClient())
+        {
+            Signals.ShieldUpdatedEvent += OnShieldUpdated;
+            Signals.ShieldDamagedEvent += OnShieldDamaged;
+        }
 
         shieldArea = GetNode<ShieldArea>("ShieldArea");
         timer = GetNode<Timer>("Timer");
@@ -68,8 +72,11 @@ public class Shield : DefenseBuilding
     public override void _ExitTree()
     {
         Signals.DayPassedEvent -= OnDayPassed;
-        Signals.ShieldUpdatedEvent -= OnShieldUpdated;
-        Signals.ShieldDamagedEvent -= OnShieldDamaged;
+        if (this.IsClient())
+        {
+            Signals.ShieldUpdatedEvent -= OnShieldUpdated;
+            Signals.ShieldDamagedEvent -= OnShieldDamaged;
+        }
     }
 
     #region Event Handlers
@@ -195,6 +202,7 @@ public class Shield : DefenseBuilding
         shieldArea.Visible = true;
         Active = true;
         rechargeAudio?.Play();
+        Signals.PublishShieldUpdatedEvent(BuildingId, Active);
     }
 
     private void Disable()
@@ -203,5 +211,6 @@ public class Shield : DefenseBuilding
         shieldArea.Visible = false;
         Active = false;
         timer.Start(Cooldown);
+        Signals.PublishShieldUpdatedEvent(BuildingId, Active);
     }
 }

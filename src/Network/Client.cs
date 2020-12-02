@@ -26,18 +26,6 @@ public class Client : Node
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        // hook up to client specific network events
-        GetTree().Connect("server_disconnected", this, nameof(OnServerDisconnected));
-        GetTree().Connect("connected_to_server", this, nameof(OnConnectedToServer));
-        GetTree().Connect("connection_failed", this, nameof(OnConnectionFailed));
-    }
-
-    /// <summary>
-    /// Called when the server disconnects us, a client.
-    /// </summary>
-    public void OnServerDisconnected()
-    {
-        Signals.PublishServerDisconnectedEvent();
     }
 
     /// <summary>
@@ -46,6 +34,20 @@ public class Client : Node
     public void OnConnectedToServer()
     {
         GD.Print("Client: connected to server");
+        Signals.PlayerStartResearchEvent += OnPlayerStartResearch;
+        Signals.GameBuildingPlacedEvent += OnGameBuildingPlaced;
+        Signals.PlayerResourcesGivenEvent += OnPlayerResourcesGiven;
+    }
+
+    /// <summary>
+    /// Called when the server disconnects us, a client.
+    /// </summary>
+    public void OnServerDisconnected()
+    {
+        Signals.PublishServerDisconnectedEvent();
+        Signals.PlayerStartResearchEvent -= OnPlayerStartResearch;
+        Signals.GameBuildingPlacedEvent -= OnGameBuildingPlaced;
+        Signals.PlayerResourcesGivenEvent -= OnPlayerResourcesGiven;
     }
 
     /// <summary>
@@ -63,6 +65,11 @@ public class Client : Node
     /// <param name="port"></param>
     public void JoinGame(String address, int port)
     {
+        // hook up to client specific network events
+        GetTree().Connect("server_disconnected", this, nameof(OnServerDisconnected));
+        GetTree().Connect("connected_to_server", this, nameof(OnConnectedToServer));
+        GetTree().Connect("connection_failed", this, nameof(OnConnectionFailed));
+
         var peer = new NetworkedMultiplayerENet();
         var error = peer.CreateClient(address, port);
 
@@ -81,6 +88,11 @@ public class Client : Node
     /// </summary>
     public void CloseConnection()
     {
+        // hook up to client specific network events
+        GetTree().Disconnect("server_disconnected", this, nameof(OnServerDisconnected));
+        GetTree().Disconnect("connected_to_server", this, nameof(OnConnectedToServer));
+        GetTree().Disconnect("connection_failed", this, nameof(OnConnectionFailed));
+
         var peer = GetTree().NetworkPeer as NetworkedMultiplayerENet;
         if (peer != null && peer.GetConnectionStatus() == NetworkedMultiplayerPeer.ConnectionStatus.Connected)
         {
@@ -89,4 +101,32 @@ public class Client : Node
         }
         GetTree().NetworkPeer = null;
     }
+
+    void OnPlayerStartResearch(int num, ResearchType type)
+    {
+        if (PlayersManager.Instance.Me.Num == num)
+        {
+            RPC.Instance.SendPlayerStartResearch(num, type);
+        }
+    }
+
+    void OnGameBuildingPlaced(string buildingId, int playerNum, GameBuildingType type, Vector2 position)
+    {
+        if (PlayersManager.Instance.Me.Num == playerNum)
+        {
+            // notify other players when we place a building
+            RPC.Instance.SendGameBuildingPlaced(buildingId, playerNum, type, position);
+        }
+    }
+
+    void OnPlayerResourcesGiven(int sourcePlayerNum, int destPlayerNum, ResourceType type, int amount)
+    {
+        if (PlayersManager.Instance.Me.Num == sourcePlayerNum)
+        {
+            // notify other players when we give resources
+            RPC.Instance.SendPlayerResourcesGiven(sourcePlayerNum, destPlayerNum, type, amount);
+        }
+    }
+
+
 }

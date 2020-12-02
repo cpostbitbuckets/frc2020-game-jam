@@ -58,6 +58,12 @@ public class RPC : Node
         Rpc(nameof(Message), playerMessage.ToArray());
     }
 
+    public void SendAllMessages(int networkId)
+    {
+        GD.Print($"{LogPrefix} Sending All Messages to {networkId}");
+        PlayersManager.Instance.Messages.ForEach(m => RpcId(networkId, nameof(Message), m.ToArray()));
+    }
+
     [RemoteSync]
     public void Message(Godot.Collections.Array data)
     {
@@ -102,7 +108,7 @@ public class RPC : Node
             var playersArray = new Godot.Collections.Array(players.Select(p => p.ToArray()));
             if (networkId == 0)
             {
-                GD.Print($"{LogPrefix} Sending all players to all clients");
+                // GD.Print($"{LogPrefix} Sending all players to all clients");
                 // we are a server, tell the clients we have a player update
                 Rpc(nameof(PlayersUpdated), playersArray);
             }
@@ -134,7 +140,7 @@ public class RPC : Node
             {
                 var player = new PlayerData().FromArray(playerData);
 
-                GD.Print($"{LogPrefix} Received PlayerUpdated event for Player {player.Num} - {player.Name} (NetworkId: {player.NetworkId}");
+                // GD.Print($"{LogPrefix} Received PlayerUpdated event for Player {player.Num} - {player.Name} (NetworkId: {player.NetworkId}");
 
                 // notify listeners that we have updated PlayerData
                 Signals.PublishPlayerUpdatedEvent(player);
@@ -145,6 +151,34 @@ public class RPC : Node
             }
         }
     }
+
+    /// <summary>
+    /// Notify the server when we start researching
+    /// </summary>
+    /// <param name="num"></param>
+    /// <param name="type"></param>
+    public void SendPlayerStartResearch(int num, ResearchType type)
+    {
+        RpcId(1, nameof(PlayerStartResearch), num, type);
+    }
+
+    [Remote]
+    public void PlayerStartResearch(int num, ResearchType type)
+    {
+        Signals.PublishPlayerStartResearchEvent(num, type);
+    }
+
+    public void SendPlayerResourcesGiven(int sourcePlayerNum, int destPlayerNum, ResourceType type, int amount)
+    {
+        Rpc(nameof(PlayerResourcesGiven), sourcePlayerNum, destPlayerNum, type, amount);
+    }
+
+    [Remote]
+    public void PlayerResourcesGiven(int sourcePlayerNum, int destPlayerNum, ResourceType type, int amount)
+    {
+        Signals.PublishPlayerResourcesGivenEvent(sourcePlayerNum, destPlayerNum, type, amount);
+    }
+
     #endregion
 
     /// <summary>
@@ -167,6 +201,28 @@ public class RPC : Node
     public void PostStartGame()
     {
         Signals.PublishPostStartGameEvent();
+    }
+
+    public void SendFinalWaveComplete()
+    {
+        Rpc(nameof(FinalWaveComplete));
+    }
+
+    [Remote]
+    public void FinalWaveComplete()
+    {
+        Signals.PublishFinalWaveCompleteEvent();
+    }
+
+    public void SendGameLost()
+    {
+        Rpc(nameof(GameLost));
+    }
+
+    [Remote]
+    public void GameLost()
+    {
+        Signals.PublishGameLostEvent();
     }
 
     #region Game Events
@@ -194,17 +250,6 @@ public class RPC : Node
         Signals.PublishAsteroidIncomingEvent(globalPosition, asteroidStrength, asteroid);
     }
 
-    public void SendAsteroidTimeEstimate(int asteroidId, int size, float timeToImpact)
-    {
-        Rpc(nameof(AsteroidTimeEstimate), asteroidId, size, timeToImpact);
-    }
-
-    [Remote]
-    public void AsteroidTimeEstimate(int asteroidId, int size, float timeToImpact)
-    {
-        Signals.PublishAsteroidTimeEstimateEvent(asteroidId, size, timeToImpact);
-    }
-
     public void SendAsteroidWaveStarted(int wave, int waves)
     {
         Rpc(nameof(AsteroidWaveStarted), wave, waves);
@@ -225,6 +270,72 @@ public class RPC : Node
     public void AsteroidWaveTimerUpdated(float timeLeft)
     {
         Signals.PublishAsteroidWaveTimerUpdatedEvent(timeLeft);
+    }
+
+    public void SendAsteroidPositionUpdated(int id, Vector2 position)
+    {
+        RpcUnreliable(nameof(AsteroidPositionUpdated), id, position);
+    }
+
+    [Remote]
+    public void AsteroidPositionUpdated(int id, Vector2 position)
+    {
+        Signals.PublishAsteroidPositionUpdatedEvent(id, position);
+    }
+
+    public void SendAsteroidImpact(int id, Vector2 impactPoint, int explosionRadius)
+    {
+        Rpc(nameof(AsteroidImpact), id, impactPoint, explosionRadius);
+    }
+
+    [Remote]
+    public void AsteroidImpact(int id, Vector2 impactPoint, int explosionRadius)
+    {
+        Signals.PublishAsteroidImpactEvent(id, impactPoint, explosionRadius);
+    }
+
+    public void SendAsteroidDestroyed(int asteroidId, Vector2 position, int size)
+    {
+        Rpc(nameof(AsteroidDestroyed), asteroidId, position, size);
+    }
+
+    [Remote]
+    public void AsteroidDestroyed(int asteroidId, Vector2 position, int size)
+    {
+        Signals.PublishAsteroidDestroyedEvent(asteroidId, position, size);
+    }
+
+    public void SendGameBuildingPlaced(string buildingId, int playerNum, GameBuildingType type, Vector2 position)
+    {
+        Rpc(nameof(GameBuildingPlaced), buildingId, playerNum, type, position);
+    }
+
+    [Remote]
+    public void GameBuildingPlaced(string buildingId, int playerNum, GameBuildingType type, Vector2 position)
+    {
+        Signals.PublishGameBuildingPlacedEvent(buildingId, playerNum, type, position);
+    }
+
+    public void SendShieldUpdated(string buildingId, bool active)
+    {
+        Rpc(nameof(ShieldUpdated), buildingId, active);
+    }
+
+    [Remote]
+    public void ShieldUpdated(string buildingId, bool active)
+    {
+        Signals.PublishShieldUpdatedEvent(buildingId, active);
+    }
+
+    public void SendShieldDamaged(string buildingId, int damage)
+    {
+        Rpc(nameof(ShieldDamaged), buildingId, damage);
+    }
+
+    [Remote]
+    public void ShieldDamaged(string buildingId, int damage)
+    {
+        Signals.PublishShieldDamagedEvent(buildingId, damage);
     }
 
     #endregion

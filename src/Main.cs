@@ -10,6 +10,8 @@ public class Main : MarginContainer
     LineEdit hostPortEdit;
     LineEdit joinPortEdit;
 
+    CheckButton easyModeCheckButton;
+
     private bool joining = false;
 
     public override void _Ready()
@@ -19,16 +21,19 @@ public class Main : MarginContainer
         hostPortEdit = (LineEdit)hostWindow.FindNode("PortEdit");
         joinHostEdit = (LineEdit)joinWindow.FindNode("HostEdit");
         joinPortEdit = (LineEdit)joinWindow.FindNode("PortEdit");
+        easyModeCheckButton = (CheckButton)FindNode("EasyModeCheckButton");
 
         hostPortEdit.Text = GameSettings.Instance.ServerPort.ToString();
         joinHostEdit.Text = GameSettings.Instance.ClientHost;
         joinPortEdit.Text = GameSettings.Instance.ClientPort.ToString();
+        easyModeCheckButton.Pressed = GameSettings.Instance.Easy;
 
         FindNode("ExitButton").Connect("pressed", this, nameof(OnExitButtonPressed));
         FindNode("SettingsButton").Connect("pressed", this, nameof(OnSettingsButtonPressed));
         FindNode("NewGameButton").Connect("pressed", this, nameof(OnNewGameButtonPressed));
         FindNode("HostGameButton").Connect("pressed", this, nameof(OnHostGameButtonPressed));
         FindNode("JoinGameButton").Connect("pressed", this, nameof(OnJoinGameButtonPressed));
+        easyModeCheckButton.Connect("toggled", this, nameof(OnEasyModeCheckButtonPressed));
 
         joinWindow.Connect("popup_hide", this, nameof(OnJoinWindoPopupHide));
         joinWindow.FindNode("CancelButton").Connect("pressed", this, nameof(OnJoinWindowCancelButtonPressed));
@@ -45,6 +50,12 @@ public class Main : MarginContainer
     {
         Signals.PlayerUpdatedEvent -= OnPlayerUpdated;
     }
+
+    void OnEasyModeCheckButtonPressed(bool buttonPressed)
+    {
+        GameSettings.Instance.Easy = buttonPressed;
+    }
+
 
     void OnJoinWindowCancelButtonPressed()
     {

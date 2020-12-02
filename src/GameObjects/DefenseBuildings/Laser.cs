@@ -189,6 +189,7 @@ public class Laser : DefenseBuilding
         var radius = 256.0f;
         var laserTechLevel = buildingOwner.TechLevel[ResearchType.Laser];
 
+        Damage = Constants.LaserDamage;
         if (laserTechLevel == 2)
         {
             radius = 320;
@@ -196,9 +197,14 @@ public class Laser : DefenseBuilding
         else if (laserTechLevel == 3)
         {
             radius = 384;
-            Damage = 25;
+            Damage = Constants.LaserAdvancedDamage;
         }
         laserArea.Radius = radius;
+
+        if (GameSettings.Instance.Easy)
+        {
+            Damage *= 2;
+        }
     }
 
     /// <summary>

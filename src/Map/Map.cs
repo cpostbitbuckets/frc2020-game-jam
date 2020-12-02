@@ -74,7 +74,6 @@ public class Map : Node2D
             var position = GetLocalMousePosition();
             var buildingId = BuildingsManager.Instance.GetNextId();
             Signals.PublishGameBuildingPlacedEvent(buildingId, PlayersManager.Instance.Me.Num, instancedScene.Type, position);
-            RemoteSignals.PublishGameBuildingPlacedEvent(buildingId, PlayersManager.Instance.Me.Num, instancedScene.Type, position);
 
             // free the scene
             OnGameBuildingCancelled();

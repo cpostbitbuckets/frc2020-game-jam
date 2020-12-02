@@ -65,6 +65,7 @@ public class PlayersManager : Node
         Signals.PlayerJoinedEvent += OnPlayerJoined;
         Signals.PlayerLeftEvent += OnPlayerLeft;
         Signals.PlayerUpdatedEvent += OnPlayerUpdated;
+        Signals.PlayerMessageEvent += OnPlayerMessage;
     }
 
     public override void _ExitTree()
@@ -72,6 +73,7 @@ public class PlayersManager : Node
         Signals.PlayerJoinedEvent -= OnPlayerJoined;
         Signals.PlayerLeftEvent -= OnPlayerLeft;
         Signals.PlayerUpdatedEvent -= OnPlayerUpdated;
+        Signals.PlayerMessageEvent -= OnPlayerMessage;
     }
 
     public void Reset()
@@ -110,6 +112,12 @@ public class PlayersManager : Node
                 }
             });
 
+            if (GameSettings.Instance.Easy)
+            {
+                Players[i].Resources.Raw *= 2;
+                Players[i].Resources.Power *= 2;
+            }
+
             Signals.PublishPlayerUpdatedEvent(Players[i]);
         }
     }
@@ -139,6 +147,11 @@ public class PlayersManager : Node
         {
             GD.PrintErr($"Player with networkId {networkId} tried to join, but we couldn't find any empty player slots!");
         }
+    }
+
+    void OnPlayerMessage(PlayerMessage message)
+    {
+        Messages.Add(message);
     }
 
     public PlayerData GetPlayer(int playerNum)
@@ -182,7 +195,7 @@ public class PlayersManager : Node
         if (existingPlayer != null)
         {
             existingPlayer.From(player);
-            GD.Print($"{player} updated in player registry");
+            // GD.Print($"{player} updated in player registry");
         }
     }
 

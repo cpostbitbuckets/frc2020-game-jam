@@ -10,10 +10,13 @@ public class Constants
 
     public static Resources StartingResources { get; } = new Resources
     {
-        Raw = 500,
-        Power = 500,
+        Raw = 50,
+        Power = 50,
         Science = 0
     };
+
+    public const int LaserDamage = 20;
+    public const int LaserAdvancedDamage = 25;
 
     /// <summary>
     /// Costs to build various buildings

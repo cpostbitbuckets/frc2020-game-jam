@@ -48,6 +48,9 @@ public class Signals : Node
     public delegate void ResourceGenerated(int playerNum, ResourceType type, int amount);
     public static event ResourceGenerated ResourceGeneratedEvent;
 
+    public delegate void PlayerStartResearch(int num, ResearchType type);
+    public static event PlayerStartResearch PlayerStartResearchEvent;
+
     public delegate void PlayerResearchCompleted(PlayerData player, ResearchType type);
     public static event PlayerResearchCompleted PlayerResearchCompletedEvent;
 
@@ -182,6 +185,11 @@ public class Signals : Node
     public static void PublishPlayerScoreChangedEvent(PlayerData player)
     {
         PlayerScoreChangedEvent?.Invoke(player);
+    }
+
+    public static void PublishPlayerStartResearchEvent(int num, ResearchType type)
+    {
+        PlayerStartResearchEvent?.Invoke(num, type);
     }
 
     public static void PublishPlayerResearchCompletedEvent(PlayerData player, ResearchType type)

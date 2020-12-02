@@ -8,16 +8,6 @@
 
 config_version=4
 
-_global_script_classes=[ {
-"base": "Reference",
-"class": "PlayerMessage",
-"language": "GDScript",
-"path": "res://src/Network/PlayerMessage.gd"
-} ]
-_global_script_class_icons={
-"PlayerMessage": ""
-}
-
 [application]
 
 config/name="Asteroid Apocalypse"
@@ -27,9 +17,6 @@ config/icon="res://icon.png"
 [autoload]
 
 GameSettings="*res://src/Singletons/GameSettings.cs"
-Enums="*res://src/Singletons/Enums.gd"
-Constants="*res://src/Singletons/Constants.gd"
-Utils="*res://src/Singletons/Utils.gd"
 MusicManager="*res://src/Singletons/MusicManager.tscn"
 Signals="*res://src/Singletons/Signals.cs"
 PlayersManager="*res://src/Singletons/PlayersManager.cs"
