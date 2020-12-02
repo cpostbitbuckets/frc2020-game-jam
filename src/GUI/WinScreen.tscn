@@ -72,4 +72,5 @@ __meta__ = {
 
 [node name="Leaderboard" parent="." instance=ExtResource( 7 )]
 visible = false
+
 [connection signal="pressed" from="OpenLeaderboard" to="OpenLeaderboard" method="show_leaderboard"]
