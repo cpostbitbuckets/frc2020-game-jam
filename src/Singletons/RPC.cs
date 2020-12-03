@@ -247,7 +247,7 @@ public class RPC : Node
     public void AsteroidIncomingEvent(Vector2 globalPosition, int asteroidStrength, Godot.Collections.Array asteroidData)
     {
         FallingAsteroid asteroid = new FallingAsteroid().FromArray(asteroidData);
-        Signals.PublishAsteroidIncomingEvent(globalPosition, asteroidStrength, asteroid);
+        ClientSignals.PublishAsteroidIncomingEvent(globalPosition, asteroidStrength, asteroid);
     }
 
     public void SendAsteroidWaveStarted(int wave, int waves)
@@ -280,7 +280,7 @@ public class RPC : Node
     [Remote]
     public void AsteroidPositionUpdated(int id, Vector2 position)
     {
-        Signals.PublishAsteroidPositionUpdatedEvent(id, position);
+        ClientSignals.PublishAsteroidPositionUpdatedEvent(id, position);
     }
 
     public void SendAsteroidImpact(int id, Vector2 impactPoint, int explosionRadius)
@@ -324,7 +324,7 @@ public class RPC : Node
     [Remote]
     public void ShieldUpdated(string buildingId, bool active)
     {
-        Signals.PublishShieldUpdatedEvent(buildingId, active);
+        ClientSignals.PublishShieldUpdatedEvent(buildingId, active);
     }
 
     public void SendShieldDamaged(string buildingId, int damage)
@@ -335,7 +335,7 @@ public class RPC : Node
     [Remote]
     public void ShieldDamaged(string buildingId, int damage)
     {
-        Signals.PublishShieldDamagedEvent(buildingId, damage);
+        ClientSignals.PublishShieldDamagedEvent(buildingId, damage);
     }
 
     #endregion

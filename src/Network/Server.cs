@@ -62,38 +62,42 @@ public class Server : Node
         GetTree().Connect("network_peer_connected", this, nameof(OnPlayerConnected));
         GetTree().Connect("network_peer_disconnected", this, nameof(OnPlayerDisconnected));
 
-        // listen for events to notify clients
-        Signals.AsteroidIncomingEvent += OnAsteroidIncoming;
+        // These are signals that are only triggered for clients. In a single player game they don't really have any
+        // purpose. They are here to differentiate code paths that only clients act upon (like activating/deactivating a shield without a timer)
+        ClientSignals.AsteroidIncomingEvent += OnAsteroidIncoming;
+        ClientSignals.AsteroidPositionUpdatedEvent += OnAsteroidPositionUpdated;
+        ClientSignals.ShieldDamagedEvent += OnShieldDamaged;
+        ClientSignals.ShieldUpdatedEvent += OnShieldUpdated;
+
+        // these are game events that our server listens for in order to send notifications to clients
+        Signals.AsteroidDestroyedEvent += OnAsteroidDestroyed;
+        Signals.AsteroidImpactEvent += OnAsteroidImpact;
         Signals.AsteroidWaveTimerUpdatedEvent += OnAsteroidWaveTimerUpdated;
         Signals.AsteroidWaveStartedEvent += OnAsteroidWaveStarted;
-        Signals.AsteroidPositionUpdatedEvent += OnAsteroidPositionUpdated;
-        Signals.AsteroidImpactEvent += OnAsteroidImpact;
-        Signals.AsteroidDestroyedEvent += OnAsteroidDestroyed;
         Signals.GameBuildingPlacedEvent += OnGameBuildingPlaced;
         Signals.PlayerStartResearchEvent += OnPlayerStartResearch;
-        Signals.ShieldDamagedEvent += OnShieldDamaged;
-        Signals.ShieldUpdatedEvent += OnShieldUpdated;
         Signals.FinalWaveCompleteEvent += OnFinalWaveComplete;
         Signals.GameLostEvent += OnGameLost;
     }
 
+    /// <summary>
+    /// When our server shuts down, disconnect all the events
+    /// </summary>
     void DisconnectServerEvents()
     {
-        // signals for when a player connects to us
         GetTree().Disconnect("network_peer_connected", this, nameof(OnPlayerConnected));
         GetTree().Disconnect("network_peer_disconnected", this, nameof(OnPlayerDisconnected));
 
-        // listen for events to notify clients
-        Signals.AsteroidIncomingEvent -= OnAsteroidIncoming;
+        ClientSignals.AsteroidIncomingEvent -= OnAsteroidIncoming;
+        ClientSignals.AsteroidPositionUpdatedEvent -= OnAsteroidPositionUpdated;
+        ClientSignals.ShieldDamagedEvent -= OnShieldDamaged;
+        ClientSignals.ShieldUpdatedEvent -= OnShieldUpdated;
+        Signals.AsteroidDestroyedEvent -= OnAsteroidDestroyed;
+        Signals.AsteroidImpactEvent -= OnAsteroidImpact;
         Signals.AsteroidWaveTimerUpdatedEvent -= OnAsteroidWaveTimerUpdated;
         Signals.AsteroidWaveStartedEvent -= OnAsteroidWaveStarted;
-        Signals.AsteroidPositionUpdatedEvent -= OnAsteroidPositionUpdated;
-        Signals.AsteroidImpactEvent -= OnAsteroidImpact;
-        Signals.AsteroidDestroyedEvent -= OnAsteroidDestroyed;
         Signals.GameBuildingPlacedEvent -= OnGameBuildingPlaced;
         Signals.PlayerStartResearchEvent -= OnPlayerStartResearch;
-        Signals.ShieldDamagedEvent -= OnShieldDamaged;
-        Signals.ShieldUpdatedEvent -= OnShieldUpdated;
         Signals.FinalWaveCompleteEvent -= OnFinalWaveComplete;
         Signals.GameLostEvent -= OnGameLost;
     }

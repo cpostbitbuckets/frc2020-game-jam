@@ -81,6 +81,9 @@ public class Signals : Node
     public delegate void AsteroidWaveStarted(int wave, int waves);
     public static event AsteroidWaveStarted AsteroidWaveStartedEvent;
 
+    public delegate void AsteroidTimeEstimate(int asteroidId, int size, float timeToImpact);
+    public static event AsteroidTimeEstimate AsteroidTimeEstimateEvent;
+
     [Signal]
     public delegate void AsteroidImpact(int asteroidId, Vector2 impactPoint, int explosionRadius);
     public static event AsteroidImpact AsteroidImpactEvent;
@@ -88,34 +91,11 @@ public class Signals : Node
     public delegate void AsteroidDestroyed(int asteroidId, Vector2 position, int size);
     public static event AsteroidDestroyed AsteroidDestroyedEvent;
 
-    public delegate void DwarfPlanetDestroyed();
-    public static event DwarfPlanetDestroyed DwarfPlanetDestroyedEvent;
-
-    public delegate void AsteroidIncoming(Vector2 position, int strength, FallingAsteroid asteroid);
-    public static event AsteroidIncoming AsteroidIncomingEvent;
-
-    public delegate void AsteroidPositionUpdated(int asteroidId, Vector2 position);
-    public static event AsteroidPositionUpdated AsteroidPositionUpdatedEvent;
-
-    public delegate void AsteroidTimeEstimate(int asteroidId, int size, float timeToImpact);
-    public static event AsteroidTimeEstimate AsteroidTimeEstimateEvent;
-
     public delegate void FinalWaveComplete();
     public static event FinalWaveComplete FinalWaveCompleteEvent;
 
     public delegate void TerritoryDestroyed(Territory territory);
     public static event TerritoryDestroyed TerritoryDestroyedEvent;
-
-    #endregion
-
-    #region Shields
-
-    public delegate void ShieldUpdated(String buildingId, bool active);
-    public static event ShieldUpdated ShieldUpdatedEvent;
-
-    public delegate void ShieldDamaged(String buildingId, int damage);
-    public static event ShieldDamaged ShieldDamagedEvent;
-
 
     #endregion
 
@@ -129,11 +109,11 @@ public class Signals : Node
 
 
     // The GDScript signals object
-    public static Node Instance { get; private set; }
+    public static Signals Instance { get; private set; }
 
-    public override void _Ready()
+    Signals()
     {
-        Instance = GetTree().Root.GetNode("Signals");
+        Instance = this;
     }
 
     #region Event Publishers
@@ -227,21 +207,6 @@ public class Signals : Node
         ResourceGeneratedEvent?.Invoke(playerNum, resourceType, resourceAmount);
     }
 
-    public static void PublishShieldUpdatedEvent(String buildingId, bool active)
-    {
-        ShieldUpdatedEvent?.Invoke(buildingId, active);
-    }
-
-    public static void PublishShieldDamagedEvent(String buildingId, int damage)
-    {
-        ShieldDamagedEvent?.Invoke(buildingId, damage);
-    }
-
-    public static void PublishAsteroidDestroyedEvent(int asteroidId, Vector2 position, int size)
-    {
-        AsteroidDestroyedEvent?.Invoke(asteroidId, position, size);
-    }
-
     public static void PublishAsteroidWaveTimerUpdatedEvent(float timeLeft)
     {
         AsteroidWaveTimerUpdatedEvent?.Invoke(timeLeft);
@@ -252,30 +217,22 @@ public class Signals : Node
         AsteroidWaveStartedEvent?.Invoke(wave, waves);
     }
 
-    public static void PublishAsteroidImpactEvent(int id, Vector2 impactPoint, int explosionRadius)
-    {
-        AsteroidImpactEvent?.Invoke(id, impactPoint, explosionRadius);
-        Instance.EmitSignal("AsteroidImpact", id, impactPoint, explosionRadius);
-    }
-
-    public static void PublishDwarfPlanetDestroyedEvent()
-    {
-        DwarfPlanetDestroyedEvent?.Invoke();
-    }
-
-    public static void PublishAsteroidIncomingEvent(Vector2 position, int strength, FallingAsteroid asteroid)
-    {
-        AsteroidIncomingEvent?.Invoke(position, strength, asteroid);
-    }
-
-    public static void PublishAsteroidPositionUpdatedEvent(int asteroidId, Vector2 position)
-    {
-        AsteroidPositionUpdatedEvent?.Invoke(asteroidId, position);
-    }
-
     public static void PublishAsteroidTimeEstimateEvent(int asteroidId, int size, float timeToImpact)
     {
         AsteroidTimeEstimateEvent?.Invoke(asteroidId, size, timeToImpact);
+    }
+
+    public static void PublishAsteroidImpactEvent(int id, Vector2 impactPoint, int explosionRadius)
+    {
+        AsteroidImpactEvent?.Invoke(id, impactPoint, explosionRadius);
+        // The screenshake listens for this signal, so send it as a normal signal as well as
+        // an event
+        Instance.EmitSignal("AsteroidImpact", id, impactPoint, explosionRadius);
+    }
+
+    public static void PublishAsteroidDestroyedEvent(int asteroidId, Vector2 position, int size)
+    {
+        AsteroidDestroyedEvent?.Invoke(asteroidId, position, size);
     }
 
     public static void PublishFinalWaveCompleteEvent()

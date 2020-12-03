@@ -52,6 +52,6 @@ public class ShieldArea : Area2D
     public void Damage(int damage)
     {
         parent.Damage(damage);
-        Signals.PublishShieldDamagedEvent(parent.BuildingId, damage);
+        ClientSignals.PublishShieldDamagedEvent(parent.BuildingId, damage);
     }
 }

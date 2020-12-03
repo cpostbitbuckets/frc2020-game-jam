@@ -71,9 +71,9 @@ public class FallingAsteroid : Node2D
         {
             // if we aren't the server, we have to listen to position updates and impact
             // events from the server
-            Signals.AsteroidPositionUpdatedEvent += OnAsteroidPositionUpdated;
             Signals.AsteroidImpactEvent += OnAsteroidImpact;
             Signals.AsteroidDestroyedEvent += OnAsteroidDestroyed;
+            ClientSignals.AsteroidPositionUpdatedEvent += OnAsteroidPositionUpdated;
         }
 
         impactPoint.Connect("area_entered", this, nameof(OnImpactPointAreaEntered));
@@ -83,10 +83,8 @@ public class FallingAsteroid : Node2D
     {
         if (this.IsClient())
         {
-            // if we aren't the server, we have to listen to position updates and impact
-            // events from the server
-            Signals.AsteroidPositionUpdatedEvent -= OnAsteroidPositionUpdated;
             Signals.AsteroidImpactEvent -= OnAsteroidImpact;
+            ClientSignals.AsteroidPositionUpdatedEvent -= OnAsteroidPositionUpdated;
             Signals.AsteroidDestroyedEvent -= OnAsteroidDestroyed;
         }
 
@@ -105,57 +103,16 @@ public class FallingAsteroid : Node2D
             deltaSendNetworkUpdate += delta;
             if (deltaSendNetworkUpdate > 2)
             {
-                Signals.PublishAsteroidPositionUpdatedEvent(Id, asteroid.Position);
+                ClientSignals.PublishAsteroidPositionUpdatedEvent(Id, asteroid.Position);
                 deltaSendNetworkUpdate = 0;
             }
         }
     }
 
-    #region Event Handlers
-
-    private void OnAsteroidPositionUpdated(int asteroidId, Vector2 position)
-    {
-        // Server messages cause this signal to be raised
-        if (Id == asteroidId)
-        {
-            UpdateAsteroidPosition(position);
-        }
-    }
-
-    private void OnAsteroidImpact(int asteroidId, Vector2 impactPoint, int explosionRadius)
-    {
-        // clients get this event when the server tells them an asteroid impacts the surface
-        if (Id == asteroidId)
-        {
-            Destroyed = true;
-            QueueFree();
-        }
-    }
-
-    private void OnAsteroidDestroyed(int asteroidId, Vector2 position, int size)
-    {
-        // clients get this event when the server tells them an asteroid is destroyed
-        if (Id == asteroidId)
-        {
-            Destroyed = true;
-            QueueFree();
-        }
-    }
-
-    private void OnImpactPointAreaEntered(Area2D area)
-    {
-        // only detect collisions if we are the server (or single player)
-        if (this.IsServerOrSinglePlayer())
-        {
-            if (area == asteroid)
-            {
-                Impact();
-            }
-        }
-    }
-
-    #endregion
-
+    /// <summary>
+    /// When an asteroid is first created, we set it's position far offscreen to whatever the Distance property is.
+    /// Over time the asteroid falls twowards the ImpactPoint along the ImpactVector
+    /// </summary>
     public void SetupInitialState()
     {
         // When an asteroid is instantiated, we setup it's location way off screen
@@ -164,7 +121,12 @@ public class FallingAsteroid : Node2D
         ImpactVector = (impactPoint.Position - asteroid.Position).Normalized();
     }
 
-    private void UpdateAsteroidPosition(Vector2 position)
+    /// <summary>
+    /// This is called by both PhysicsProcess and (on clients) the OnAsteroidPositionUpdated event.
+    /// It moves the asteroid and notifies any listeners about this asteroid's new time to impact estimate.
+    /// </summary>
+    /// <param name="position"></param>
+    void UpdateAsteroidPosition(Vector2 position)
     {
         // let any interested parties know how long we have left
         asteroid.Position = position;
@@ -172,7 +134,7 @@ public class FallingAsteroid : Node2D
         Signals.PublishAsteroidTimeEstimateEvent(Id, Size, distanceRemaining / Speed);
     }
 
-    private void Impact()
+    void Impact()
     {
         var areas = impactPoint.GetOverlappingAreas();
         foreach (var area in areas)
@@ -194,9 +156,7 @@ public class FallingAsteroid : Node2D
             Signals.PublishAsteroidImpactEvent(Id, impactPoint.GlobalPosition, ExplosionRadius);
             QueueFree();
         }
-
     }
-
 
     public void Damage(int damage)
     {
@@ -207,14 +167,85 @@ public class FallingAsteroid : Node2D
         }
     }
 
-    private void Destroy()
+    void Destroy()
     {
         Destroyed = true;
         if (Size == 3)
         {
-            Signals.PublishDwarfPlanetDestroyedEvent();
+            // the final wave is complete, the king is dead!
+            Signals.PublishFinalWaveCompleteEvent();
         }
         Signals.PublishAsteroidDestroyedEvent(Id, GlobalPosition, Size);
         QueueFree();
     }
+
+    #region Event Handlers
+
+    void OnImpactPointAreaEntered(Area2D area)
+    {
+        // only detect collisions if we are the server (or single player)
+        if (this.IsServerOrSinglePlayer())
+        {
+            if (area == asteroid)
+            {
+                Impact();
+            }
+        }
+    }
+
+    #region Client Only Events
+
+    /// <summary>
+    /// Event triggered by a server when an asteroid impact occurs and it needs to be reflected on the client.
+    /// It just removes the asteroid. The server handles all the logic for damaging shields/territories
+    /// </summary>
+    /// <param name="asteroidId"></param>
+    /// <param name="impactPoint"></param>
+    /// <param name="explosionRadius"></param>
+    void OnAsteroidImpact(int asteroidId, Vector2 impactPoint, int explosionRadius)
+    {
+        // clients get this event when the server tells them an asteroid impacts the surface
+        if (Id == asteroidId)
+        {
+            Destroyed = true;
+            QueueFree();
+        }
+    }
+
+    /// <summary>
+    /// Event triggered by a server when an asteroid is destroyed (by a laser) and it needs to be reflected on the client.
+    /// It just removes the asteroid. The server handles all the other logic
+    /// </summary>
+    /// <param name="asteroidId"></param>
+    /// <param name="position"></param>
+    /// <param name="size"></param>
+    void OnAsteroidDestroyed(int asteroidId, Vector2 position, int size)
+    {
+        // clients get this event when the server tells them an asteroid is destroyed
+        if (Id == asteroidId)
+        {
+            Destroyed = true;
+            QueueFree();
+        }
+    }
+
+    /// <summary>
+    /// Event triggered by the server to notify clients that the asteroid has moved. The client will move the asteroid as well, but this 
+    /// syncs it up with wherever the server tells it the actual location is.
+    /// </summary>
+    /// <param name="asteroidId"></param>
+    /// <param name="position"></param>
+    void OnAsteroidPositionUpdated(int asteroidId, Vector2 position)
+    {
+        // Server messages cause this signal to be raised
+        if (Id == asteroidId)
+        {
+            UpdateAsteroidPosition(position);
+        }
+    }
+
+    #endregion
+
+    #endregion
+
 }

@@ -45,8 +45,8 @@ public class Shield : DefenseBuilding
 
         if (this.IsClient())
         {
-            Signals.ShieldUpdatedEvent += OnShieldUpdated;
-            Signals.ShieldDamagedEvent += OnShieldDamaged;
+            ClientSignals.ShieldUpdatedEvent += OnShieldUpdated;
+            ClientSignals.ShieldDamagedEvent += OnShieldDamaged;
         }
 
         shieldArea = GetNode<ShieldArea>("ShieldArea");
@@ -74,13 +74,13 @@ public class Shield : DefenseBuilding
         Signals.DayPassedEvent -= OnDayPassed;
         if (this.IsClient())
         {
-            Signals.ShieldUpdatedEvent -= OnShieldUpdated;
-            Signals.ShieldDamagedEvent -= OnShieldDamaged;
+            ClientSignals.ShieldUpdatedEvent -= OnShieldUpdated;
+            ClientSignals.ShieldDamagedEvent -= OnShieldDamaged;
         }
     }
 
     #region Event Handlers
-    private void OnDayPassed(int day)
+    void OnDayPassed(int day)
     {
         TechCheck();
         if (Active)
@@ -89,12 +89,36 @@ public class Shield : DefenseBuilding
         }
     }
 
-    private void OnTimerTimeout()
+    void OnTimerTimeout()
     {
         Enable();
     }
 
-    private void OnShieldUpdated(String buildingId, bool active)
+    void OnMouseEntered()
+    {
+        if (Active)
+        {
+            shieldArea.Sprite.Modulate = new Color(1, 1, 1, 1);
+        }
+    }
+
+    void OnMouseExited()
+    {
+        if (Active)
+        {
+            shieldArea.Sprite.Modulate = new Color(1, 1, 1, .25f);
+        }
+    }
+
+    #region Client Only Events
+
+    /// <summary>
+    /// This is only called on clients. This event happens when a server tells us a shield recharged or was taken down
+    /// (so we can update our view)
+    /// </summary>
+    /// <param name="buildingId"></param>
+    /// <param name="active"></param>
+    void OnShieldUpdated(String buildingId, bool active)
     {
         if (BuildingId == buildingId)
         {
@@ -110,7 +134,13 @@ public class Shield : DefenseBuilding
         }
     }
 
-    private void OnShieldDamaged(String buildingId, int damage)
+    /// <summary>
+    /// This is only called on clients. This event happens when a server tells us a shield has been damaged 
+    /// (so we can play a sound)
+    /// </summary>
+    /// <param name="buildingId"></param>
+    /// <param name="damage"></param>
+    void OnShieldDamaged(String buildingId, int damage)
     {
         if (BuildingId == buildingId)
         {
@@ -119,21 +149,7 @@ public class Shield : DefenseBuilding
 
     }
 
-    private void OnMouseEntered()
-    {
-        if (Active)
-        {
-            shieldArea.Sprite.Modulate = new Color(1, 1, 1, 1);
-        }
-    }
-
-    private void OnMouseExited()
-    {
-        if (Active)
-        {
-            shieldArea.Sprite.Modulate = new Color(1, 1, 1, .25f);
-        }
-    }
+    #endregion
 
     #endregion
 
@@ -158,7 +174,7 @@ public class Shield : DefenseBuilding
     /// Check the owner's Laser TechLevel and update the radius
     /// 
     /// </summary>
-    private void TechCheck()
+    void TechCheck()
     {
         var buildingOwner = PlayersManager.Instance.GetPlayer(PlayerNum);
         var radius = 256.0f;
@@ -185,7 +201,7 @@ public class Shield : DefenseBuilding
         Regen = regen;
     }
 
-    private void Regenerate()
+    void Regenerate()
     {
         Health += Regen;
         if (Health > MaxHealth)
@@ -195,22 +211,22 @@ public class Shield : DefenseBuilding
 
     }
 
-    private void Enable()
+    void Enable()
     {
         timer.Stop();
         Health = MaxHealth / 4;
         shieldArea.Visible = true;
         Active = true;
         rechargeAudio?.Play();
-        Signals.PublishShieldUpdatedEvent(BuildingId, Active);
+        ClientSignals.PublishShieldUpdatedEvent(BuildingId, Active);
     }
 
-    private void Disable()
+    void Disable()
     {
         Health = 0;
         shieldArea.Visible = false;
         Active = false;
         timer.Start(Cooldown);
-        Signals.PublishShieldUpdatedEvent(BuildingId, Active);
+        ClientSignals.PublishShieldUpdatedEvent(BuildingId, Active);
     }
 }

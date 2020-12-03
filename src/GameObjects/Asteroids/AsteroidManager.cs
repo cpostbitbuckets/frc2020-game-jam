@@ -51,6 +51,8 @@ public class AsteroidManager : Node2D
 
         if (this.IsServerOrSinglePlayer())
         {
+            // The server manages asteroid waves so it actually starts the timer
+            // and publishes wave events
             timer.Connect("timeout", this, nameof(OnTimerTimeout));
             timer.Start(InitialWaveTime);
             Signals.PublishAsteroidWaveTimerUpdatedEvent(timer.TimeLeft);
@@ -58,9 +60,9 @@ public class AsteroidManager : Node2D
         }
         else if (this.IsClient())
         {
-            // clients listen for asteroid_incoming messages
-            Signals.AsteroidIncomingEvent += OnAsteroidIncoming;
-            Signals.DwarfPlanetDestroyedEvent += OnDwarfPlanetDestroyed;
+            // clients listen for asteroid_incoming events so we can spawn
+            // an asteroid on the client.
+            ClientSignals.AsteroidIncomingEvent += OnServerAsteroidIncoming;
         }
     }
 
@@ -71,14 +73,15 @@ public class AsteroidManager : Node2D
 
         if (this.IsClient())
         {
-            // clients listen for asteroid_incoming messages
-            Signals.AsteroidIncomingEvent -= OnAsteroidIncoming;
-            Signals.DwarfPlanetDestroyedEvent -= OnDwarfPlanetDestroyed;
+            ClientSignals.AsteroidIncomingEvent -= OnServerAsteroidIncoming;
         }
 
     }
 
-    private void OnTimerTimeout()
+    /// <summary>
+    /// When the asteroid timer times out, we spawn asteroids and start a new wave timer.
+    /// </summary>
+    void OnTimerTimeout()
     {
         wave++;
         if (wave < Waves || Waves == -1)
@@ -129,9 +132,15 @@ public class AsteroidManager : Node2D
 
     }
 
-    private void SendAsteroid(Vector2 globalPosition, int asteroidStrength, FallingAsteroid asteroid)
+    /// <summary>
+    /// Send a message to any clients about a new asteroid incoming
+    /// </summary>
+    /// <param name="globalPosition"></param>
+    /// <param name="asteroidStrength"></param>
+    /// <param name="asteroid"></param>
+    void SendAsteroid(Vector2 globalPosition, int asteroidStrength, FallingAsteroid asteroid)
     {
-        Signals.PublishAsteroidIncomingEvent(globalPosition, asteroidStrength, asteroid);
+        ClientSignals.PublishAsteroidIncomingEvent(globalPosition, asteroidStrength, asteroid);
     }
 
     private FallingAsteroid GetAsteroidInstance(int asteroidStrength)
@@ -154,7 +163,10 @@ public class AsteroidManager : Node2D
         }
     }
 
-    private void FinalWave()
+    /// <summary>
+    /// This is the final wave!
+    /// </summary>
+    void FinalWave()
     {
         FallingAsteroid boss = (FallingAsteroid)dwarfPlanet.Instance();
         boss.Id = numAsteroids++;
@@ -171,23 +183,38 @@ public class AsteroidManager : Node2D
         }
     }
 
-    private void RemoveActiveAsteroid()
+    void RemoveActiveAsteroid()
     {
         activeAsteroids--;
     }
 
-    private void OnAsteroidImpact(int asteroidId, Vector2 impactPoint, int explosionRadius)
+    void OnAsteroidImpact(int asteroidId, Vector2 impactPoint, int explosionRadius)
     {
         RemoveActiveAsteroid();
     }
 
 
-    private void OnAsteroidDestroyed(int asteroidId, Vector2 position, int size)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="asteroidId"></param>
+    /// <param name="position"></param>
+    /// <param name="size"></param>
+    void OnAsteroidDestroyed(int asteroidId, Vector2 position, int size)
     {
         RemoveActiveAsteroid();
     }
 
-    private void OnAsteroidIncoming(Vector2 position, int strength, FallingAsteroid asteroid)
+    #region Client Events
+
+    /// <summary>
+    /// Event fired when a server tells us (the client) that anew asteroid is incoming.
+    /// We spawn it on the client to keep them in sync
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="strength"></param>
+    /// <param name="asteroid"></param>
+    void OnServerAsteroidIncoming(Vector2 position, int strength, FallingAsteroid asteroid)
     {
         // only clients care about this method
         // they spawn identical asteroids on their side
@@ -209,14 +236,12 @@ public class AsteroidManager : Node2D
         }
     }
 
-    private void UpdateAsteroidInstanceAfterSpawn(FallingAsteroid asteroidInstance, FallingAsteroid asteroid)
+    void UpdateAsteroidInstanceAfterSpawn(FallingAsteroid asteroidInstance, FallingAsteroid asteroid)
     {
         // copy attributes from the network asteroid to this instance
         asteroidInstance.From(asteroid);
     }
 
-    private void OnDwarfPlanetDestroyed()
-    {
-        Signals.PublishFinalWaveCompleteEvent();
-    }
+    #endregion
+
 }
