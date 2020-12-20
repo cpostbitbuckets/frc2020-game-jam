@@ -84,6 +84,7 @@ public class Main : MarginContainer
 
     void OnNewGameButtonPressed()
     {
+        PlayersManager.Instance.Reset();
         GetTree().ChangeScene("res://src/World.tscn");
     }
 
@@ -116,6 +117,7 @@ public class Main : MarginContainer
 
     void OnHostWindowHostButtonPressed()
     {
+        PlayersManager.Instance.Reset();
         GameSettings.Instance.ServerPort = int.Parse(hostPortEdit.Text);
         Server.Instance.HostGame(GameSettings.Instance.ServerPort);
         Server.Instance.BeginGame();

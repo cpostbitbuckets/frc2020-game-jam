@@ -51,6 +51,7 @@ public class AIPlayer : Node2D
     public override void _Ready()
     {
         Signals.DayPassedEvent += OnDayPassed;
+        OnDayPassed(0);
     }
 
     public override void _ExitTree()

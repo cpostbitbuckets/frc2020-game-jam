@@ -82,6 +82,8 @@ public class PlayersManager : Node
         PlayersByNetworkId.Clear();
         Messages.Clear();
         SetupPlayers();
+        me = null;
+        Players.ForEach(p => Signals.PublishPlayerUpdatedEvent(p));
     }
 
     /// <summary>
